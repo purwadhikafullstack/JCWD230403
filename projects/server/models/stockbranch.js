@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       stockBranch.belongsTo(models.admin);
       stockBranch.belongsTo(models.branch);
       stockBranch.belongsTo(models.product);
+      stockBranch.hasMany(models.historyStockProduct);
     }
   }
   stockBranch.init({

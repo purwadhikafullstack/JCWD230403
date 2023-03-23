@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       branch.hasMany(models.cart);
       branch.hasMany(models.transaction_detail);
       branch.hasMany(models.transaction);
+      branch.hasMany(models.historyStockProduct);
     }
   }
   branch.init({

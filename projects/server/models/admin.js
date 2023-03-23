@@ -22,10 +22,10 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    isSuper: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: 1
-    }
+    // isSuper: {
+    //   type: DataTypes.BOOLEAN,
+    //   defaultValue: 1
+    // }
   }, {
     sequelize,
     modelName: 'admin',
