@@ -26,6 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     //   type: DataTypes.BOOLEAN,
     //   defaultValue: 1
     // }
+    roleId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'admin',

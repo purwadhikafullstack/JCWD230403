@@ -27,6 +27,9 @@ module.exports = {
       isVerified: {
         type: Sequelize.BOOLEAN
       },
+      roleId: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

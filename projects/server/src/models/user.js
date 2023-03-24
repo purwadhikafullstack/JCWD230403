@@ -27,7 +27,8 @@ module.exports = (sequelize, DataTypes) => {
     isVerified: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
-    }
+    },
+    roleId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'user',

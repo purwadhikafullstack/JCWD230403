@@ -21,8 +21,11 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
-      isSuper: {
-        type: Sequelize.BOOLEAN
+      // isSuper: {
+      //   type: Sequelize.BOOLEAN
+      // },
+      roleId: {
+        type: Sequelize.INTEGER
       },
       createdAt: {
         allowNull: false,
