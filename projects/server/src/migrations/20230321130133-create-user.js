@@ -10,18 +10,24 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       uuid: {
+        allowNull: false,
+        primaryKey: true,
         type: Sequelize.STRING
       },
       name: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       email: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       password: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       phone: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       isVerified: {

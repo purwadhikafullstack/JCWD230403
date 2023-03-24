@@ -10,21 +10,28 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       uuid: {
+        allowNull: false,
+        primaryKey: true,
         type: Sequelize.STRING
       },
       name: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       email: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       password: {
+        allowNull: false,
         type: Sequelize.STRING
       },
-      // isSuper: {
-      //   type: Sequelize.BOOLEAN
-      // },
+      isSuper: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN
+      },
       roleId: {
+        allowNull: false,
         type: Sequelize.INTEGER
       },
       createdAt: {

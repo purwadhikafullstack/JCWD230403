@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
       user.hasMany(models.addresses);
       user.hasMany(models.cart);
       user.hasMany(models.transaction);
-      user.belongsTo(models.role);
+      user.belongsTo(models.role, {foreignKey: 'roleId'});
     }
   }
   user.init({
