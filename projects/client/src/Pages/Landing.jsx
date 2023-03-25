@@ -30,7 +30,6 @@ function Landing() {
                 <ProductSuggestions/>
             </Flex>
         </Box>
-        <Footer/>
     </div> );
 }
 
