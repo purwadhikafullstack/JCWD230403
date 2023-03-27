@@ -11,9 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      historyStockProduct.belongsTo(stockBranch);
-      historyStockProduct.belongsTo(branch);
-      historyStockProduct.belongsTo(transaction);
+      // historyStockProduct.belongsTo(stockBranch);
+      // historyStockProduct.belongsTo(branch);
+      // historyStockProduct.belongsTo(transaction);
     }
   }
   historyStockProduct.init({

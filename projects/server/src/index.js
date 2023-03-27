@@ -5,21 +5,24 @@ const { join } = require("path");
 
 const PORT = process.env.PORT || 8000;
 const app = express();
-app.use(
-  cors({
-    origin: [
-      process.env.WHITELISTED_DOMAIN &&
-        process.env.WHITELISTED_DOMAIN.split(","),
-    ],
-  })
-);
+// app.use(
+//   cors({
+//     origin: [
+//       process.env.WHITELISTED_DOMAIN &&
+//         process.env.WHITELISTED_DOMAIN.split(","),
+//     ],
+//   })
+// );
+app.use(cors());
 
 app.use(express.json());
 
 //#region API ROUTES
+const userRouter = require('./routers/userRouter');
 
 // ===========================
 // NOTE : Add your routes here
+app.use('/api/user', userRouter);
 
 app.get("/api", (req, res) => {
   res.send(`Hello, this is my API`);
@@ -30,6 +33,7 @@ app.get("/api/greetings", (req, res, next) => {
     message: "Hello, Student !",
   });
 });
+
 
 // ===========================
 
