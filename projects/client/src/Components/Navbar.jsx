@@ -16,10 +16,13 @@ import {
 import { AiOutlineMenu } from 'react-icons/ai';
 import { GoSearch } from 'react-icons/go';
 import { BsCart2 } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
     const name = '';
     const roleId = '';
+    const navigate = useNavigate();
+
     return ( 
     <Container maxW={'full'} px={{base:'2', sm:'6', md:'10', lg:'24'}} bgGradient='linear(to-b, orange.500, orange.400)'>
         <Flex py={'3'} alignItems={'Center'} justifyContent={'space-between'}>
