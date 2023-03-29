@@ -19,19 +19,23 @@ import { BsCart2 } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutActionAdmin } from '../Reducers/authAdmin';
+import { logoutActionUser } from '../Reducers/authUser';
 
 function Navbar() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const nameAdmin = useSelector((state) => state.authAdminReducer.name);
-    const name = nameAdmin;
+    const nameUser = useSelector((state) => state.authUserReducer.name);
+    const name = nameAdmin || nameUser
 
     const roleIdAdmin = useSelector((state) => state.authAdminReducer.roleId);
-    const roleId = roleIdAdmin;
+    const roleIdUser = useSelector((state) => state.authUserReducer.roleId);
+    const roleId = roleIdAdmin || roleIdUser
 
     const logoutBtn = () => {
         localStorage.removeItem('grocery_login');
         dispatch(logoutActionAdmin());
+        dispatch(logoutActionUser());
     }
     
 
@@ -83,7 +87,7 @@ function Navbar() {
                             <Text color='white' p={'1'} fontSize='2xl' fontWeight={'semibold'}>{name}</Text>
                           </MenuButton>
                           <MenuList>
-                            <MenuItem type='button' onClick={() => {logoutBtn(); {navigate('/', { replace:true})}}}>Logout</MenuItem>
+                            <MenuItem type='button' onClick={() => {logoutBtn(); {navigate('/login', { replace:true})}}}>Logout</MenuItem>
                           </MenuList>
                         </Menu>
                     </Flex>
@@ -93,7 +97,7 @@ function Navbar() {
                             <Text color='white' p={'1'} fontSize='xl' fontWeight={'semibold'}>{name}</Text>
                           </MenuButton>
                           <MenuList>
-                            <MenuItem type='button' onClick={() => {logoutBtn(); {navigate('/', { replace:true})}}}>Logout</MenuItem>
+                            <MenuItem type='button' onClick={() => {logoutBtn(); {navigate('/login', { replace:true})}}}>Logout</MenuItem>
                           </MenuList>
                         </Menu>
                     </Flex>
@@ -105,7 +109,7 @@ function Navbar() {
                     w='auto'
                     >
                         <Link p={'1'} mr='2' textDecoration={'none'} _hover={{ textDecoration: "none", rounded:'lg' }} fontSize={{base:'xl', md:'xl', lg:'2xl'}} fontWeight='semibold' color={'white'} onClick={() => navigate('/register')}>SignUp</Link>
-                        <Link p={'1'} textDecoration={'none'} _hover={{ textDecoration: "none", rounded:'lg' }} fontSize={{base:'xl', md:'xl', lg:'2xl'}} fontWeight='semibold' color={'white'}>Login</Link>
+                        <Link p={'1'} textDecoration={'none'} _hover={{ textDecoration: "none", rounded:'lg' }} fontSize={{base:'xl', md:'xl', lg:'2xl'}} fontWeight='semibold' color={'white'} onClick={() => navigate('/login')}>Login</Link>
                     </Flex>
                     <Flex display={['flex', 'flex', 'none', 'none']} alignItems={'center'} gap={'1'}>
                         <Menu>
@@ -114,7 +118,7 @@ function Navbar() {
                             </MenuButton>
                             <MenuList>
                               <MenuItem type='button' onClick={() => navigate('/register')}>Sign Up</MenuItem>
-                              <MenuItem type='button'>Login</MenuItem>
+                              <MenuItem type='button' onClick={() => navigate('/login')}>Login</MenuItem>
                             </MenuList>
                         </Menu>
                     </Flex>
