@@ -12,6 +12,8 @@ import AdminLanding from "./Pages/AdminLanding";
 import { useDispatch } from "react-redux";
 import { API_URL } from "./helper";
 import { loginActionAdmin } from "./Reducers/authAdmin";
+import Login from "./Pages/Login";
+import { loginActionUser } from "./Reducers/authUser";
 
 
 
@@ -36,8 +38,30 @@ function App() {
     }
   }
 
+  const UserKeepLogin = async () => {
+    try {
+      let token = localStorage.getItem('grocery_login');
+      if (token) {
+        let response = await axios.get(`${API_URL}/user/keeplogin`, {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        // console.log("response dari localstorage :", response.data);
+        localStorage.setItem('grocery_login', response.data.token);
+        dispatch(loginActionUser(response.data));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   useEffect(() => {
     AdminKeepLogin()
+  }, []);
+
+  useEffect(() => {
+    UserKeepLogin()
   }, []);
 
   // useEffect(() => {
@@ -55,6 +79,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing/>}/>
         <Route path="/register" element={<UserRegister/>}/>
+        <Route path="/login" element={<Login/>}/>
         <Route path="/adminlogin" element={<AdminLogin/>}/>
         <Route path="/admin" element={<AdminLanding/>}/>
       </Routes>
