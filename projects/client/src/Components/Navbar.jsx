@@ -42,7 +42,7 @@ function Navbar() {
     return ( 
     <Container maxW={'full'} px={{base:'2', sm:'6', md:'10', lg:'24'}} bgGradient='linear(to-b, orange.500, orange.400)'>
         <Flex py={'3'} alignItems={'Center'} justifyContent={'space-between'}>
-            <Link textDecoration={'none'} _hover={{ textDecoration: "none" }} fontSize={{base:'lg', md:'xl', lg:'3xl'}} fontWeight='semibold' color={'white'} onClick={() => navigate('/')}>FreshFinds</Link>
+            <Link textDecoration={'none'} _hover={{ textDecoration: "none" }} fontSize={{base:'lg', md:'xl', lg:'3xl'}} fontWeight='semibold' color={'white'} onClick={() => navigate(roleId == 1 || roleId == 2 ? '/admin' : '/')}>FreshFinds</Link>
             {
                 name ? 
                 (roleId == 3 ?

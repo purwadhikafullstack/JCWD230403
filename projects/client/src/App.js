@@ -9,7 +9,7 @@ import UserRegister from "./Pages/UserRegister";
 import Footer from "./Components/Footer";
 import AdminLogin from "./Pages/AdminLogin";
 import AdminLanding from "./Pages/AdminLanding";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { API_URL } from "./helper";
 import { loginActionAdmin } from "./Reducers/authAdmin";
 import Login from "./Pages/Login";
@@ -20,6 +20,8 @@ import { loginActionUser } from "./Reducers/authUser";
 function App() {
   const [message, setMessage] = useState("");
   const dispatch = useDispatch();
+  const adminRoleId = useSelector((state) => state.authAdminReducer.roleId);
+  const userRoleId = useSelector((state) => state.authUserReducer.roleId);
 
   const AdminKeepLogin = async () => {
     try {
@@ -75,15 +77,38 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar/>
-      <Routes>
-        <Route path="/" element={<Landing/>}/>
-        <Route path="/register" element={<UserRegister/>}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/adminlogin" element={<AdminLogin/>}/>
-        <Route path="/admin" element={<AdminLanding/>}/>
-      </Routes>
-      <Footer/>
+      {
+        adminRoleId ? 
+        (<div>
+          <Navbar/>
+          <Routes>
+            <Route path="/adminlogin" element={<AdminLogin/>}/>
+            <Route path="/admin" element={<AdminLanding/>}/>
+          </Routes>
+          <Footer/>
+        </div>)
+        : userRoleId ?
+        (<div>
+            <Navbar/>
+            <Routes>
+              <Route path="/" element={<Landing/>}/>
+              <Route path="/register" element={<UserRegister/>}/>
+              <Route path="/login" element={<Login/>}/>
+            </Routes>
+            <Footer/>
+          </div>)
+        :
+        <div>
+          <Navbar/>
+          <Routes>
+            <Route path="/" element={<Landing/>}/>
+            <Route path="/register" element={<UserRegister/>}/>
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/adminlogin" element={<AdminLogin/>}/>
+          </Routes>
+          <Footer/>
+        </div>
+      }
     </div>
   );
 }
