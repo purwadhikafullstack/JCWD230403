@@ -14,6 +14,7 @@ import { API_URL } from "./helper";
 import { loginActionAdmin } from "./Reducers/authAdmin";
 import Login from "./Pages/Login";
 import { loginActionUser } from "./Reducers/authUser";
+import PageNotFound from "./Pages/PageNotFound";
 
 
 
@@ -84,6 +85,7 @@ function App() {
           <Routes>
             <Route path="/adminlogin" element={<AdminLogin/>}/>
             <Route path="/admin" element={<AdminLanding/>}/>
+            <Route path="*" element={<PageNotFound/>}/>
           </Routes>
           <Footer/>
         </div>)
@@ -94,6 +96,7 @@ function App() {
               <Route path="/" element={<Landing/>}/>
               <Route path="/register" element={<UserRegister/>}/>
               <Route path="/login" element={<Login/>}/>
+              <Route path="*" element={<PageNotFound/>}/>
             </Routes>
             <Footer/>
           </div>)
@@ -105,6 +108,7 @@ function App() {
             <Route path="/register" element={<UserRegister/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/adminlogin" element={<AdminLogin/>}/>
+            <Route path="*" element={<PageNotFound/>}/>
           </Routes>
           <Footer/>
         </div>
