@@ -15,6 +15,7 @@ import { loginActionAdmin } from "./Reducers/authAdmin";
 import Login from "./Pages/Login";
 import { loginActionUser } from "./Reducers/authUser";
 import PageNotFound from "./Pages/PageNotFound";
+import Verification from "./Pages/Verification";
 
 
 
@@ -108,6 +109,7 @@ function App() {
             <Route path="/register" element={<UserRegister/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/adminlogin" element={<AdminLogin/>}/>
+            <Route path="/verification/:token"  element={<Verification/>}/>
             <Route path="*" element={<PageNotFound/>}/>
           </Routes>
           <Footer/>

@@ -3,6 +3,7 @@ const model = require("../models");
 const bcrypt = require('bcrypt');
 const { createToken } = require('../helper/jwt');
 const {v4 : uuidv4} = require('uuid');
+const transporter = require('../helper/nodemailer');
 
 let salt = bcrypt.genSaltSync(10);
 
@@ -18,7 +19,7 @@ module.exports = {
                     ]
                 }
             })
-            console.log('Check user exist :', checkUser);
+            // console.log('Check user exist :', checkUser);
             if (checkUser.length == 0) {
                 if (req.body.password == req.body.confirmationPassword) {
                     delete req.body.confirmationPassword;
@@ -31,6 +32,35 @@ module.exports = {
                         uuid, name, email, password, phone, 
                     });
                     // console.log("Data Hasil regis :", regis.datavalue);
+
+                    // GENERATE TOKEN
+                    let token = createToken({
+                        uuid: regis.dataValues.uuid,
+                        email: regis.dataValues.email
+                    }, '24h');
+
+                    // Mengirimkan email verifikasi
+                    await transporter.sendMail({
+                        from: "FreshFinds Admin",
+                        to: req.body.email,
+                        subject: "Account Verification",
+                        html:
+                        `<div>
+                            <h4>Hello, ${name}</h4>
+                            <p>
+                                Thank you for registering with our platform. To complete the registration process, we need to verify your account. 
+                                Please click on the link below to verify your account :
+                            </p>
+                            <br>
+                            <p>
+                                <a href="http://localhost:3000/verification/${token}">Verify Account</a>
+                            </p>
+                            <br/>
+                            <p>Best regards,</p>
+                            <p>FreshFinds</p>
+                        </div>`
+                    });
+
                     return res.status(200).send({
                         success: true,
                         message: "Register Success ✅",
@@ -120,6 +150,38 @@ module.exports = {
                 roleId: roleId,
                 token: token
             })
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
+    },
+    // verify user
+    verify: async (req, res, next) => {
+        try {
+            console.log("Data dari read token :", req.decrypt);
+            let checkUser = await model.user.findOne({
+                where: {
+                    uuid: req.decrypt.uuid,
+                    isVerified: true
+                }
+            });
+            if (checkUser) {
+                res.status(409).send({
+                    success: false,
+                    message: "Your account has already been verified ❌"
+                })
+            } else {
+                await model.user.update({
+                    isVerified: 1}, 
+                    {where: {
+                        uuid: req.decrypt.uuid
+                    }})
+                res.status(200).send({
+                    success: true,
+                    message: "Account successfully verified ✅"
+                })
+            }
+            
         } catch (error) {
             console.log(error);
             next(error);
