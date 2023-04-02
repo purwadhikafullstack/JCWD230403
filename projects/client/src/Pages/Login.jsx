@@ -11,7 +11,8 @@ import {
     InputRightAddon, 
     Text, 
     Image,
-    useBreakpointValue
+    useBreakpointValue,
+    Link
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { API_URL } from '../helper';
@@ -93,6 +94,10 @@ function Login() {
                             </InputRightAddon>
                         </InputGroup>
                     </FormControl>
+                    <Flex py='2' fontSize='sm' justifyContent={'end'} color='white' gap={'1.5'}>
+                        <Text>Forget Password?</Text>
+                        <Link _hover={{ color:'gray.300' }} onClick={() => navigate('/forgetpassword')}>click here</Link>
+                    </Flex>
                     <Button my='6' width='full' type='button' backgroundColor={"white"} color="Black" onClick={onBtnLogin}> 
                         Log In
                     </Button>
