@@ -186,5 +186,88 @@ module.exports = {
             console.log(error);
             next(error);
         }
+    },
+    // Forget password
+    forget: async(req, res, next) => {
+        try {
+            let checkUser = await model.user.findAll({
+                where: {
+                    email: req.body.email
+                }
+            });
+            const name = checkUser[0].dataValues.name;
+            console.log(name);
+            if(checkUser.length == 0){
+                return res.status(404).send({
+                    success: false,
+                    message: "Email not found ❌"
+                })
+            }
+            // Generate token
+            let token = createToken({
+                uuid: checkUser[0].dataValues.uuid,
+                email: checkUser[0].dataValues.email
+            }, '24h');
+    
+            // Mengirimkan email reset password
+            await transporter.sendMail({
+                from: "FreshFinds Admin",
+                to: req.body.email,
+                subject: "Reset Password",
+                html:
+                `<div>
+                    <h4>Hello, ${name}</h4>
+                    <p>
+                        Forgot your password ?
+                    </p>
+                    <p>
+                        We received a request to reset the password for your account.
+                    </p>
+                    <br/>
+                    <p>
+                        To reset your password, click on the link below:
+                    </p>
+                    <br/>
+                    <p>
+                        <a href="http://localhost:3000/reset/${token}">Reset password</a>
+                    </p>
+                    <br/>
+                    <p>Best regards,</p>
+                    <p>FreshFinds</p>
+                </div>`
+            });
+            return res.status(200).send({
+                success: true,
+                message: "An email for resetting your password has been sent. Please check your email"
+            })
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
+    },
+    // Reset password
+    reset: async (req, res, next) => {
+        try {
+            if(req.body.password !== req.body.confirmationPassword){
+                return res.status(400).send({
+                    success: false,
+                    message: "Password and confirmation password do not match ❌"
+                })
+            }
+            newPassword = bcrypt.hashSync(req.body.password, salt);
+            await model.user.update({
+                password: newPassword}, 
+                { where: {
+                    uuid: req.decrypt.uuid
+                }
+            })
+            return res.status(200).send({
+                success: true,
+                message: "Password changed ✅"
+            })
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
     }
 }

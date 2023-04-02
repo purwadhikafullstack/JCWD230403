@@ -16,6 +16,8 @@ import Login from "./Pages/Login";
 import { loginActionUser } from "./Reducers/authUser";
 import PageNotFound from "./Pages/PageNotFound";
 import Verification from "./Pages/Verification";
+import ForgotPassword from "./Pages/ForgotPassword";
+import ResetPassword from "./Pages/ResetPassword";
 
 
 
@@ -110,6 +112,8 @@ function App() {
             <Route path="/login" element={<Login/>}/>
             <Route path="/adminlogin" element={<AdminLogin/>}/>
             <Route path="/verification/:token"  element={<Verification/>}/>
+            <Route path="/forgetpassword" element={<ForgotPassword/>}/>
+            <Route path="/reset/:token" element={<ResetPassword/>}/>
             <Route path="*" element={<PageNotFound/>}/>
           </Routes>
           <Footer/>
