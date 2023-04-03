@@ -87,6 +87,7 @@ function Navbar() {
                             <Text color='white' p={'1'} fontSize='2xl' fontWeight={'semibold'}>{name}</Text>
                           </MenuButton>
                           <MenuList>
+                            <MenuItem type='button' onClick={() => {navigate('/change')}}>Change Password</MenuItem>
                             <MenuItem type='button' onClick={() => {logoutBtn(); {navigate('/login', { replace:true})}}}>Logout</MenuItem>
                           </MenuList>
                         </Menu>
@@ -97,6 +98,7 @@ function Navbar() {
                             <Text color='white' p={'1'} fontSize='xl' fontWeight={'semibold'}>{name}</Text>
                           </MenuButton>
                           <MenuList>
+                            <MenuItem type='button' onClick={() => {navigate('/change')}}>Change Password</MenuItem>
                             <MenuItem type='button' onClick={() => {logoutBtn(); {navigate('/login', { replace:true})}}}>Logout</MenuItem>
                           </MenuList>
                         </Menu>

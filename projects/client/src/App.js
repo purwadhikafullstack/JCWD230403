@@ -18,6 +18,7 @@ import PageNotFound from "./Pages/PageNotFound";
 import Verification from "./Pages/Verification";
 import ForgotPassword from "./Pages/ForgotPassword";
 import ResetPassword from "./Pages/ResetPassword";
+import ChangePassword from "./Pages/ChangePassword";
 
 
 
@@ -99,6 +100,7 @@ function App() {
               <Route path="/" element={<Landing/>}/>
               <Route path="/register" element={<UserRegister/>}/>
               <Route path="/login" element={<Login/>}/>
+              <Route path="/change" element={<ChangePassword/>}/>
               <Route path="*" element={<PageNotFound/>}/>
             </Routes>
             <Footer/>
