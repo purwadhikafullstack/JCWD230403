@@ -269,5 +269,74 @@ module.exports = {
             console.log(error);
             next(error);
         }
+    },
+    // change password
+    change: async (req, res, next) => {
+        try {
+            let getUser = await model.user.findAll({
+                where: {
+                    uuid: req.decrypt.uuid
+                },
+                attributes: ["password"]
+            });
+            // console.log("Data dari getUser :", getUser);
+
+            if(getUser.length > 0) {
+                let compareOldPassword = bcrypt.compareSync(
+                    req.body.oldPassword,
+                    getUser[0].dataValues.password
+                );
+                // console.log("Data dari comparePassword : ", compareOldPassword);
+
+                if(compareOldPassword){
+                    if(req.body.newPassword == req.body.confirmNewPassword) {
+                        let compareOldAndNewPassword = bcrypt.compareSync(
+                            req.body.newPassword,
+                            getUser[0].dataValues.password
+                        )
+                        if (!compareOldAndNewPassword) {
+                            delete req.body.confirmNewPassword
+                            req.body.newPassword = bcrypt.hashSync(req.body.newPassword, salt);
+
+                            // update new password
+                            await model.user.update(
+                                {password: req.body.newPassword},
+                                { where: {
+                                    uuid: req.decrypt.uuid
+                                }}
+                            );
+                            return res.status(200).send({
+                                success: true,
+                                message: "Change password success ✅"
+                            })
+                        } else {
+                            return res.status(400).send({
+                                success: false,
+                                message: "New password cannot be same with old password"
+                            })
+                        }
+                    } else {
+                        return res.status(400).send({
+                            success: false,
+                            message: "New password and confirmation password do not match"
+                        })
+                    }
+                } else {
+                    return res.status(400).send({
+                        success: false,
+                        message: "Old password is incorrect"
+                    })
+                }
+            } else {
+                return res.status(400).send({
+                    success: false,
+                    message: "Old password not found ❌"
+                })
+            }
+
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
     }
 }
