@@ -40,7 +40,7 @@ function Verification() {
                     <Text pb='4' fontSize={'lg'}>Welcome! You're almost ready to start shopping with us. Please verify your account by clicking the button below. Happy shopping!</Text>
                 </Box>
                 <Box>
-                    <Button color={'white'} bgGradient='linear(to-b, orange.500, orange.400)' _hover={{ bgGradient:'linear(to-b, orange.700, orange.600)' }} onClick={onBtonVerify}>Verify my account</Button>
+                    <Button color={'white'} bgGradient='linear(to-b, green.500, green.400)' _hover={{ bgGradient:'linear(to-b, green.700, green.600)' }} onClick={onBtonVerify}>Verify my account</Button>
                 </Box>
             </Stack>
         </Box>

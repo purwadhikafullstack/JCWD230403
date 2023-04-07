@@ -15,8 +15,11 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   profile.init({
-    gender: DataTypes.STRING,
-    birthDate: DataTypes.STRING,
+    gender: {
+      type: DataTypes.ENUM('male', 'female'),
+      allowNull: false
+    },
+    birthDate: DataTypes.DATE,
     profilePicture: DataTypes.STRING
   }, {
     sequelize,

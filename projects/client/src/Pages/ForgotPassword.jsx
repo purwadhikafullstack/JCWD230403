@@ -40,12 +40,12 @@ function ForgotPassword() {
 
     return ( 
         <Box px={{base:'none', sm:'16' ,md:'16',lg:'16'}} pb={{base:'64', sm:'64', md:'64',lg:'48'}} display='flex' justifyContent='center' alignItems='center' height='100vh'>
-            <Box my='10' px='8' py='4' bgGradient='linear(to-b, orange.500, orange.400)' borderRadius={borderRadius} w={boxWidth}>
+            <Box my='10' px='8' py='4' bgGradient='linear(to-b, green.500, green.400)' borderRadius={borderRadius} w={boxWidth}>
             <Text  fontSize='xl' fontWeight='bold' color={'white'}>Enter your email</Text>
                 <FormControl my='2'>
                     <FormLabel color={'white'}>Email</FormLabel>
                     <InputGroup>
-                        <Input backgroundColor={'white'} onChange={(e) => setEmail(e.target.value)}/>
+                        <Input placeholder='Enter your email' backgroundColor={'white'} onChange={(e) => setEmail(e.target.value)}/>
                     </InputGroup>
                 </FormControl>
                 <Button my='6' width='40%' type='button' backgroundColor={"white"} color="Black" onClick={onBtnForgot}> 

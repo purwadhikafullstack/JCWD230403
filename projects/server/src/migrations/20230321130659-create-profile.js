@@ -10,12 +10,12 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       gender: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM('male', 'female')
       },
       birthDate: {
-        type: Sequelize.STRING
+        type: Sequelize.DATE
       },
-      profilePicture: {
+      avatar: {
         type: Sequelize.STRING
       },
       createdAt: {

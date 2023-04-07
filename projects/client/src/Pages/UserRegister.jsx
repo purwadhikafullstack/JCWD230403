@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import axios from 'axios';
-import { API_URL } from '../helper';
+import { API_URL, checkName, checkEmail, checkPhone, checkPassword } from '../helper';
 import { useNavigate } from 'react-router-dom';
 
 function UserRegister() {
@@ -40,7 +40,22 @@ function UserRegister() {
 
     const onBtnRegister = async () => {
         try {
-            console.log(API_URL);
+            if (name == '' || email == '' || phone == '' || password == '' || confirmationPassword == '') {
+                return alert('Please fill in all fields')
+            }
+            if (!checkName(name)){
+                return alert('Please enter a valid name with a minimum length of 100 characters');
+            }
+            if(!checkEmail(email)){
+                return alert('Please enter a valid email address');
+            }
+            if(!checkPhone(phone)){
+                return alert('Please enter a valid phone number')
+            }
+            if(!checkPassword(password)){
+                return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
+            }
+            // console.log(API_URL);
             let response = await axios.post(`${API_URL}/user/register`, {
                 name: name,
                 email: email,
@@ -59,6 +74,9 @@ function UserRegister() {
             console.log("Error :", error);
             console.log("Error message :", error.response.data);
             alert(error.response.data.message);
+            alert(error.response.data.error[3].msg);
+            alert(error.response.data.error[5].msg);
+            alert(error.response.data.error[7].msg);
         }
     }
 
@@ -68,24 +86,24 @@ function UserRegister() {
                 <Box w="60%" display={{base:'none', sm:'none', md:'flex', lg:'flex'}}>
                     <Image borderLeftRadius='2xl' w='full' h="full" src='https://images.unsplash.com/photo-1601599561096-f87c95fff1e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80' alt='Sign up picture' />
                 </Box>
-                <Box px='8' py='4' bgGradient='linear(to-b, orange.500, orange.400)' borderRadius={borderRadiusB} borderRightRadius={borderRadiusA} w={boxWidth}>
+                <Box px='8' py='4' bgGradient='linear(to-b, green.500, green.400)' borderRadius={borderRadiusB} borderRightRadius={borderRadiusA} w={boxWidth}>
                     <Text  fontSize='4xl' fontWeight='bold' color={'white'}>Welcome to Grocey Shop</Text>
                     <FormControl mt='4'>
                         <FormLabel color={'white'}>Name</FormLabel>
-                        <Input backgroundColor={'white'} type='text' onChange={(e) => setName(e.target.value)}/>
+                        <Input placeholder='Enter your name' backgroundColor={'white'} type='text' onChange={(e) => setName(e.target.value)}/>
                     </FormControl>
                     <FormControl my='2'>
                         <FormLabel color={'white'}>Email</FormLabel>
-                        <Input backgroundColor={'white'} type='email' onChange={(e) => setEmail(e.target.value)}/>
+                        <Input placeholder='Enter your email' backgroundColor={'white'} type='email' onChange={(e) => setEmail(e.target.value)}/>
                     </FormControl>
                     <FormControl my='2'>
                         <FormLabel color={'white'}>Phone Number</FormLabel>
-                        <Input backgroundColor={'white'} type='text' onChange={(e) => setPhone(e.target.value)}/>
+                        <Input placeholder='Enter your phone number' backgroundColor={'white'} type='text' onChange={(e) => setPhone(e.target.value)}/>
                     </FormControl>
                     <FormControl my='2'>
                         <FormLabel color={'white'}>Password</FormLabel>
                         <InputGroup>
-                            <Input backgroundColor={'white'} type={visible} onChange={(e) => setPassword(e.target.value)}/>
+                            <Input placeholder='Enter your password' backgroundColor={'white'} type={visible} onChange={(e) => setPassword(e.target.value)}/>
                             <InputRightAddon onClick={handleVisible}>
                                 {
                                     visible == 'password' ?
@@ -97,7 +115,7 @@ function UserRegister() {
                         </InputGroup>
                         <FormLabel mt='2' color={'white'}>Confirmation Password</FormLabel>
                         <InputGroup>
-                            <Input backgroundColor={'white'} type={visible} onChange={(e) => setConfirmationPassword(e.target.value)}/>
+                            <Input placeholder='Confirm your password' backgroundColor={'white'} type={visible} onChange={(e) => setConfirmationPassword(e.target.value)}/>
                             <InputRightAddon onClick={handleVisible}>
                                 {
                                     visible == 'password' ?

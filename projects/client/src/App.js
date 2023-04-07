@@ -27,6 +27,7 @@ function App() {
   const dispatch = useDispatch();
   const adminRoleId = useSelector((state) => state.authAdminReducer.roleId);
   const userRoleId = useSelector((state) => state.authUserReducer.roleId);
+  const roleId = adminRoleId || userRoleId
 
   const AdminKeepLogin = async () => {
     try {
@@ -83,7 +84,7 @@ function App() {
   return (
     <div className="App">
       {
-        adminRoleId ? 
+        roleId == 1 || roleId == 2 ? 
         (<div>
           <Navbar/>
           <Routes>
@@ -93,7 +94,7 @@ function App() {
           </Routes>
           <Footer/>
         </div>)
-        : userRoleId ?
+        : roleId == 3 ?
         (<div>
             <Navbar/>
             <Routes>

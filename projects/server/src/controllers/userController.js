@@ -10,33 +10,39 @@ let salt = bcrypt.genSaltSync(10);
 module.exports = {
     // Register as a user
     register: async (req, res, next) => {
+        const ormTransaction = await model.sequelize.transaction()
         try {
-            // console.log("From Request body :", req.body);
             let checkUser = await model.user.findAll({
-                where: {
-                    [sequelize.Op.or]: [
-                        {email: req.body.email}
-                    ]
-                }
+                where: {email: req.body.email}
             })
-            // console.log('Check user exist :', checkUser);
+            console.log('Check user exist :', checkUser);
             if (checkUser.length == 0) {
                 if (req.body.password == req.body.confirmationPassword) {
                     delete req.body.confirmationPassword;
-                    // console.log('Check data before create :', req.body);
+                    
                     req.body.password = bcrypt.hashSync(req.body.password, salt);
-                    // console.log('check data after hash password :', req.body);
+                    
                     const uuid = uuidv4();
                     const { name, email, password, phone} = req.body;
                     let regis = await model.user.create({
-                        uuid, name, email, password, phone, 
+                        uuid, 
+                        name, 
+                        email, 
+                        password, 
+                        phone,
+                        isVerified: 0,
+                        profileId: null,
+                        addressId: null,
+                        roleId: 3,
+                        branchId: null,
+                        isDeleted: 0
                     });
-                    // console.log("Data Hasil regis :", regis.datavalue);
-
+                    
                     // GENERATE TOKEN
                     let token = createToken({
                         uuid: regis.dataValues.uuid,
-                        email: regis.dataValues.email
+                        email: regis.dataValues.email,
+                        roleId: regis.dataValues.roleId
                     }, '24h');
 
                     // Mengirimkan email verifikasi
@@ -48,28 +54,28 @@ module.exports = {
                         `<div>
                             <h4>Hello, ${name}</h4>
                             <p>
-                                Thank you for registering with our platform. To complete the registration process, we need to verify your account. 
-                                Please click on the link below to verify your account :
+                                Thank you for registering with our platform. To complete the registration process, we need to verify your email address. Please click on the link below to verify your email address:
                             </p>
                             <br>
                             <p>
                                 <a href="http://localhost:3000/verification/${token}">Verify Account</a>
                             </p>
-                            <br/>
+                            <br>
                             <p>Best regards,</p>
                             <p>FreshFinds</p>
                         </div>`
                     });
-
+                    await ormTransaction.commit();
                     return res.status(200).send({
                         success: true,
                         message: "Register Success ✅",
-                        data: regis
+                        data: regis,
+                        token: token
                     });
                 } else {
                     res.status(400).send({
                         success: false,
-                        message: "The passwords do not match. Please try again. ❌"
+                        message: "The passwords and confirmation password do not match. Please try again. ❌"
                     })
                 }
             } else {
@@ -79,6 +85,7 @@ module.exports = {
                 })
             }
         } catch (error) {
+            await ormTransaction.rollback();
             console.log(error);
             next(error);
         }
@@ -89,37 +96,45 @@ module.exports = {
             let getUser = await model.user.findAll({
                 where: {
                     email: req.body.email},
-                    include: [{model: model.role, attributes: ['role']}]
             })
+            
+            // check email
             if (getUser.length > 0) {
-                let check = bcrypt.compareSync(req.body.password, getUser[0].dataValues.password);
-                
-                if (check) {
-                    getUser[0].dataValues.role = getUser[0].dataValues.role.role;
-                    let {id, uuid, name, email, password, isVerified, roleId} = getUser[0].dataValues;
-                    // GENERATE TOKEN
-                    let token = createToken({uuid}, "24h");
-                    res.status(200).send({
-                        success: true,
-                        message: "Login Success ✅",
-                        name: name,
-                        email: email,
-                        password: password,
-                        isVerified: isVerified,
-                        roleId: roleId,
-                        token: token
-                    })
+                // check roleId
+                if (getUser[0].dataValues.roleId === 3) {
+                    // check password
+                    let check = bcrypt.compareSync(req.body.password, getUser[0].dataValues.password);
+                    if (check) {
+                        let {id, uuid, name, email, password, isVerified, roleId} = getUser[0].dataValues;
+                        // GENERATE TOKEN
+                        let token = createToken({uuid}, "24h");
+                        res.status(200).send({
+                            success: true,
+                            message: "Login Success ✅",
+                            name: name,
+                            email: email,
+                            password: password,
+                            isVerified: isVerified,
+                            roleId: roleId,
+                            token: token
+                        })
+                    } else {
+                        return res.status(400).send({
+                            success: false,
+                            message: "Login failed: password is wrong ❌"
+                            });
+                    }
                 } else {
-                    res.status(400).send({
+                    return res.status(400).send({
                         success: false,
-                        message: "Login failed email or password wrong ❌"
-                    })
+                        message: "You're not an user ❌"
+                      });
                 }
             } else {
-                res.status(400).send({
+                return res.status(400).send({
                     success: false,
-                    message: "Account not found ❌"
-                })
+                    message: "Email not found ❌"
+                  });
             }
         } catch (error) {
             console.log(error);
@@ -196,7 +211,7 @@ module.exports = {
                 }
             });
             const name = checkUser[0].dataValues.name;
-            console.log(name);
+            // console.log(name);
             if(checkUser.length == 0){
                 return res.status(404).send({
                     success: false,

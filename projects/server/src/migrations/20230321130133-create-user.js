@@ -33,8 +33,20 @@ module.exports = {
       isVerified: {
         type: Sequelize.BOOLEAN
       },
+      profileId: {
+        type: Sequelize.INTEGER
+      },
+      addressId: {
+        type: Sequelize.INTEGER
+      },
       roleId: {
         type: Sequelize.INTEGER
+      },
+      branchId: {
+        type: Sequelize.INTEGER
+      },
+      isDeleted: {
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

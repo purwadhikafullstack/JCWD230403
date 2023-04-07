@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      user.hasOne(models.profile);
-      user.hasMany(models.addresses);
+      user.hasOne(models.profile, {foreignKey: 'profileId'});
+      user.hasMany(models.addresses, {foreignKey: 'addressId'});
       user.hasMany(models.cart);
       user.hasMany(models.transaction);
       user.belongsTo(models.role, {foreignKey: 'roleId'});
@@ -28,7 +28,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BOOLEAN,
       defaultValue: false
     },
-    roleId: DataTypes.INTEGER
+    profileId: DataTypes.INTEGER,
+    addressId: DataTypes.INTEGER,
+    roleId: DataTypes.INTEGER,
+    branchId: DataTypes.INTEGER,
+    isDeleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    }
   }, {
     sequelize,
     modelName: 'user',

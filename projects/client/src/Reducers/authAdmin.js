@@ -5,20 +5,20 @@ const authAdminSlice = createSlice({
     initialState: {
         name: "",
         email: "",
-        isSuper: "",
+        branchId: "",
         roleId: "",
     },
     reducers: {
         loginActionAdmin: (state, action) => {
             state.name= action.payload.name;
             state.email = action.payload.email;
-            state.isSuper = action.payload.isSuper;
+            state.branchId = action.payload.branchId;
             state.roleId = action.payload.roleId;
         },
         logoutActionAdmin: (state) => {
             state.name = "";
             state.email = "";
-            state.isSuper = "";
+            state.branchId = "";
             state.roleId = "";
         }
     },

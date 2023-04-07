@@ -2,7 +2,7 @@
   "development": {
     "username": "harris",
     "password": "HA92RRis12sql2",
-    "database": "grocery_store",
+    "database": "freshfinds",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },

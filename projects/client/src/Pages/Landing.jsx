@@ -4,9 +4,11 @@ import ProductCategories from '../Components/ProductCategories';
 import ProductSuggestions from '../Components/ProductSuggestions';
 import Footer from '../Components/Footer';
 import { Flex, Heading, Box } from '@chakra-ui/react';
+import Header from '../Components/Header';
 
 function Landing() {
     return ( <div>
+        <Header/>
         <Promo/>
         <Box py={'8'} mt='8' px={'2'} backgroundColor={'whitesmoke'}>
             <Heading fontSize={'xl'}>Categories</Heading>

@@ -19,7 +19,7 @@ function PageNotFound() {
             <Stack>
                 <Text fontSize={'6xl'}>404</Text>
                 <Text pb='4' fontSize={'lg'}>Page Not Found</Text>
-                <Button color={'white'} bgGradient='linear(to-b, orange.500, orange.400)' _hover={{ bgGradient:'linear(to-b, orange.700, orange.600)' }} onClick={() => navigate(roleId == 1 || roleId == 2 ? '/admin' : '/')}>Go Back to Homepage</Button>
+                <Button color={'white'} bgGradient='linear(to-b, green.500, green.400)' _hover={{ bgGradient:'linear(to-b, green.700, green.600)' }} onClick={() => navigate(roleId == 1 || roleId == 2 ? '/admin' : '/')}>Go Back to Homepage</Button>
             </Stack>
         </Box>
      );

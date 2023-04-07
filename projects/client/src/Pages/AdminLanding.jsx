@@ -22,7 +22,7 @@ import {HiOutlinePresentationChartLine} from 'react-icons/hi';
 function AdminLanding() {
     return ( 
         <Card pt='2' pb={{base:'36',lg:'10'}}>
-          <CardBody bgGradient='linear(to-b, orange.500, orange.400)' mt={'4'}>
+          <CardBody bgGradient='linear(to-b, green.500, green.400)' mt={'4'}>
             <Flex alignItems={'center'} justifyContent='start' ml={{base:'9', lg:'20'}} gap={'7'}>
                 <Box color='white' fontSize={'2xl'}>
                     <BsPersonVcard/>
@@ -30,7 +30,7 @@ function AdminLanding() {
             <Link textDecoration={'none'} _hover={{ textDecoration: "none" }} fontSize={{base:'xl', md:'xl', lg:'xl'}} fontWeight='semibold' color={'white'}>Account Management</Link>
             </Flex>
           </CardBody>
-          <CardBody bgGradient='linear(to-b, orange.500, orange.400)' mt={'4'}>
+          <CardBody bgGradient='linear(to-b, green.500, green.400)' mt={'4'}>
             <Flex alignItems={'center'} justifyContent='start' ml={{base:'9', lg:'20'}} gap={'7'}>
                 <Box color='white' fontSize={'2xl'}>
                     <BsFillBoxSeamFill/>
@@ -38,7 +38,7 @@ function AdminLanding() {
             <Link textDecoration={'none'} _hover={{ textDecoration: "none" }} fontSize={{base:'xl', md:'xl', lg:'xl'}} fontWeight='semibold' color={'white'}>Product Management</Link>
             </Flex>
           </CardBody>
-          <CardBody bgGradient='linear(to-b, orange.500, orange.400)' mt={'4'}>
+          <CardBody bgGradient='linear(to-b, green.500, green.400)' mt={'4'}>
             <Flex alignItems={'center'} justifyContent='start' ml={{base:'9', lg:'20'}} gap={'7'}>
                 <Box color='white' fontSize={'2xl'}>
                     <MdDiscount/>
@@ -46,7 +46,7 @@ function AdminLanding() {
             <Link textDecoration={'none'} _hover={{ textDecoration: "none" }} fontSize={{base:'xl', md:'xl', lg:'xl'}} fontWeight='semibold' color={'white'}>Discount</Link>
             </Flex>
           </CardBody>
-          <CardBody bgGradient='linear(to-b, orange.500, orange.400)' mt={'4'}>
+          <CardBody bgGradient='linear(to-b, green.500, green.400)' mt={'4'}>
             <Flex alignItems={'center'} justifyContent='start' ml={{base:'9', lg:'20'}} gap={'7'}>
                 <Box color='white' fontSize={'2xl'}>
                     <BiTransfer/>
@@ -54,7 +54,7 @@ function AdminLanding() {
             <Link textDecoration={'none'} _hover={{ textDecoration: "none" }} fontSize={{base:'xl', md:'xl', lg:'xl'}} fontWeight='semibold' color={'white'}>Transaction</Link>
             </Flex>
           </CardBody>
-          <CardBody bgGradient='linear(to-b, orange.500, orange.400)' mt={'4'}>
+          <CardBody bgGradient='linear(to-b, green.500, green.400)' mt={'4'}>
             <Flex alignItems={'center'} justifyContent='start' ml={{base:'9', lg:'20'}} gap={'7'}>
                 <Box color='white' fontSize={'2xl'}>
                     <HiOutlinePresentationChartLine/>
