@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       price.belongsTo(models.admin);
       price.belongsTo(models.product);
-      price.belongsTo(models.discout);
+      // price.belongsTo(models.discout);
     }
   }
   price.init({

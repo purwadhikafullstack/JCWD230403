@@ -1,10 +1,13 @@
 import logo from "./logo.svg";
 import axios from "axios";
+import { API_URL } from "./helper";
+import React from "react";
 import "./App.css";
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Landing from "./Pages/Landing";
 import Navbar from "./Components/Navbar";
+import ProductLanding from "./Pages/ProductLanding";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -26,6 +29,7 @@ function App() {
       <Navbar/>
       <Routes>
         <Route path="/" element={<Landing/>}/>
+        <Route path="/product" element={<ProductLanding/>}/>
       </Routes>
     </div>
   );

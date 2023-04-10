@@ -12,12 +12,14 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       branch.belongsTo(models.admin);
-      branch.hasMany(models.stockBranch);
+      branch.hasMany(models.stockBranch,{
+        foreignKey:'branch_id'});
       branch.hasMany(models.addresses);
       branch.hasMany(models.cart);
       branch.hasMany(models.transaction_detail);
       branch.hasMany(models.transaction);
       branch.hasMany(models.historyStockProduct);
+      branch.belongsTo(models.product)
     }
   }
   branch.init({
@@ -34,5 +36,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'branch',
   });
+
   return branch;
 };

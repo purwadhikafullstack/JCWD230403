@@ -5,21 +5,23 @@ const { join } = require("path");
 
 const PORT = process.env.PORT || 8000;
 const app = express();
-app.use(
-  cors({
-    origin: [
-      process.env.WHITELISTED_DOMAIN &&
-        process.env.WHITELISTED_DOMAIN.split(","),
-    ],
-  })
-);
-
+// app.use(
+//   cors({
+//     origin: [
+//       process.env.WHITELISTED_DOMAIN &&
+//         process.env.WHITELISTED_DOMAIN.split(","),
+//     ],
+//   })
+// );
+app.use(cors());
 app.use(express.json());
 
 //#region API ROUTES
 
 // ===========================
 // NOTE : Add your routes here
+const productRouter = require('./routers/productRouter');
+app.use("/api/product", productRouter);
 
 app.get("/api", (req, res) => {
   res.send(`Hello, this is my API`);
@@ -57,6 +59,7 @@ app.use((err, req, res, next) => {
 //#region CLIENT
 const clientPath = "../../client/build";
 app.use(express.static(join(__dirname, clientPath)));
+
 
 // Serve the HTML page
 app.get("*", (req, res) => {
