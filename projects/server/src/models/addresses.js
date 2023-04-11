@@ -28,7 +28,12 @@ module.exports = (sequelize, DataTypes) => {
     receiverName: DataTypes.STRING,
     receiverPhone: DataTypes.STRING,
     receiverEmail: DataTypes.STRING,
-    subDistrict: DataTypes.STRING
+    subDistrict: DataTypes.STRING,
+    userUuid: DataTypes.STRING,
+    isDeleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    }
   }, {
     sequelize,
     modelName: 'addresses',

@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       admin.hasMany(models.branch);
       admin.hasMany(models.stockBranch);
       admin.hasMany(models.price);
-      admin.belongsTo(models.role);
+      admin.belongsTo(models.role, {foreignKey: 'roleId'});
     }
   }
   admin.init({
@@ -22,10 +22,11 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     password: DataTypes.STRING,
-    // isSuper: {
-    //   type: DataTypes.BOOLEAN,
-    //   defaultValue: 1
-    // }
+    isSuper: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: 1
+    },
+    roleId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'admin',

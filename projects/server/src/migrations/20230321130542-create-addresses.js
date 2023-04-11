@@ -12,10 +12,10 @@ module.exports = {
       uuid: {
         type: Sequelize.STRING
       },
-      postalCode: {
+      addressLine: {
         type: Sequelize.STRING
       },
-      phone: {
+      postalCode: {
         type: Sequelize.STRING
       },
       longitude: {
@@ -47,6 +47,12 @@ module.exports = {
       },
       subDistrict: {
         type: Sequelize.STRING
+      },
+      userUuid: {
+        type: Sequelize.STRING
+      },
+      isDeleted: {
+        type: Sequelize.BOOLEAN
       },
       createdAt: {
         allowNull: false,

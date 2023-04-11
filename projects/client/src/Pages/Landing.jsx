@@ -9,6 +9,8 @@ import Product from '../Components/product';
 import { FiFilter } from 'react-icons/fi';
 import Pagination from '../Components/Pagination';
 import Location from '../Components/Location';
+import Header from '../Components/Header';
+
 
 function Landing() {
 
@@ -69,6 +71,7 @@ function Landing() {
 
 
     return (<div>
+        <Header/>
         <Promo />
         <Box py={'8'} mt='8' px={'2'} backgroundColor={'whitesmoke'}>
             <Heading fontSize={'xl'}>Categories</Heading>
@@ -104,7 +107,6 @@ function Landing() {
                 <ProductSuggestions />
             </Flex>
         </Box> */}
-
         <>
             {/* INI PRODUCT */}
             <Flex justify={'center'}>
@@ -164,9 +166,9 @@ function Landing() {
                 </Box>
             </Flex>
         </>
-
         <Footer />
     </div>);
+
 }
 
 export default Landing;

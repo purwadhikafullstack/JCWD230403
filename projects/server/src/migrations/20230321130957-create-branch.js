@@ -10,30 +10,39 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       uuid: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       name: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       postalCode: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       phone: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       longitude: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       lattitude: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       city: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       province: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       subDistrict: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       createdAt: {

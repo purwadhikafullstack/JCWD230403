@@ -2,6 +2,7 @@ require("dotenv/config");
 const express = require("express");
 const cors = require("cors");
 const { join } = require("path");
+const bearerToken = require('express-bearer-token');
 
 const PORT = process.env.PORT || 8000;
 const app = express();
@@ -14,14 +15,20 @@ const app = express();
 //   })
 // );
 app.use(cors());
+app.use(bearerToken());
 app.use(express.json());
 
 //#region API ROUTES
-
+const userRouter = require('./routers/userRouter');
+const adminRoute = require('./routers/adminRouter');
+const productRouter = require('./routers/productRouter');
 // ===========================
 // NOTE : Add your routes here
-const productRouter = require('./routers/productRouter');
+
 app.use("/api/product", productRouter);
+app.use('/api/user', userRouter);
+app.use('/api/admin', adminRoute);
+
 
 app.get("/api", (req, res) => {
   res.send(`Hello, this is my API`);
@@ -32,6 +39,7 @@ app.get("/api/greetings", (req, res, next) => {
     message: "Hello, Student !",
   });
 });
+
 
 // ===========================
 
