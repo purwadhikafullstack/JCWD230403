@@ -12,7 +12,6 @@ import Footer from "./Components/Footer";
 import AdminLogin from "./Pages/AdminLogin";
 import AdminLanding from "./Pages/AdminLanding";
 import { useDispatch, useSelector } from "react-redux";
-import { API_URL } from "./helper";
 import { loginActionAdmin } from "./Reducers/authAdmin";
 import Login from "./Pages/Login";
 import { loginActionUser } from "./Reducers/authUser";
