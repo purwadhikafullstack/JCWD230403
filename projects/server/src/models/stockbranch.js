@@ -12,13 +12,16 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       stockBranch.belongsTo(models.admin);
-      stockBranch.belongsTo(models.branch);
-      stockBranch.belongsTo(models.product);
+      stockBranch.belongsTo(models.branch, {
+        foreignKey:'branch_id'});
+      stockBranch.belongsTo(models.product, {
+        foreignKey:'product_id'});
       stockBranch.hasMany(models.historyStockProduct);
     }
   }
   stockBranch.init({
     stockQty: DataTypes.INTEGER,
+    takenProduct: DataTypes.INTEGER,
     takenProduct: DataTypes.INTEGER,
     entryDate: DataTypes.DATEONLY,
     isEnable: {
@@ -29,5 +32,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'stockBranch',
   });
+
   return stockBranch;
 };

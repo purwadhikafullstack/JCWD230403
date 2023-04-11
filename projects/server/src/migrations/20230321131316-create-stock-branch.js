@@ -18,6 +18,12 @@ module.exports = {
       entryDate: {
         type: Sequelize.DATEONLY
       },
+      product_id: {
+        type: Sequelize.INTEGER
+      },
+      branch_id: {
+        type: Sequelize.INTEGER
+      },
       isEnable: {
         type: Sequelize.BOOLEAN
       },

@@ -1,5 +1,7 @@
 // import logo from "./logo.svg";
 import axios from "axios";
+import { API_URL } from "./helper";
+import React from "react";
 import "./App.css";
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
@@ -19,8 +21,7 @@ import Verification from "./Pages/Verification";
 import ForgotPassword from "./Pages/ForgotPassword";
 import ResetPassword from "./Pages/ResetPassword";
 import ChangePassword from "./Pages/ChangePassword";
-
-
+import ProductLanding from "./Pages/ProductLanding";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -102,6 +103,7 @@ function App() {
               <Route path="/register" element={<UserRegister/>}/>
               <Route path="/login" element={<Login/>}/>
               <Route path="/change" element={<ChangePassword/>}/>
+              <Route path="/product" element={<ProductLanding/>}/>
               <Route path="*" element={<PageNotFound/>}/>
             </Routes>
             <Footer/>
@@ -117,6 +119,7 @@ function App() {
             <Route path="/verification/:token"  element={<Verification/>}/>
             <Route path="/forgetpassword" element={<ForgotPassword/>}/>
             <Route path="/reset/:token" element={<ResetPassword/>}/>
+            <Route path="/product" element={<ProductLanding/>}/>
             <Route path="*" element={<PageNotFound/>}/>
           </Routes>
           <Footer/>

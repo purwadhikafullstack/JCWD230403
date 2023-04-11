@@ -21,12 +21,13 @@ app.use(express.json());
 //#region API ROUTES
 const userRouter = require('./routers/userRouter');
 const adminRoute = require('./routers/adminRouter');
-
+const productRouter = require('./routers/productRouter');
 // ===========================
 // NOTE : Add your routes here
+
+app.use("/api/product", productRouter);
 app.use('/api/user', userRouter);
 app.use('/api/admin', adminRoute);
-
 
 
 app.get("/api", (req, res) => {
@@ -66,6 +67,7 @@ app.use((err, req, res, next) => {
 //#region CLIENT
 const clientPath = "../../client/build";
 app.use(express.static(join(__dirname, clientPath)));
+
 
 // Serve the HTML page
 app.get("*", (req, res) => {

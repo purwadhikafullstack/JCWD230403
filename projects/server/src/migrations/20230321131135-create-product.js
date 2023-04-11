@@ -15,6 +15,10 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
+      price: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       image: {
         type: Sequelize.STRING
       },
