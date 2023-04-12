@@ -157,4 +157,43 @@ module.exports = {
             next(error);
         }
     },
+    getDetailProduct: async (req, res) => {
+        try {
+            // const userCordinate = await model.address.findOne({
+            //     where: {
+            //         userId: req.decrypt.id,
+            //     },
+            //     include: [
+            //         {
+            //             model: model.user,
+            //         }
+            //     ]
+            // });
+            // const lat = userCordinate.latitude;
+            // const lon = userCordinate.longitude;
+
+            const getProductDetail = await model.product.findAll({
+                where: {
+                    id: req.params.id,
+                },
+                include: [
+                    {
+                        model: model.stockBranch,
+                        where: {
+                            stock: stockQty
+                        }
+                    }
+                ]
+            })
+
+            res.status(200).send({
+                message: 'get product by id',
+                data: getProductDetail
+            })
+
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    }
 };

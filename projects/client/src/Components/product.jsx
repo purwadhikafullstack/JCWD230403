@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, CardBody, Image, Stack, Heading } from '@chakra-ui/react';
 
-function products(props) {
+function Products(props) {
 
   return (
 
@@ -31,4 +31,4 @@ function products(props) {
 
 };
 
-export default products;
+export default Products;
