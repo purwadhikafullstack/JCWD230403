@@ -21,6 +21,8 @@ import ForgotPassword from "./Pages/ForgotPassword";
 import ResetPassword from "./Pages/ResetPassword";
 import ChangePassword from "./Pages/ChangePassword";
 import ProductLanding from "./Pages/ProductLanding";
+import ProductDetailUser from "./Pages/ProductDetail/ProductDetailUser";
+
 
 function App() {
   const [message, setMessage] = useState("");
@@ -82,49 +84,35 @@ function App() {
   // }, []);
 
   return (
-    <div className="App">
-      {
-        roleId == 1 || roleId == 2 ? 
-        (<div>
-          <Navbar/>
-          <Routes>
-            <Route path="/adminlogin" element={<AdminLogin/>}/>
-            <Route path="/admin" element={<AdminLanding/>}/>
-            <Route path="*" element={<PageNotFound/>}/>
-          </Routes>
-          <Footer/>
-        </div>)
-        : roleId == 3 ?
-        (<div>
-            <Navbar/>
-            <Routes>
-              <Route path="/" element={<Landing/>}/>
-              <Route path="/register" element={<UserRegister/>}/>
-              <Route path="/login" element={<Login/>}/>
-              <Route path="/change" element={<ChangePassword/>}/>
-              <Route path="/product" element={<ProductLanding/>}/>
-              <Route path="*" element={<PageNotFound/>}/>
-            </Routes>
-            <Footer/>
-          </div>)
-        :
-        <div>
-          <Navbar/>
-          <Routes>
-            <Route path="/" element={<Landing/>}/>
-            <Route path="/register" element={<UserRegister/>}/>
-            <Route path="/login" element={<Login/>}/>
-            <Route path="/adminlogin" element={<AdminLogin/>}/>
-            <Route path="/verification/:token"  element={<Verification/>}/>
-            <Route path="/forgetpassword" element={<ForgotPassword/>}/>
-            <Route path="/reset/:token" element={<ResetPassword/>}/>
-            <Route path="/product" element={<ProductLanding/>}/>
-            <Route path="*" element={<PageNotFound/>}/>
-          </Routes>
-          <Footer/>
-        </div>
-      }
-    </div>
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/adminlogin" element={<AdminLogin />} />
+        <Route path="/admin" element={<AdminLanding />} />
+        <Route path="*" element={<PageNotFound />} />
+
+
+        <Route path="/" element={<Landing />} />
+        <Route path="/register" element={<UserRegister />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/change" element={<ChangePassword />} />
+        <Route path="/product" element={<ProductLanding />} />
+        <Route path="/detail" element={<ProductDetailUser />} />
+
+
+        <Route path="/" element={<Landing />} />
+        <Route path="/register" element={<UserRegister />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/adminlogin" element={<AdminLogin />} />
+        <Route path="/verification/:token" element={<Verification />} />
+        <Route path="/forgetpassword" element={<ForgotPassword />} />
+        <Route path="/reset/:token" element={<ResetPassword />} />
+        <Route path="/product" element={<ProductLanding />} />
+        <Route path="*" element={<PageNotFound />} />
+      </Routes>
+      <Footer />
+    </>
+
   );
 }
 

@@ -4,7 +4,7 @@ const cors = require("cors");
 const { join } = require("path");
 const bearerToken = require('express-bearer-token');
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 5000;
 const app = express();
 // app.use(
 //   cors({
@@ -22,12 +22,14 @@ app.use(express.json());
 const userRouter = require('./routers/userRouter');
 const adminRoute = require('./routers/adminRouter');
 const productRouter = require('./routers/productRouter');
+const cartRouter = require('./routers/cartRouter')
 // ===========================
 // NOTE : Add your routes here
 
 app.use("/api/product", productRouter);
 app.use('/api/user', userRouter);
 app.use('/api/admin', adminRoute);
+app.use('/api/cart', cartRouter);
 
 
 app.get("/api", (req, res) => {
