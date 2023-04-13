@@ -71,7 +71,7 @@ module.exports = {
                 include: [{model: model.role, attributes: ['role']}]
             });
 
-            getAdmin[0].dataValues.role = getAdmin[0].dataValues.role.role;
+            // getAdmin[0].dataValues.role = getAdmin[0].dataValues.role.role;
             let { id, uuid, name, email, password, isSuper, roleId} = getAdmin[0].dataValues;
             // GENERATE TOKEN
             let token = createToken({uuid}, "24h");
