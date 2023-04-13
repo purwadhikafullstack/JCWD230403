@@ -32,7 +32,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { addProductToCart } from '../../Reducers/cartSlice';
 import CarouselProduct from '../../Components/CarouselProduct';
-
+import Header from '../../Components/Header'
 function ProductDetailUser() {
 
     // state function
@@ -155,30 +155,16 @@ function ProductDetailUser() {
 
     return (
         <>
+            {/* headers */}
+            <Box
+                my={8}
+            >
+                <Header />
+            </Box>
             <Box
                 width={'7xl'}
                 mx={'auto'}
             >
-                {/* headers */}
-                {/* <Flex
-                    as='headers'
-                    bgColor={'#F6F6F6'}
-                    my={8}
-                    justify={'center'}
-                    align={'center'}
-                    height={'10'}
-                >
-
-                    <Text
-                        color={'blackAlpha.700'}
-                        fontFamily={''}
-                        fontWeight={'bold'}
-                        fontSize={'16px'}
-                    >
-                        Category
-                    </Text>
-                </Flex> */}
-
                 {/* product detail */}
                 <Flex
                     flex={'5'}
@@ -273,7 +259,7 @@ function ProductDetailUser() {
                                         <Button
                                             variant="unstyled"
                                             {...minus}
-                                            // isDisabled={qty = 1}
+                                        // isDisabled={qty = 1}
                                         >
                                             <MinusIcon
                                                 color={qty > 1 ? "#0095DA" : "#c0cada"}
