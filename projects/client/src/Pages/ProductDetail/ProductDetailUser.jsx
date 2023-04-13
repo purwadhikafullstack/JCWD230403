@@ -111,7 +111,7 @@ function ProductDetailUser() {
             }
             const response = await axios.post("http://localhost:8000/api/cart/add", addToCart)
 
-            dispatch(addProductToCart(response.data))
+            dispatch(addProductToCart(response.data.data))
 
             toast({
                 title: "Added",
@@ -200,7 +200,7 @@ function ProductDetailUser() {
                         // w='95%'
                         >
                             <Box
-                            p={'3'}
+                                p={'3'}
                             >
                                 {/* image */}
                                 <Box
@@ -217,7 +217,7 @@ function ProductDetailUser() {
                         border={'2px'}
                         borderColor={'gray.100'}
                         ml={'4'}
-                        h='75%'
+                        h='72%'
                     >
                         <Stack>
 
@@ -270,10 +270,14 @@ function ProductDetailUser() {
                             <HStack alignSelf="center" maxW="320px">
                                 <InputGroup>
                                     <InputLeftElement>
-                                        <Button variant="unstyled">
+                                        <Button
+                                            variant="unstyled"
+                                            {...minus}
+                                            // isDisabled={qty = 1}
+                                        >
                                             <MinusIcon
-                                                {...minus}
                                                 color={qty > 1 ? "#0095DA" : "#c0cada"}
+                                                objectFit={'cover'}
                                             />
                                         </Button>
 
@@ -306,7 +310,7 @@ function ProductDetailUser() {
                                 bg="#6FA66F"
                                 size="md"
                                 w='90%'
-                                mt="8"
+                                mt="12"
                                 mx='auto'
                                 p="4"
                                 rounded='none'
@@ -380,10 +384,11 @@ function ProductDetailUser() {
                         </Text>
                     </Box>
                     <Box
-                        height={'40'}
+                        // height={'40'}
                         border={'2px'}
                         borderColor={'gray.100'}
                         p={'2'}
+                        mb={'4'}
                     >
                         <Box
                             bgColor={'#F6F6F6'}
@@ -392,7 +397,7 @@ function ProductDetailUser() {
                             h={'full'}
                             p={'12'}
                         >
-                            <CarouselProduct />
+                            {/* <CarouselProduct /> */}
                         </Box>
                     </Box>
                 </Box>
