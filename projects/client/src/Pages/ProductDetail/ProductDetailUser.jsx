@@ -32,7 +32,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { addProductToCart } from '../../Reducers/cartSlice';
 import CarouselProduct from '../../Components/CarouselProduct';
-
+import Header from '../../Components/Header'
 function ProductDetailUser() {
 
     // state function
@@ -111,7 +111,7 @@ function ProductDetailUser() {
             }
             const response = await axios.post("http://localhost:8000/api/cart/add", addToCart)
 
-            dispatch(addProductToCart(response.data))
+            dispatch(addProductToCart(response.data.data))
 
             toast({
                 title: "Added",
@@ -155,30 +155,16 @@ function ProductDetailUser() {
 
     return (
         <>
+            {/* headers */}
+            <Box
+                my={8}
+            >
+                <Header />
+            </Box>
             <Box
                 width={'7xl'}
                 mx={'auto'}
             >
-                {/* headers */}
-                {/* <Flex
-                    as='headers'
-                    bgColor={'#F6F6F6'}
-                    my={8}
-                    justify={'center'}
-                    align={'center'}
-                    height={'10'}
-                >
-
-                    <Text
-                        color={'blackAlpha.700'}
-                        fontFamily={''}
-                        fontWeight={'bold'}
-                        fontSize={'16px'}
-                    >
-                        Category
-                    </Text>
-                </Flex> */}
-
                 {/* product detail */}
                 <Flex
                     flex={'5'}
@@ -200,7 +186,7 @@ function ProductDetailUser() {
                         // w='95%'
                         >
                             <Box
-                            p={'3'}
+                                p={'3'}
                             >
                                 {/* image */}
                                 <Box
@@ -217,7 +203,7 @@ function ProductDetailUser() {
                         border={'2px'}
                         borderColor={'gray.100'}
                         ml={'4'}
-                        h='75%'
+                        h='72%'
                     >
                         <Stack>
 
@@ -270,10 +256,14 @@ function ProductDetailUser() {
                             <HStack alignSelf="center" maxW="320px">
                                 <InputGroup>
                                     <InputLeftElement>
-                                        <Button variant="unstyled">
+                                        <Button
+                                            variant="unstyled"
+                                            {...minus}
+                                        // isDisabled={qty = 1}
+                                        >
                                             <MinusIcon
-                                                {...minus}
                                                 color={qty > 1 ? "#0095DA" : "#c0cada"}
+                                                objectFit={'cover'}
                                             />
                                         </Button>
 
@@ -306,7 +296,7 @@ function ProductDetailUser() {
                                 bg="#6FA66F"
                                 size="md"
                                 w='90%'
-                                mt="8"
+                                mt="12"
                                 mx='auto'
                                 p="4"
                                 rounded='none'
@@ -380,10 +370,11 @@ function ProductDetailUser() {
                         </Text>
                     </Box>
                     <Box
-                        height={'40'}
+                        // height={'40'}
                         border={'2px'}
                         borderColor={'gray.100'}
                         p={'2'}
+                        mb={'4'}
                     >
                         <Box
                             bgColor={'#F6F6F6'}
@@ -392,7 +383,7 @@ function ProductDetailUser() {
                             h={'full'}
                             p={'12'}
                         >
-                            <CarouselProduct />
+                            {/* <CarouselProduct /> */}
                         </Box>
                     </Box>
                 </Box>
