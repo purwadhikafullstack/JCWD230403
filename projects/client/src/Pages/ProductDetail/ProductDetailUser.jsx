@@ -61,20 +61,28 @@ function ProductDetailUser() {
     // fetch product data
     const getProduct = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/product/${params.id}`)
+            const response = await axios.get(`http://localhost:8000/api/product/detail/${params.id}`)
+            console.log('ini hasil dari get response detail', response);
 
-            setProducts(response.data.data)
-            setProductId(response.data.id)
-            setProductImg(response.data.image)
+            setProducts(response.data.data[0])
+            console.log('ini dari response.data[0]', response.data.data[0])
+            // setProductId(response.data.data[0].id)
+            console.log("ini data dari response.data.id", response.data.data[0].id);
+            // setProductImg(response.data.data[0].image)
+            console.log('ini gambar dari response: ', response.data.data[0].image)
+            setProductStock(response.data.data[0].stockBranches[0].stock)
+            console.log('ini stock jmlh stock nya: ', response.data.data[0].stockBranches[0].stock)
 
-            const stockProduct = response.data.stockBranch.map((val) => {
-                return val.stock
-            })
-            let total = 0
-            for (let i = 0; i < stockProduct.length; i++) {
-                total += Number(stockProduct[i])
-            }
-            setProductStock(total);
+            // const stockProduct = response.data.data[0].stockBranches[0].map((val) => {
+            //     return val.stock
+            // })
+            // let total = 0
+            // for (let i = 0; i < stockProduct.length; i++) {
+            //     total += Number(stockProduct[i])
+            // }
+            // setProductStock(total);
+
+            // console.log('total stock', total)
 
         } catch (error) {
             console.log(error)
@@ -101,7 +109,7 @@ function ProductDetailUser() {
                 productId: productId,
                 quantity: qty,
             }
-            const response = await axios.post("http://localhost:5000/api/cart/add", addToCart)
+            const response = await axios.post("http://localhost:8000/api/cart/add", addToCart)
 
             dispatch(addProductToCart(response.data))
 
@@ -130,20 +138,20 @@ function ProductDetailUser() {
             minimumFractionDigits: 0,
         }).format(value);
     };
-    // validate user
+    // validate user 
     const validateUser = () => {
         if (!authSelector.id) {
-          onOpen()
+            onOpen()
         }
-      }
-      const navigateLogin = () => {
+    }
+    const navigateLogin = () => {
         onClose()
-      }
+    }
 
     // rendering 
     useEffect(() => {
         getProduct()
-    }, [qty, quantity, products])
+    }, [])
 
     return (
         <>
@@ -183,24 +191,26 @@ function ProductDetailUser() {
                         borderColor={'gray.100'}
                         boxShadow={'md'}
                     >
-                        <Stack>
+                        <Box
+                        // p={'4'}
+                        // m={'auto'}
+                        // h='75%'
+                        // // boxShadow={'lg'}
+                        // mt={'2'}
+                        // w='95%'
+                        >
                             <Box
-                                // p={'4'}
-                                // m={'auto'}
-                                // h='75%'
-                                // // boxShadow={'lg'}
-                                // mt={'2'}
-                                // w='95%'
+                            p={'3'}
                             >
                                 {/* image */}
-                                <Box>
-                                    <Image src='' alt='product image' />
+                                <Box
+                                    boxSize={'lg'}
+                                    objectFit={'cover'}
+                                >
+                                    <Image src={products?.image} alt='product image' />
                                 </Box>
                             </Box>
-                            <Box>
-                                {/* loop image column */}
-                            </Box>
-                        </Stack>
+                        </Box>
                     </Box>
                     <Box
                         flex={'3'}
@@ -219,8 +229,7 @@ function ProductDetailUser() {
                                 pl={'8'}
                                 color={'blackAlpha.800'}
                             >
-                                Product Name
-                                {products.name}
+                                {products?.name}
                             </Text>
                             {/* availablity (stock) */}
                             <Text
@@ -230,12 +239,12 @@ function ProductDetailUser() {
                                 Availablity in stock: {productStock}
                             </Text>
                             {/* Product Code */}
-                            <Text
+                            {/* <Text
                                 fontSize={'sm'}
                                 pl={'8'}
                             >
-                                Product Code:
-                            </Text>
+                                Product Code: 
+                            </Text> */}
                         </Stack>
                         {/* price */}
                         <Text
@@ -245,8 +254,7 @@ function ProductDetailUser() {
                             mt={'12'}
                             color={'blackAlpha.700'}
                         >
-                            {/* Rp.20.000 */}
-                            {rupiah(products.price)}
+                            {rupiah(products?.price)}
                         </Text>
                         {/* quantity decrement increment */}
                         <HStack
@@ -346,8 +354,8 @@ function ProductDetailUser() {
                             h={'full'}
                             p={'12'}
                         >
-                            {products.description}
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero aspernatur porro ducimus iste architecto expedita quis, nobis ab eligendi, modi, illum ut ipsum obcaecati optio. Doloremque voluptatem corrupti aperiam atque. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, reprehenderit itaque odit sit ea aspernatur, incidunt minus dolorum deserunt mollitia commodi quis quae distinctio cum unde vel placeat amet nihil.
+                            {products?.description}
+                            || Lorem ipsum dolor sit, amet consectetur adipisicing elit. Vero aspernatur porro ducimus iste architecto expedita quis, nobis ab eligendi, modi, illum ut ipsum obcaecati optio. Doloremque voluptatem corrupti aperiam atque. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eius, reprehenderit itaque odit sit ea aspernatur, incidunt minus dolorum deserunt mollitia commodi quis quae distinctio cum unde vel placeat amet nihil.
                         </Box>
                     </Box>
                 </Box>
@@ -384,7 +392,7 @@ function ProductDetailUser() {
                             h={'full'}
                             p={'12'}
                         >
-                            <CarouselProduct/>
+                            <CarouselProduct />
                         </Box>
                     </Box>
                 </Box>

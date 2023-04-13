@@ -2,8 +2,6 @@ const sequelize = require('sequelize');
 const model = require('../models');
 
 
-
-
 module.exports = {
     allProduct: async (req, res, next) => {
         try {
@@ -109,7 +107,7 @@ module.exports = {
                         ]
                     },
                 ],
-                attributes: ["name", "price", "image"],
+                attributes: ["name", "price", "image", "id"],
                 order: [[sortby, order]],
                 limit: parseInt(size),
                 offset: offset
@@ -157,7 +155,7 @@ module.exports = {
             next(error);
         }
     },
-    getDetailProduct: async (req, res) => {
+    getDetailProduct: async (req, res, next) => {
         try {
             // const userCordinate = await model.address.findOne({
             //     where: {
@@ -175,16 +173,20 @@ module.exports = {
             const getProductDetail = await model.product.findAll({
                 where: {
                     id: req.params.id,
+
                 },
+
                 include: [
                     {
                         model: model.stockBranch,
-                        where: {
-                            stock: stockQty
-                        }
+                        // where: {
+                        //     stock: stock
+                        // },
+                        attributes: ['stock']
                     }
                 ]
             })
+            console.log("ini data dari getProductDetail :", getProductDetail);
 
             res.status(200).send({
                 message: 'get product by id',

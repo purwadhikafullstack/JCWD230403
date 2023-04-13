@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       // products.hasOne(models.price);
       product.hasMany(models.stockBranch, {
         foreignKey:'product_id'});
-      product.belongsTo(models.stockBranch)
+      product.belongsTo(models.stockBranch, {foreignKey: 'stockBranchId'})
       product.hasMany(models.transaction_detail);
       product.hasMany(models.cart);
       product.belongsTo(models.categories, {foreignKey: 'category_id'})
@@ -25,7 +25,8 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     price: DataTypes.INTEGER,
     image: DataTypes.STRING,
-    description: DataTypes.STRING
+    description: DataTypes.STRING,
+    stockBranchId: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'product',

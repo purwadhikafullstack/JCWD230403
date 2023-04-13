@@ -84,35 +84,68 @@ function App() {
   // }, []);
 
   return (
-    <>
-      <Navbar />
-      <Routes>
-        <Route path="/adminlogin" element={<AdminLogin />} />
-        <Route path="/admin" element={<AdminLanding />} />
-        <Route path="*" element={<PageNotFound />} />
-
-
-        <Route path="/" element={<Landing />} />
-        <Route path="/register" element={<UserRegister />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/change" element={<ChangePassword />} />
-        <Route path="/product" element={<ProductLanding />} />
-        <Route path="/detail" element={<ProductDetailUser />} />
-
-
-        <Route path="/" element={<Landing />} />
-        <Route path="/register" element={<UserRegister />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/adminlogin" element={<AdminLogin />} />
-        <Route path="/verification/:token" element={<Verification />} />
-        <Route path="/forgetpassword" element={<ForgotPassword />} />
-        <Route path="/reset/:token" element={<ResetPassword />} />
-        <Route path="/product" element={<ProductLanding />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-      <Footer />
-    </>
-
+    <div className="App">
+      {
+        adminRoleId === 1 || adminRoleId === 2 ? 
+        (<div>
+          <Navbar/>
+          {/* <Flex
+            h={{base: null, sm: null, md:'100vh'}}
+            flexDir={{base:'column', sm:'column', md:'row'}}
+            overflow='hidden'
+            maxW='100%'
+          > */}
+            {/* <Sidebar/> */}
+            <Routes>
+              <Route path="/adminlogin" element={<AdminLogin/>}/>
+              <Route path="/admin" element={<AdminLanding/>}/>
+              {/* <Route path="/admindashboard" element={<AdminDasboard/>}/> */}
+              {/* {
+                adminRoleId === 1 ? 
+                <Route path="/usermanagement" element={<UserManagement/>}/>
+                :
+                <Route path="*" element={<PageNotFound/>}/>
+              } */}
+              {/* <Route path="/productmanagement" element={<ProductManagement/>}/> */}
+              {/* <Route path="/report" element={<Report/>}/> */}
+              <Route path="*" element={<PageNotFound/>}/>
+            </Routes>
+          {/* </Flex> */}
+          <Footer/>
+        </div>)
+        : userRoleId === 3 ?
+        (<div>
+            <Navbar/>
+            <Routes>
+              <Route path="/" element={<Landing/>}/>
+              <Route path="/register" element={<UserRegister/>}/>
+              <Route path="/login" element={<Login/>}/>
+              <Route path="/change" element={<ChangePassword/>}/>
+              <Route path="/product" element={<ProductLanding/>} />
+              <Route path="/detail/:id" element={<ProductDetailUser/>} />
+              <Route path="*" element={<PageNotFound/>}/>
+            </Routes>
+            <Footer/>
+          </div>)
+        :
+        <div>
+          <Navbar/>
+          <Routes>
+            <Route path="/" element={<Landing/>}/>
+            <Route path="/register" element={<UserRegister/>}/>
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/adminlogin" element={<AdminLogin/>}/>
+            <Route path="/verification/:token" element={<Verification/>}/>
+              <Route path="/forgetpassword" element={<ForgotPassword/>}/>
+              <Route path="/reset/:token" element={<ResetPassword/>}/>
+              <Route path="/product" element={<ProductLanding/>} />
+              <Route path="/detail/:id" element={<ProductDetailUser/>} />
+            <Route path="*" element={<PageNotFound/>}/>
+          </Routes>
+          <Footer/>
+        </div>
+      }
+    </div>
   );
 }
 

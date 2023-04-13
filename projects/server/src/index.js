@@ -4,7 +4,7 @@ const cors = require("cors");
 const { join } = require("path");
 const bearerToken = require('express-bearer-token');
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8000;
 const app = express();
 // app.use(
 //   cors({
