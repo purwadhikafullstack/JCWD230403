@@ -22,6 +22,7 @@ import ResetPassword from "./Pages/ResetPassword";
 import ChangePassword from "./Pages/ChangePassword";
 import ProductLanding from "./Pages/ProductLanding";
 import ProductDetailUser from "./Pages/ProductDetail/ProductDetailUser";
+import CartPage from "./Pages/CartPage/CartPage";
 
 
 function App() {
@@ -123,6 +124,7 @@ function App() {
               <Route path="/change" element={<ChangePassword/>}/>
               <Route path="/product" element={<ProductLanding/>} />
               <Route path="/detail/:id" element={<ProductDetailUser/>} />
+              <Route path="/cart/me" element={<CartPage/>} />
               <Route path="*" element={<PageNotFound/>}/>
             </Routes>
             <Footer/>
@@ -140,6 +142,7 @@ function App() {
               <Route path="/reset/:token" element={<ResetPassword/>}/>
               <Route path="/product" element={<ProductLanding/>} />
               <Route path="/detail/:id" element={<ProductDetailUser/>} />
+              <Route path="/cart/me" element={<CartPage/>} />
             <Route path="*" element={<PageNotFound/>}/>
           </Routes>
           <Footer/>

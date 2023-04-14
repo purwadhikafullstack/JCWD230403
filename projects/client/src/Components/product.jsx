@@ -18,7 +18,7 @@ function Products({name, productimage, price, productId, stock}) {
     //         console.log(error);
     //     }
     // }
-
+ 
   return (
 
     <Card cursor="pointer" maxW={'3xl'} variant={'outline'} minW={{ base: '40%', sm: '40%', md: '30%', lg: '32%' }} bgColor='white' borderRadius={{ base: 'xl', md: '3xl' }} my={{ base: '2', md: '4' }} mx={{ base: '0', lg: '1' }}

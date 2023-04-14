@@ -35,6 +35,9 @@ import CarouselProduct from '../../Components/CarouselProduct';
 import Header from '../../Components/Header'
 function ProductDetailUser() {
 
+    // Token
+    let token = localStorage.getItem('grocery_login')
+
     // state function
     const [products, setProducts] = useState([]);
     const [productId, setProductId] = useState([]);
@@ -106,10 +109,15 @@ function ProductDetailUser() {
     const addToCart = async () => {
         try {
             let addToCart = {
-                productId: productId,
+                productId: products?.id,
                 quantity: qty,
             }
-            const response = await axios.post("http://localhost:8000/api/cart/add", addToCart)
+            const response = await axios.post("http://localhost:8000/api/cart/add", addToCart, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            console.log("ini dari response add to cart", response)
 
             dispatch(addProductToCart(response.data.data))
 
@@ -119,6 +127,7 @@ function ProductDetailUser() {
                 duration: 1000,
             })
 
+            getProduct()
         } catch (err) {
             console.log(err)
             toast({
