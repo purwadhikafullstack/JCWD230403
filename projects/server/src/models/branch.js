@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       branch.hasMany(models.transaction);
       branch.hasMany(models.historyStockProduct);
       branch.belongsTo(models.product)
+      branch.hasMany(models.user, {foreignKey: 'branchId'});
 
     }
   }

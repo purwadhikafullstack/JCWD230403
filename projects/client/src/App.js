@@ -21,6 +21,12 @@ import ForgotPassword from "./Pages/ForgotPassword";
 import ResetPassword from "./Pages/ResetPassword";
 import ChangePassword from "./Pages/ChangePassword";
 import ProductLanding from "./Pages/ProductLanding";
+import { Flex } from "@chakra-ui/react";
+import Sidebar from "./Components/Sidebar";
+import UserManagement from "./Pages/UserManagement";
+import ProductManagement from "./Pages/ProductManagement";
+import Transaction from "./Pages/Transaction";
+import Report from "./Pages/Report";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -87,11 +93,28 @@ function App() {
         roleId == 1 || roleId == 2 ? 
         (<div>
           <Navbar/>
-          <Routes>
-            <Route path="/adminlogin" element={<AdminLogin/>}/>
-            <Route path="/admin" element={<AdminLanding/>}/>
-            <Route path="*" element={<PageNotFound/>}/>
-          </Routes>
+          <Flex
+            h={{base: null, sm: null, md:'100vh'}}
+            flexDir={{base:'column', sm:'column', md:'row'}}
+            overflow='hidden'
+            maxW='100%'
+          >
+            <Sidebar/>
+            <Routes>
+              <Route path="/adminlogin" element={<AdminLogin/>}/>
+              <Route path="/admin" element={<AdminLanding/>}/>
+              {
+                roleId === 1 ? 
+                <Route path="/usermanagement" element={<UserManagement/>}/>
+                :
+                <Route path="*" element={<PageNotFound/>}/>
+              }
+              <Route path="/productmanagement" element={<ProductManagement/>}/>
+              <Route path="/transaction" element={<Transaction/>}/>
+              <Route path="/report" element={<Report/>}/>
+              <Route path="*" element={<PageNotFound/>}/>
+            </Routes>
+          </Flex>
           <Footer/>
         </div>)
         : roleId == 3 ?
