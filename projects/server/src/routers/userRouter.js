@@ -1,5 +1,5 @@
 const route = require('express').Router();
-const { register, login, keepLogin, verify, forget, reset, change } = require('../controllers/userController');
+const { register, login, keepLogin, verify, forget, reset, change } = require('../Controllers/userController');
 const {readToken} = require('../helper/jwt');
 const {checkUser} = require('../helper/validator');
 

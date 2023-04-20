@@ -21,6 +21,12 @@ import ForgotPassword from "./Pages/ForgotPassword";
 import ResetPassword from "./Pages/ResetPassword";
 import ChangePassword from "./Pages/ChangePassword";
 import ProductLanding from "./Pages/ProductLanding";
+import { Flex } from "@chakra-ui/react";
+import Sidebar from "./Components/Sidebar";
+import UserManagement from "./Pages/UserManagement";
+import ProductManagement from "./Pages/ProductManagement";
+import Transaction from "./Pages/Transaction";
+import Report from "./Pages/Report";
 import ProductDetailUser from "./Pages/ProductDetail/ProductDetailUser";
 
 
@@ -84,35 +90,66 @@ function App() {
   // }, []);
 
   return (
-    <>
-      <Navbar />
-      <Routes>
-        <Route path="/adminlogin" element={<AdminLogin />} />
-        <Route path="/admin" element={<AdminLanding />} />
-        <Route path="*" element={<PageNotFound />} />
-
-
-        <Route path="/" element={<Landing />} />
-        <Route path="/register" element={<UserRegister />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/change" element={<ChangePassword />} />
-        <Route path="/product" element={<ProductLanding />} />
-        <Route path="/detail" element={<ProductDetailUser />} />
-
-
-        <Route path="/" element={<Landing />} />
-        <Route path="/register" element={<UserRegister />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/adminlogin" element={<AdminLogin />} />
-        <Route path="/verification/:token" element={<Verification />} />
-        <Route path="/forgetpassword" element={<ForgotPassword />} />
-        <Route path="/reset/:token" element={<ResetPassword />} />
-        <Route path="/product" element={<ProductLanding />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-      <Footer />
-    </>
-
+    <div className="App">
+      {
+        roleId == 1 || roleId == 2 ? 
+        (<div>
+          <Navbar/>
+          <Flex
+            h={{base: null, sm: null, md:'100vh'}}
+            flexDir={{base:'column', sm:'column', md:'row'}}
+            overflow='hidden'
+            maxW='100%'
+          >
+            <Sidebar/>
+            <Routes>
+              <Route path="/adminlogin" element={<AdminLogin/>}/>
+              <Route path="/admin" element={<AdminLanding/>}/>
+              {
+                roleId === 1 ? 
+                <Route path="/usermanagement" element={<UserManagement/>}/>
+                :
+                <Route path="*" element={<PageNotFound/>}/>
+              }
+              <Route path="/productmanagement" element={<ProductManagement/>}/>
+              <Route path="/transaction" element={<Transaction/>}/>
+              <Route path="/report" element={<Report/>}/>
+              <Route path="*" element={<PageNotFound/>}/>
+            </Routes>
+          </Flex>
+          <Footer/>
+        </div>)
+        : roleId == 3 ?
+        (<div>
+            <Navbar/>
+            <Routes>
+              <Route path="/" element={<Landing/>}/>
+              <Route path="/register" element={<UserRegister/>}/>
+              <Route path="/login" element={<Login/>}/>
+              <Route path="/change" element={<ChangePassword/>}/>
+              <Route path="/product" element={<ProductLanding/>}/>
+              <Route path="*" element={<PageNotFound/>}/>
+            </Routes>
+            <Footer/>
+          </div>)
+        :
+        <div>
+          <Navbar/>
+          <Routes>
+            <Route path="/" element={<Landing/>}/>
+            <Route path="/register" element={<UserRegister/>}/>
+            <Route path="/login" element={<Login/>}/>
+            <Route path="/adminlogin" element={<AdminLogin/>}/>
+            <Route path="/verification/:token"  element={<Verification/>}/>
+            <Route path="/forgetpassword" element={<ForgotPassword/>}/>
+            <Route path="/reset/:token" element={<ResetPassword/>}/>
+            <Route path="/product" element={<ProductLanding/>}/>
+            <Route path="*" element={<PageNotFound/>}/>
+          </Routes>
+          <Footer/>
+        </div>
+      }
+    </div>
   );
 }
 
