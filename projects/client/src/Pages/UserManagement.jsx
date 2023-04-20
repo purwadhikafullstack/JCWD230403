@@ -285,42 +285,7 @@ function UserManagement() {
         onClose: onCloseEdit 
         } = useDisclosure();
     const [uuid, setUuid] = useState('');
-    const [newValue, setNewValue] = useState('')
-
-    // const onOpenEditBtn = async (values) => {
-    //     try {
-    //         const {name, email, phone, password, roleId, branchId} = values
-            
-    //         const editAdmin = {
-    //         name: name,
-    //         email: email,
-    //         phone:phone,
-    //         password:password,
-    //         roleId:roleId,
-    //         branchId: branchId
-    //     }
-    //     let response = await axios.patch(`${API_URL}/admin/adminedit/${uuid}`, {
-    //         editAdmin
-    //     }, {
-    //         headers: {
-    //             Authorization: `Bearer ${token}`
-    //         }
-    //     })
-        
-    //     setNewValue(response((value) => value))
-
-    //     if (response.data.success) {
-    //         alert('Admin Change Success ✅');
-    //         onCloseEdit();
-    //         getAdminList();
-    //     } else {
-    //         alert('Admin change failed ❌');
-    //     }
-    // } catch (error) {
-    //     console.log(error)
-    // }
-    // }
-
+    
     const onOpenEditBtn = (
         uuid,
         name,
