@@ -1,18 +1,29 @@
 import React from 'react';
 import { 
-    Container,
-    Box,
-    Link,
-    Flex,
-    Text,
-    FormControl,
-    FormLabel,
-    Input,
-    InputGroup,
-    Button,
-    Card,
-    CardBody
- } from '@chakra-ui/react';
+  Flex,
+  Heading,
+  Avatar,
+  AvatarGroup,
+  Text,
+  Icon,
+  IconButton,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  Divider,
+  Link,
+  Box,
+  Button,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Grid, 
+  GridItem
+} from '@chakra-ui/react';
+import { useDispatch, useSelector } from 'react-redux';
 import {BsPersonVcard, BsFillBoxSeamFill} from 'react-icons/bs';
 import {MdDiscount} from 'react-icons/md';
 import {BiTransfer} from 'react-icons/bi';
@@ -20,49 +31,20 @@ import {HiOutlinePresentationChartLine} from 'react-icons/hi';
 
 
 function AdminLanding() {
+  const name = useSelector((state) => state.authAdminReducer.name);
     return ( 
-        <Card pt='2' pb={{base:'36',lg:'10'}}>
-          <CardBody bgGradient='linear(to-b, green.500, green.400)' mt={'4'}>
-            <Flex alignItems={'center'} justifyContent='start' ml={{base:'9', lg:'20'}} gap={'7'}>
-                <Box color='white' fontSize={'2xl'}>
-                    <BsPersonVcard/>
-                </Box>
-            <Link textDecoration={'none'} _hover={{ textDecoration: "none" }} fontSize={{base:'xl', md:'xl', lg:'xl'}} fontWeight='semibold' color={'white'}>Account Management</Link>
-            </Flex>
-          </CardBody>
-          <CardBody bgGradient='linear(to-b, green.500, green.400)' mt={'4'}>
-            <Flex alignItems={'center'} justifyContent='start' ml={{base:'9', lg:'20'}} gap={'7'}>
-                <Box color='white' fontSize={'2xl'}>
-                    <BsFillBoxSeamFill/>
-                </Box>
-            <Link textDecoration={'none'} _hover={{ textDecoration: "none" }} fontSize={{base:'xl', md:'xl', lg:'xl'}} fontWeight='semibold' color={'white'}>Product Management</Link>
-            </Flex>
-          </CardBody>
-          <CardBody bgGradient='linear(to-b, green.500, green.400)' mt={'4'}>
-            <Flex alignItems={'center'} justifyContent='start' ml={{base:'9', lg:'20'}} gap={'7'}>
-                <Box color='white' fontSize={'2xl'}>
-                    <MdDiscount/>
-                </Box>
-            <Link textDecoration={'none'} _hover={{ textDecoration: "none" }} fontSize={{base:'xl', md:'xl', lg:'xl'}} fontWeight='semibold' color={'white'}>Discount</Link>
-            </Flex>
-          </CardBody>
-          <CardBody bgGradient='linear(to-b, green.500, green.400)' mt={'4'}>
-            <Flex alignItems={'center'} justifyContent='start' ml={{base:'9', lg:'20'}} gap={'7'}>
-                <Box color='white' fontSize={'2xl'}>
-                    <BiTransfer/>
-                </Box>
-            <Link textDecoration={'none'} _hover={{ textDecoration: "none" }} fontSize={{base:'xl', md:'xl', lg:'xl'}} fontWeight='semibold' color={'white'}>Transaction</Link>
-            </Flex>
-          </CardBody>
-          <CardBody bgGradient='linear(to-b, green.500, green.400)' mt={'4'}>
-            <Flex alignItems={'center'} justifyContent='start' ml={{base:'9', lg:'20'}} gap={'7'}>
-                <Box color='white' fontSize={'2xl'}>
-                    <HiOutlinePresentationChartLine/>
-                </Box>
-            <Link textDecoration={'none'} _hover={{ textDecoration: "none" }} fontSize={{base:'xl', md:'xl', lg:'xl'}} fontWeight='semibold' color={'white'}>Report</Link>
-            </Flex>
-          </CardBody>
-        </Card>
+      <Flex
+        w={{base:'100%', sm:'100%', md:'90%', lg:'90%', xl:'85%'}}
+        pt={{base:'4%', sm:'4%', md:'3%', lg:'2.5%'}}
+        pl={{base:'4', sm:'4', md:'6', lg:'8'}}
+        flexDir='column'
+        overflow='auto'
+        minH='100vh'
+        alignItems= 'start'
+      >
+        <Heading fontSize='xl' letterSpacing={'tight'} fontWeight={'normal'}>Welcome, <Flex display={'inline-flex'} fontWeight={'bold'}>{name}</Flex></Heading>
+        
+      </Flex>
      );
 }
 
