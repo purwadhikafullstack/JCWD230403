@@ -27,6 +27,8 @@ import UserManagement from "./Pages/UserManagement";
 import ProductManagement from "./Pages/ProductManagement";
 import Transaction from "./Pages/Transaction";
 import Report from "./Pages/Report";
+import ProductDetailUser from "./Pages/ProductDetail/ProductDetailUser";
+
 
 function App() {
   const [message, setMessage] = useState("");
