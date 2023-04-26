@@ -82,12 +82,13 @@ function CartPage() {
                             </Text>
                             {/* )} */}
                         </Flex>
-                        <Divider backgroundColor="#F3F4F5" border="5px" />
+                        <Divider backgroundColor="#F6F6F6" border="5px" />
 
                         <Stack spacing="6">
                             {/* {!cartSelector.cart.length ? ( */}
                             <Alert
-                                status="error"
+                                // status="error"
+                                bgColor={'#F6F6F6'}
                                 variant="subtle"
                                 flexDir="column"
                                 alignItems="center"
