@@ -27,7 +27,9 @@ import UserManagement from "./Pages/UserManagement";
 import ProductManagement from "./Pages/ProductManagement";
 import Transaction from "./Pages/Transaction";
 import Report from "./Pages/Report";
+import ProductDetailUser from "./Pages/ProductDetail/ProductDetailUser";
 import CategoryManagement from "./Pages/CategoryManagement";
+
 
 function App() {
   const [message, setMessage] = useState("");
@@ -91,7 +93,7 @@ function App() {
   return (
     <div className="App">
       {
-        roleId == 1 || roleId == 2 ? 
+        adminRoleId === 1 || adminRoleId === 2 ? 
         (<div>
           <Navbar/>
           <Flex
@@ -105,7 +107,7 @@ function App() {
               <Route path="/adminlogin" element={<AdminLogin/>}/>
               <Route path="/admin" element={<AdminLanding/>}/>
               {
-                roleId === 1 ? 
+                adminRoleId === 1 ? 
                 <Route path="/usermanagement" element={<UserManagement/>}/>
                 :
                 <Route path="*" element={<PageNotFound/>}/>
@@ -119,7 +121,7 @@ function App() {
           </Flex>
           <Footer/>
         </div>)
-        : roleId == 3 ?
+        : userRoleId === 3 ?
         (<div>
             <Navbar/>
             <Routes>
@@ -127,7 +129,8 @@ function App() {
               <Route path="/register" element={<UserRegister/>}/>
               <Route path="/login" element={<Login/>}/>
               <Route path="/change" element={<ChangePassword/>}/>
-              <Route path="/product" element={<ProductLanding/>}/>
+              <Route path="/product" element={<ProductLanding/>} />
+              <Route path="/detail/:id" element={<ProductDetailUser/>} />
               <Route path="*" element={<PageNotFound/>}/>
             </Routes>
             <Footer/>
@@ -140,10 +143,11 @@ function App() {
             <Route path="/register" element={<UserRegister/>}/>
             <Route path="/login" element={<Login/>}/>
             <Route path="/adminlogin" element={<AdminLogin/>}/>
-            <Route path="/verification/:token"  element={<Verification/>}/>
-            <Route path="/forgetpassword" element={<ForgotPassword/>}/>
-            <Route path="/reset/:token" element={<ResetPassword/>}/>
-            <Route path="/product" element={<ProductLanding/>}/>
+            <Route path="/verification/:token" element={<Verification/>}/>
+              <Route path="/forgetpassword" element={<ForgotPassword/>}/>
+              <Route path="/reset/:token" element={<ResetPassword/>}/>
+              <Route path="/product" element={<ProductLanding/>} />
+              <Route path="/detail/:id" element={<ProductDetailUser/>} />
             <Route path="*" element={<PageNotFound/>}/>
           </Routes>
           <Footer/>

@@ -107,13 +107,15 @@ module.exports = {
                     if (check) {
                         let {id, uuid, name, email, password, isVerified, roleId} = getUser[0].dataValues;
                         // GENERATE TOKEN
-                        let token = createToken({uuid}, "24h");
+                        let token = createToken({id, uuid, isVerified, roleId}, "24h");
                         res.status(200).send({
                             success: true,
                             message: "Login Success ✅",
+                            id: id,
+                            uuid: uuid,
                             name: name,
                             email: email,
-                            password: password,
+                            // password: password,
                             isVerified: isVerified,
                             roleId: roleId,
                             token: token
@@ -154,13 +156,15 @@ module.exports = {
             getUser[0].dataValues.role = getUser[0].dataValues.role.role;
             let { id, uuid, name, email, password, isVerified, roleId} = getUser[0].dataValues;
             // GENERATE TOKEN
-            let token = createToken({uuid}, "24h");
+            let token = createToken({id, uuid, roleId, isVerified}, "24h");
             return res.status(200).send({
                 success: true,
                 message: "keep login ✅",
+                id: id,
+                uuid: uuid,
                 name: name,
                 email: email,
-                password: password,
+                // password: password,
                 isVerified: isVerified,
                 roleId: roleId,
                 token: token
