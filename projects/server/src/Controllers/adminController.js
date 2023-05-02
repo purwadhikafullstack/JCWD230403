@@ -101,11 +101,50 @@ module.exports = {
     // Admin List
     adminList: async (req, res, next) => {
         try {
-            let getAdmin = await model.user.findAll({
+            let {
+                page,
+                size,
+                sortby,
+                order,
+                name
+            } = req.query
+            
+            if (!page) {
+                page = 0;
+            }
+            if (!size) {
+                size = 10;
+            }
+            if (!sortby) {
+                sortby = 'name';
+            }
+            if (!order) {
+                order = 'ASC'
+            }
+            if (!name) {
+                name = '';
+            }
+
+            let offset = parseInt(page * size);
+            if (name) {
+                offset = 0;
+            }
+
+            const dataSortby = () => {
+                if (sortby === 'name') {
+                    return ['name', order]
+                } else if (sortby === 'role') {
+                    return [[{model: model.role, attributes: ['role']}, 'role', order]]
+                } else if (sortby === 'branchname') {
+                    return [[{model: model.branch, attributes: ['name']}, 'name', order]]
+                }
+            }
+
+            let getAdmin = await model.user.findAndCountAll({
                 attributes: ['uuid', 'name', 'email', 'phone', 'roleId', 'branchId', 'isDeleted'],
                 where:{
                     roleId: {[sequelize.Op.in]: [1, 2]},
-                    // isDeleted: false
+                    name: {[sequelize.Op.like]: `%${name}%`}
                 },
                 include: [{
                     model: model.role,
@@ -113,11 +152,20 @@ module.exports = {
                 },
                 {
                     model: model.branch,
-                    attributes: ['name']
-                }]
+                    attributes: [['name', 'branchname']]
+                }],
+                order: [dataSortby()],
+                offset: offset,
+                limit: parseInt(size)
             })
             console.log("ini data dari getAdmin", getAdmin);
-            res.status(200).send(getAdmin)
+            res.status(200).send({
+                success: true,
+                datanum: getAdmin.count,
+                limit: parseInt(size),
+                totalPage: Math.ceil(getAdmin.count / size),
+                data: getAdmin.rows
+            })
         } catch (error) {
             console.log(error);
             next(error);

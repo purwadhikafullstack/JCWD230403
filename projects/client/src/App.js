@@ -28,6 +28,7 @@ import ProductManagement from "./Pages/ProductManagement";
 import Transaction from "./Pages/Transaction";
 import Report from "./Pages/Report";
 import ProductDetailUser from "./Pages/ProductDetail/ProductDetailUser";
+import CategoryManagement from "./Pages/CategoryManagement";
 
 
 function App() {
@@ -111,6 +112,7 @@ function App() {
                 :
                 <Route path="*" element={<PageNotFound/>}/>
               }
+              <Route path="/categorymanagement" element={<CategoryManagement/>} />
               <Route path="/productmanagement" element={<ProductManagement/>}/>
               <Route path="/transaction" element={<Transaction/>}/>
               <Route path="/report" element={<Report/>}/>
