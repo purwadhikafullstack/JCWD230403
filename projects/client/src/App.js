@@ -27,6 +27,7 @@ import UserManagement from "./Pages/UserManagement";
 import ProductManagement from "./Pages/ProductManagement";
 import Transaction from "./Pages/Transaction";
 import Report from "./Pages/Report";
+import CategoryManagement from "./Pages/CategoryManagement";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -109,6 +110,7 @@ function App() {
                 :
                 <Route path="*" element={<PageNotFound/>}/>
               }
+              <Route path="/categorymanagement" element={<CategoryManagement/>} />
               <Route path="/productmanagement" element={<ProductManagement/>}/>
               <Route path="/transaction" element={<Transaction/>}/>
               <Route path="/report" element={<Report/>}/>

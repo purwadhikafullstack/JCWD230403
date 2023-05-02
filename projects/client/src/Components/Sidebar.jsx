@@ -36,7 +36,7 @@ import {
 } from 'react-icons/fi';
 import {BsPersonVcard, BsFillBoxSeamFill} from 'react-icons/bs';
 import {HiOutlinePresentationChartLine} from 'react-icons/hi';
-import {BiTransfer} from 'react-icons/bi';
+import {BiTransfer, BiCategoryAlt} from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
 
 function Sidebar() {
@@ -79,6 +79,14 @@ function Sidebar() {
                 </Link>
                 <Link _hover={{textDecoration:'none'}} display={{base:'flex', sm:'flex', md:'none', lg:'flex'}}>
                   <Text className='active' onClick={() => navigate('/usermanagement')}>Employee</Text>
+                </Link>
+              </Flex>
+              <Flex className='sidebar-items' justifyContent={'center'}>
+                <Link display={{base:'center', sm:'center', md:'flex-start', lg:'flex-start'}}>
+                  <Icon display={{base:'none', sm:'none', md:'flex', lg:'flex'}} as={BiCategoryAlt} fontSize={'2xl'} className='active-icon' onClick={() => navigate('/categorymanagement')}/>
+                </Link>
+                <Link _hover={{textDecoration:'none'}} display={{base:'flex', sm:'flex', md:'none', lg:'flex'}}>
+                  <Text className='active' onClick={() => navigate('/categorymanagement')} >Category</Text>
                 </Link>
               </Flex>
               <Flex className='sidebar-items' justifyContent={'center'}>

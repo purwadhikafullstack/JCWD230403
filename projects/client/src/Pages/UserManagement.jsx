@@ -26,29 +26,47 @@ import {
     Select,
     Flex,
     Switch,
-    useToast
+    useToast,
+    Icon,
+    Text,
+    useBreakpointValue,
+    Accordion,
+    AccordionButton,
+    AccordionIcon,
+    AccordionItem,
+    AccordionPanel
   } from '@chakra-ui/react';
 import axios from 'axios';
 import { API_URL, checkName, checkEmail, checkPhone, checkPassword } from '../helper';
 import { BsPersonFillAdd } from 'react-icons/bs';
 import { FaRegEdit } from 'react-icons/fa';
 import { AiOutlineUnlock } from 'react-icons/ai';
+import {IoIosArrowDropup, IoIosArrowDropdown} from 'react-icons/io';
+import Pagination from '../Components/Pagination';
 
 function UserManagement() {
     let token = localStorage.getItem('grocery_login');
     const toast = useToast();
 
     ///// ADMIN LIST /////
+    const [page, setPage] = useState(0);
+    const [size] = useState(10);
+    const [sortby, setSortby] = useState('name');
+    const [order, setOrder] = useState('ASC');
+    const [filterName, setFilterName] = useState('');
+    const [totalData, setTotalData] = useState(0);
     const [adminList, setAdminList] = useState([]);
     const getAdminList = async () => {
         try {
-            let response = await axios.get(`${API_URL}/admin/adminlist`, {
+            let response = await axios.get(`${API_URL}/admin/adminlist?page=${page}&size=${size}&sortby=${sortby}&order=${order}&name=${filterName}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             })
-            setAdminList(response.data)
-            console.log("Data dari setAdmin", response.data);
+            setAdminList(response.data.data)
+            console.log("Data dari setAdmin", response.data.data);
+            setTotalData(response.data.datanum);
+            console.log('Ini Jumlah Admin :', response.data.datanum);
         } catch (error) {
             console.log(error);
         }
@@ -56,24 +74,115 @@ function UserManagement() {
 
     React.useEffect(() => {
         getAdminList()
-    }, [])
+    }, [page, size, sortby, order, filterName])
+
+    const isMobile = useBreakpointValue({base: true, sm: true, md: false})
 
     const printAdmin = () => {
-        
         return adminList.map((val,idx) => {
-            return (
+            if(isMobile){
+                return(
+                <Accordion allowMultiple key={val.uuid}>
+                  <AccordionItem px={'1'} style={{ overflowY: 'auto', maxHeight: '150px' }}>
+                    <AccordionButton>
+                      <Box flex="1" textAlign="left">
+                        <Text fontSize="lg">
+                          <span style={{ marginRight: '10px', display: 'inline-block', textAlign: 'center', minWidth: '20px' }}>{idx + 1}.</span>
+                          {val.name}
+                        </Text>
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                    <AccordionPanel pb={4}>
+                      <Box w="100%" mb="4">
+                        <Text fontWeight="bold">Email:</Text>
+                        <Text>{val.email}</Text>
+                      </Box>
+                      <Box w="100%" mb="4">
+                        <Text fontWeight="bold">Phone:</Text>
+                        <Text>{val.phone}</Text>
+                      </Box>
+                      <Box w="100%" mb="4">
+                        <Text fontWeight="bold">Role:</Text>
+                        <Text>{val.role?.role}</Text>
+                      </Box>
+                      <Box w="100%" mb="4">
+                        <Text fontWeight="bold">Branch:</Text>
+                        <Text>{val.branch?.branchname}</Text>
+                      </Box>
+                      <Flex alignItems="center" justifyContent="space-evenly" gap="2" w="100%">
+                        <Switch
+                          colorScheme="red"
+                          isChecked={val.isDeleted}
+                          onChange={() => {
+                            onBtnDelete(val.uuid, !val.isDeleted);
+                          }}
+                        />
+                        <Box
+                          bg={val.isDeleted ? 'red.500' : 'green.500'}
+                          color="white"
+                          p="1"
+                          borderRadius="md"
+                          textAlign="center"
+                        >
+                          {val.isDeleted ? 'inactive' : 'active'}
+                        </Box>
+                      </Flex>
+                      <ButtonGroup alignItems="Center" spacing="0.5" mt="4">
+                        <Button
+                          onClick={() => {
+                            onOpenEditBtn(val.uuid, val.name, val.email, val.phone, val.roleId, val.branchId);
+                          }}
+                          leftIcon={<FaRegEdit />}
+                          colorScheme="blue"
+                          variant="ghost"
+                          p="2"
+                          size="xs"
+                          letterSpacing="tight"
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          leftIcon={<AiOutlineUnlock />}
+                          color="gray"
+                          variant="ghost"
+                          size="xs"
+                          p="2"
+                          letterSpacing="tight"
+                          onClick={() => {
+                            onOpenResetBtn(val.uuid, val.password);
+                          }}
+                        >
+                          Reset Password
+                        </Button>
+                      </ButtonGroup>
+                    </AccordionPanel>
+                  </AccordionItem>
+                </Accordion>
+                )
+            } else {
+                return (
                 <Tr key={val.uuid}>
-                    <Td>{idx + 1}</Td>
-                    <Td>{val.name}</Td>
+                    <Td>
+                        <Box w={'50%'}>
+                            {idx + 1}
+                        </Box>
+                    </Td>
+                    <Td>
+                        <Box w={'50%'}>
+                            {val.name}
+                        </Box>
+                    </Td>
                     <Td>{val.email}</Td>
                     <Td>{val.phone}</Td>
                     <Td>{val.role?.role}</Td>
-                    <Td>{val.branch?.name}</Td>
+                    <Td>{val.branch?.branchname}</Td> 
                     <Td>
                         <Flex 
                             alignItems={'center'} 
                             justifyContent={'space-between'}
                             gap={'2'}
+                            w={'100%'}
                         >
                         <Switch 
                             colorScheme='red'
@@ -137,8 +246,29 @@ function UserManagement() {
                         </ButtonGroup>
                     </Td>
                 </Tr>
-            )
+                )
+            }
         })
+    }
+
+    const paginate = pageNumber => {
+        setPage(pageNumber)
+    }
+
+    ////////// ADMIN SORTING BY NAME, ROLE, BRANCH //////////
+    const handleSort = (sortbyData) => {
+        if (sortby === sortbyData) {
+            setOrder(order === 'ASC' ? 'DESC' : 'ASC');
+        } else if (sortby === 'role') {
+            setSortby(sortbyData);
+            setOrder(order === 'ASC' ? 'DESC' : 'ASC');
+        } else if (sortby === 'branchname') {
+            setSortby(sortbyData);
+            setOrder(order === 'ASC' ? 'DESC' : 'ASC');
+        } else {
+            setSortby(sortbyData);
+            setOrder('ASC')
+        }
     }
 
     ///// REGISTER NEW ADMIN /////
@@ -505,9 +635,12 @@ function UserManagement() {
             }}
         >
             {/* Modal Register new Admin */}
-            <Box py={2} 
-            display={'flex'} 
-            px={'4'}
+            <Box 
+                py={2} 
+                display={'flex'} 
+                px={{base:'4', sm:'3', md:'4'}}
+                alignItems={'center'}
+                justifyContent={'space-between'}
             >
                 <Button 
                     onClick={onOpenRegister} 
@@ -520,12 +653,24 @@ function UserManagement() {
                     justifyItems="center"
                     fontSize={'md'}
                     >
-                        {/* <GrAddCircle/> */}
                         <Box color='green.500' fontSize={'2xl'}>
                         <BsPersonFillAdd/>
                         </Box>
                         Add new admin
-                    </Button>
+                </Button>
+                <Box>
+                    <Input
+                        h={'1.5rem'}
+                        placeholder='Filter by name' 
+                        size="sm" 
+                        w={'80%'}
+                        type={'search'} 
+                        rounded={'lg'} 
+                        backgroundColor={'white'}
+                        value={filterName}
+                        onChange={(event) => setFilterName(event.target.value)}
+                    />
+                </Box>
             </Box>
             <Modal 
                 initialFocusRef={initialRef} 
@@ -726,26 +871,114 @@ function UserManagement() {
             {/* Table */}
             <Box
                 py={'2'}
+                w={'auto'}
             >
-                <TableContainer>
+                <Flex
+                    flexDir={'column'}
+                    marginBottom={'auto'}
+                    h={'83vh'}
+                    justifyContent={'space-between'}
+                >
+                    <TableContainer>
                     <Table size='sm' variant="simple">
-                        <Thead>
-                            <Tr>
-                                <Th>No</Th>
-                                <Th>Name</Th>
-                                <Th>Email</Th>
-                                <Th>Phone Number</Th>
-                                <Th>Role</Th>
-                                <Th>Branch</Th>
-                                <Th textAlign={'end'}>Status</Th>
-                            </Tr>
-                        </Thead>
-                        <Tbody>
-                            {printAdmin()}
-                        </Tbody>
-                    </Table>
-                </TableContainer>
-
+                            <Thead px={'4'} >
+                                <Tr display={{base: 'table-row', sm: 'table-row', md: 'none'}}>
+                                    <Th 
+                                        pl={'12'} 
+                                        fontSize={'md'} 
+                                        pb={'4'}
+                                        onClick={() => handleSort('name')}
+                                    >
+                                        <Flex alignItems={'center'}>
+                                            Name
+                                            <Icon 
+                                              as={
+                                                sortby === 'name' && order === 'ASC' ?
+                                                    IoIosArrowDropdown : IoIosArrowDropup
+                                                }
+                                            />
+                                        </Flex>
+                                    </Th>
+                                </Tr>
+                                <Tr display={{base:'none', sm:'none', md: 'table-row'}}>
+                                    <Th textAlign={'start'}>No</Th>
+                                    <Th 
+                                        textAlign={'start'}
+                                        onClick={() => handleSort('name')}
+                                    >
+                                        <Flex
+                                            // justifyContent={'center'} 
+                                            alignItems={'center'}
+                                        >
+                                            Name
+                                            <Icon 
+                                              as={
+                                                sortby === 'name' && order === 'ASC' ?
+                                                    IoIosArrowDropdown : IoIosArrowDropup
+                                                }
+                                            />
+                                        </Flex>
+                                    </Th>
+                                    <Th>Email</Th>
+                                    <Th textAlign={'start'}>Phone Number</Th>
+                                    <Th 
+                                        textAlign={'start'}
+                                        onClick={() => handleSort('role')}
+                                    >
+                                        <Flex
+                                            alignItems={'center'}
+                                        >
+                                            Role
+                                            <Icon 
+                                              as={
+                                                sortby === 'role' && order === 'ASC' ?
+                                                    IoIosArrowDropup : IoIosArrowDropdown
+                                                }
+                                            />
+                                        </Flex>
+                                    </Th>
+                                    <Th 
+                                        textAlign={'start'}
+                                        onClick={() => handleSort('branchname')}
+                                    >
+                                        <Flex
+                                            alignItems={'center'}
+                                        >
+                                            Branch
+                                            <Icon 
+                                              as={
+                                                sortby === 'branchname' && order === 'ASC' ?
+                                                    IoIosArrowDropup : IoIosArrowDropdown
+                                                }
+                                            />
+                                        </Flex>
+                                    </Th>
+                                    <Th 
+                                        textAlign={'end'}
+                                    >
+                                        <Flex
+                                            alignItems={'center'}
+                                            justifyContent={'end'}
+                                        >
+                                            Status
+                                        </Flex>
+                                    </Th>
+                                </Tr>
+                            </Thead>
+                            <Tbody>
+                                {printAdmin()}
+                            </Tbody>
+                        </Table>
+                    </TableContainer>
+                    <Flex justifyContent={'center'} >
+                        <Pagination
+                            page = {page}
+                            size = {size}
+                            totalData = {totalData}
+                            paginate = {paginate}
+                        />
+                    </Flex>
+                </Flex>
             </Box>
         </Box>
      );
