@@ -184,34 +184,34 @@ module.exports = {
         }
     },
   
-    // totalPrice: async (req, res, next) => {
-    //     try {
-    //       const { id } = req.decrypt.id;
+    totalPrice: async (req, res, next) => {
+        try {
+          const { id } = req.decrypt.id;
       
-    //       const getSubTotal = await models.cart.findAndCountAll({
-    //         attributes: [
-    //           [sequelize.fn("sum", sequelize.col("models.product.price * models.cart.quantity")), "totalPrice"],
-    //           [sequelize.fn("sum", sequelize.col("models.quantity")), "totalQty"]
-    //         ],
-    //         include: {
-    //           model: models.product,
-    //           attributes: []
-    //         },
-    //         where: {
-    //           isChecked: true,
-    //           userId: id
-    //         },
-    //         raw: true
-    //       });
+          const getSubTotal = await models.cart.findAndCountAll({
+            attributes: [
+              [sequelize.fn("sum", sequelize.col("models.product.price * models.cart.quantity")), "totalPrice"],
+              [sequelize.fn("sum", sequelize.col("models.quantity")), "totalQty"]
+            ],
+            include: {
+              model: models.product,
+              attributes: []
+            },
+            where: {
+              isChecked: true,
+              userId: id
+            },
+            raw: true
+          });
       
-    //       const totalPrice = getSubTotal.rows[0];
+          const totalPrice = getSubTotal.rows[0];
       
-    //       return res.status(200).send({ message: "Total Price", data: totalPrice });
-    //     } catch (error) {
-    //       console.error(error);
-    //       next(error)
-    //     }
-    //   },
+          return res.status(200).send({ message: "Total Price", data: totalPrice });
+        } catch (error) {
+          console.error(error);
+          next(error)
+        }
+      },
       
     // getCartProductById: async (req, res) => {
     //     try {

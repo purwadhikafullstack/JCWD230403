@@ -79,8 +79,8 @@ function CartPage() {
         }
     }
 
-     // rupiah converter function 
-     const rupiah = (value) => {
+    // rupiah converter function 
+    const rupiah = (value) => {
         return new Intl.NumberFormat("id-ID", {
             style: "currency",
             currency: "IDR",
@@ -88,26 +88,14 @@ function CartPage() {
         }).format(value);
     };
 
-    // total function
-    const totalHarga = async () => {
-        try {
-          const response = await axios.get("http://localhost:8000/api/cart/")
     
-          dispatch(getSubTotal()) //totalPrice
-          dispatch(getTotalQty()) //totalqty
-          getCartItems()
-        } catch (err) {
-          console.log(err)
-        }
-      }
-
     // checked all product
     const checkAllProduct = async () => {
         try {
             const response = await axios.patch("http://localhost:8000/api/cart/checkAll")
 
             // console.log('ini response dari yang di checked: ', response);
-
+            
             const productChecked = response.data.data.map((val) => val.isChecked)
 
             if (!productChecked.includes(false)) {
@@ -117,12 +105,26 @@ function CartPage() {
             }
 
             getCartItems()
-
+            
         } catch (error) {
             console.log(error)
         }
     }
+    
+    // total function
+    const totalHarga = async () => {
+        try {
+            const response = await axios.get("http://localhost:8000/api/cart/total")
 
+
+
+            dispatch(getSubTotal()) //totalPrice
+            dispatch(getTotalQty()) //totalqty
+            getCartItems()
+        } catch (err) {
+            console.log(err)
+        }
+    }
     // checkout button
     const btnCheckout = () => {
         // navigate("")
@@ -257,67 +259,76 @@ function CartPage() {
                         >
                             <Heading size="md">Summary</Heading>
 
-                            {/* {!cartSelector.totalQty ? ( */}
-                            <Stack spacing="6">
-                                <Flex justify="space-between" fontSize="sm">
-                                    <Text fontWeight="medium" color="gray.600">
-                                        Amount of (0 pcs)
-                                    </Text>
-                                    <Text fontWeight="medium">
-                                        Rp 0
-                                        {/* {rupiah(cartSelector.subTotal)} */}
-                                    </Text>
-                                </Flex>
-                                <Flex justify="space-between">
-                                    <Text fontSize="lg" fontWeight="semibold">
-                                        Total
-                                    </Text>
-                                    <Text fontSize="xl" fontWeight="extrabold">
-                                        Rp 0
-                                        {/* {rupiah(cartSelector.subTotal)} */}
-                                    </Text>
-                                </Flex>
-                            </Stack>
-                            {/* ) : ( */}
-                            <Stack spacing="6">
-                                <Flex justify="space-between" fontSize="sm">
-                                    <Text fontWeight="medium" color="gray.600">
-                                        Amount of ({cartSelector.totalQty} item(s))
-                                    </Text>
-                                    <Text fontWeight="medium">
-                                        {rupiah(cartSelector.subTotal)}
+                            {!cartSelector.totalQty ? (
+                                <Stack spacing="6">
+                                    <Flex justify="space-between" fontSize="sm">
+                                        <Text fontWeight="medium" color="gray.600">
+                                            Amount of (0 pcs)
+                                        </Text>
+                                        <Text fontWeight="medium">
+                                            Rp 0
+                                            {/* {rupiah(cartSelector.subTotal)} */}
+                                        </Text>
+                                    </Flex>
+                                    <Flex justify="space-between">
+                                        <Text fontSize="lg" fontWeight="semibold">
+                                            Total
+                                        </Text>
+                                        <Text fontSize="xl" fontWeight="extrabold">
+                                            Rp 0
+                                            {/* {rupiah(cartSelector.subTotal)} */}
+                                        </Text>
+                                    </Flex>
+                                </Stack>
+                            ) : (
+                                <Stack spacing="6">
+                                    <Flex justify="space-between" fontSize="sm">
+                                        <Text fontWeight="medium" color="gray.600">
+                                            Amount of ({cartSelector.totalQty} item(s))
+                                        </Text>
+                                        <Text fontWeight="medium">
+                                            {rupiah(cartSelector.subTotal)}
 
-                                    </Text>
-                                </Flex>
-                                <Flex justify="space-between">
-                                    <Text fontSize="lg" fontWeight="semibold">
-                                        Total 
-                                    </Text>
-                                    <Text fontSize="xl" fontWeight="extrabold">
-                                        {rupiah(cartSelector.subTotal)}
-                                    </Text>
-                                </Flex>
-                            </Stack>
-                            {/* )} */}
+                                        </Text>
+                                    </Flex>
+                                    <Flex justify="space-between">
+                                        <Text fontSize="lg" fontWeight="semibold">
+                                            Total
+                                        </Text>
+                                        <Text fontSize="xl" fontWeight="extrabold">
+                                            {rupiah(cartSelector.subTotal)}
+                                        </Text>
+                                    </Flex>
+                                </Stack>
+                            )}
 
-                            {/* {!cartSelector.totalQty ? ( */}
-                            <Button
-                                // colorScheme="teal" 
-                                bgColor={'#6FA66F'}
-                                _hover={{ boxShadow: "lg", transform: "translateY(5px)" }}
-                                size="lg"
-                                fontSize="lg"
-                                rightIcon={<FaArrowRight />}
-                                color={'white'}
-                                rounded={'none'}
-                            // onClick={btnCheckout}
-                            // isDisabled={true}
-                            >
-                                Checkout ( 0 )
-                            </Button>
-                            {/* ) : ( */}
-
-                            {/* )} */}
+                            {!cartSelector.totalQty ? (
+                                <Button
+                                    bgColor={'#6FA66F'}
+                                    _hover={{ boxShadow: "lg", transform: "translateY(5px)" }}
+                                    size="lg"
+                                    fontSize="lg"
+                                    rightIcon={<FaArrowRight />}
+                                    color={'white'}
+                                    rounded={'none'}
+                                    isDisabled={true}
+                                >
+                                    Checkout ( 0 )
+                                </Button>
+                            ) : (
+                                <Button
+                                    bgColor={'#6FA66F'}
+                                    _hover={{ boxShadow: "lg", transform: "translateY(5px)" }}
+                                    size="lg"
+                                    fontSize="lg"
+                                    rightIcon={<FaArrowRight />}
+                                    color={'white'}
+                                    rounded={'none'}
+                                // onClick={btnCheckout}
+                                >
+                                    Checkout ( {cartSelector.totalQty} )
+                                </Button>
+                            )}
                         </Stack>
                         <HStack mt="6" fontWeight="semibold">
                             <p>or</p>

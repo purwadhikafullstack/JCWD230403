@@ -90,8 +90,6 @@ function CartItem({ productName, price, productImg, quantity, category, cartId, 
                         colorScheme='green'
                         size="lg"
                         borderColor="#6FA66F"
-                    // isChecked={checkProduct}
-                    // onChange={() => checkPerProduct()}
                     ></Checkbox>
                     <Image
                         rounded="lg"

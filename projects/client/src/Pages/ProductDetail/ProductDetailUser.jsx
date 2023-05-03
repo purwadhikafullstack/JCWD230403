@@ -129,7 +129,7 @@ function ProductDetailUser() {
                 })
                 console.log("ini dari response add to cart", response)
 
-                dispatch(addProductToCart(response.data.data))
+                // dispatch(addProductToCart(response.data.data))
 
                 toast({
                     title: "Added",
