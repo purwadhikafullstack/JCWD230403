@@ -15,19 +15,18 @@ function Pagination(props) {
         <Flex>
             {pageNumbers.map(number => (
                 <Button onClick={() => props.paginate(number - 1)} color='white'
-                    size='md'
+                    size='sm'
                     fontSize="xs"
                     width="4"
                     variant={props.page + 1 == number ? 'solid' : 'outline'}
-                    bg={'orange.400'}
-                    colorScheme='orange'
+                    bg={props.page + 1 === number ? 'green.400' : 'green.600'}
                     _hover={{
-                        bg: "orange",
+                        bg: "green.500",
                     }}
                     className='page-link' type="button"
-                    mr='4'
+                    mr='2'
                     _active={{
-                        bg: 'orange.600',
+                        bg: 'green.600',
                         transform: 'scale(0.98)',
                     }}
                 >
