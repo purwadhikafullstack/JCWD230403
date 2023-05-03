@@ -12,9 +12,25 @@ module.exports = {
       quantity: {
         type: Sequelize.INTEGER
       },
-      amount: {
+      current_price: {
         type: Sequelize.INTEGER
       },
+      amount: {
+        type: Sequelize.INTEGER
+      }, 
+      status: {
+        type: Sequelize.BOOLEAN
+      },
+      stockBranchId: {
+        type: Sequelize.INTEGER
+      },
+      userId: {
+        type: Sequelize.INTEGER
+      },
+      branchId: {
+        type: Sequelize.INTEGER
+      },
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

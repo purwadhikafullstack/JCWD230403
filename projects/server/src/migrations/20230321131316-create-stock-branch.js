@@ -20,7 +20,7 @@ module.exports = {
       },
       product_id: {
         type: Sequelize.INTEGER
-      },
+      }, 
       branch_id: {
         type: Sequelize.INTEGER
       },

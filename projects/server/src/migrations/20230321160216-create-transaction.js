@@ -16,7 +16,14 @@ module.exports = {
         type: Sequelize.BOOLEAN
       },
       status: {
-        type: Sequelize.ENUM
+        type: Sequelize.ENUM, 
+        values: [
+          'Waiting for payment',
+          'Transaction is on going',
+          'Transaction is completed',
+          'Cancelled',
+      ],
+      defaultValue: 'Waiting for payment'
       },
       totalCheckOut: {
         type: Sequelize.INTEGER

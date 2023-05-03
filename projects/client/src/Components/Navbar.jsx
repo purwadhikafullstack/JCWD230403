@@ -13,7 +13,8 @@ import {
     Link,
     Text,
     Box,
-    Divider
+    Divider,
+    Heading
  } from '@chakra-ui/react';
 import { AiOutlineMenu } from 'react-icons/ai';
 import { GoSearch } from 'react-icons/go';
@@ -43,11 +44,20 @@ function Navbar() {
     
 
     return ( 
-    <Container maxW={'full'} px={{base:'2', sm:'6', md:'10', lg:'24'}} bgGradient='linear(to-b, green.500, green.400)'>
-        <Flex py={'3'} alignItems={'Center'} justifyContent={'space-between'}>
+    <Container maxW={'full'} px={{base:'2', sm:'6', md:'25px', lg:'35px'}} bgGradient='linear(to-b, green.500, green.400)'>
+        <Flex py={'2'} alignItems={'Center'} justifyContent={'space-between'}>
             {/* <Link textDecoration={'none'} _hover={{ textDecoration: "none" }} fontSize={{base:'lg', md:'xl', lg:'3xl'}} fontWeight='semibold' color={'white'} onClick={() => navigate(roleId == 1 || roleId == 2 ? '/admin' : '/')}>FreshFinds</Link> */}
-            <Box fontSize={{base:'2xl', md:'3xl', lg:'4xl'}} p='1' color='white' onClick={() => navigate(roleId === 1 || roleId === 2 ? '/admin' : '/')}>
-                <AiFillHome/>
+            <Box fontSize={{base:'2xl', md:'3xl', lg:'4xl'}} p='1' color='white' onClick={() => navigate(roleId == 1 || roleId == 2 ? '/admin' : '/')}>
+                {
+                  roleId == 1 || roleId == 2 ? 
+                  <Heading
+                  fontSize={'2xl'}
+                  >
+                    FreshFinds
+                  </Heading>
+                  :
+                  <AiFillHome/>
+                }
             </Box>
             {/* {
                 name ? 

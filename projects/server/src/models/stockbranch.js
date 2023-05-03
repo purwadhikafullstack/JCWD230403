@@ -16,13 +16,15 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey:'branch_id'});
       stockBranch.belongsTo(models.product, {
         foreignKey:'product_id'});
+      stockBranch.belongsTo(models.product, {
+        foreignKey:'stockBranchId'});
       stockBranch.hasMany(models.historyStockProduct);
+      stockBranch.hasMany(models.cart);
     }
-  }
+  } 
   stockBranch.init({
-    stockQty: DataTypes.INTEGER,
-    takenProduct: DataTypes.INTEGER,
-    takenProduct: DataTypes.INTEGER,
+    stock: DataTypes.INTEGER,
+    booking: DataTypes.INTEGER,
     entryDate: DataTypes.DATEONLY,
     product_id: DataTypes.INTEGER,
     branch_id: DataTypes.INTEGER,

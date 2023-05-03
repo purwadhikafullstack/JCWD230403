@@ -25,7 +25,7 @@ function Category(props) {
             });
             if (edit.data.success) {
                 toast({
-                    position: 'top',
+                    position: 'bottom',
                     title: `Edit Success`,
                     status: 'success',
                     duration: 2000,
@@ -55,14 +55,25 @@ function Category(props) {
           props.getDataCategory();
           modalDelete.onClose();
           setId();
+          toast({
+            position: 'bottom',
+            title: `Delete Success`,
+            status: 'success',
+            duration: 2000,
+            isClosable: true,
+          });
         } catch (error) {
           console.log(error);
+          toast({
+            position: 'top',
+            title: `${error.response.data.message}`,
+            description: "Failed to delete category.",
+            status: 'error',
+            duration: 2000,
+            isClosable: true,
+          });
         }
       };
-
-    //   React.useEffect(() => {
-    //     setId(props.id);
-    //   }, [props.id]);
       
     console.log(props.id)
 

@@ -45,6 +45,13 @@ function CategoryManagement() {
             });
             modalCategory.onClose();
             getDataCategory();
+            toast({
+                position: 'bottom',
+                title: `Add Category Success`,
+                status: 'success',
+                duration: 2000,
+                isClosable: true,
+              });
         } catch (error) {
             console.log(error)
             toast({
@@ -65,138 +72,153 @@ function CategoryManagement() {
             />
         })
     }
-      
+
 
     React.useEffect(() => {
         getDataCategory();
     }, [page, size, sortby, order])
 
     // Pagination
-  const paginate = pageNumbers => {
-    setPage(pageNumbers);
-  }
+    const paginate = pageNumbers => {
+        setPage(pageNumbers);
+    }
 
 
     return (
-        <Flex as={Container} maxW={"8xl"} minH={"100vh"} bgColor="#white">
-            <Box justifyItems={"center"} flex={"1"}>
-                <Box display={"flex"}>
-                    <>
-                        <Button
-                            rounded={"md"}
-                            h={"10"}
-                            mt={"4"}
-                            ml={"4"}
-                            bgColor="green.500"
-                            color="#EEEEEE"
-                            _hover={""}
-                            p={"2.5"}
-                            variant={"link"}
-                            onClick={modalCategory.onOpen}
-                        >
-                            <HiViewGridAdd
-                                size={"20"}
-                                fontWeight={"bold"}
-                                color={"#EEEEEE"}
-                            />
-                            <Text my={"auto"} pl='2'>Add Category</Text>
-                        </Button>
+        <Box
+            w={{ base: '100%', sm: '100%', md: '90%', lg: '90%', xl: '85%' }}
+            p='1%'
+            px='2%'
+            flexDir={'column'}
+            minH='100vh'
+            color='black'
+            overflow="auto"
+            css={{
+                '&::-webkit-scrollbar': {
+                    display: 'none'
+                }
+            }}
+        >
+            <Flex p={"2%"} as={Container} maxW={"8xl"} minH={"100vh"} bgColor="#white">
+                <Box justifyItems={"center"} flex={"1"}>
+                    <Box display={"flex"}>
+                        <>
+                            <Button
+                                rounded={"md"}
+                                h={"10"}
+                                mt={"4"}
+                                ml={"4"}
+                                bgColor="green.500"
+                                color="#EEEEEE"
+                                _hover={""}
+                                p={"2.5"}
+                                variant={"link"}
+                                onClick={modalCategory.onOpen}
+                            >
+                                <HiViewGridAdd
+                                    size={"20"}
+                                    fontWeight={"bold"}
+                                    color={"#EEEEEE"}
+                                />
+                                <Text my={"auto"} pl='2'>Add Category</Text>
+                            </Button>
 
-                        <Button
-                            rounded={"md"}
-                            h={"10"}
-                            mt={"4"}
-                            ml={"4"}
-                            bgColor="green.500"
-                            color="#EEEEEE"
-                            _hover={""}
-                            p={"2.5"}
-                            variant={"link"}
-                            onClick={() => navigate("/undeletecategories")}
-                            display={"none"}
-                        >
-                            {/* <HiViewGridAdd
+                            <Button
+                                rounded={"md"}
+                                h={"10"}
+                                mt={"4"}
+                                ml={"4"}
+                                bgColor="green.500"
+                                color="#EEEEEE"
+                                _hover={""}
+                                p={"2.5"}
+                                variant={"link"}
+                                onClick={() => navigate("/undeletecategories")}
+                                display={"none"}
+                            >
+                                {/* <HiViewGridAdd
                                 size={"20"}
                                 fontWeight={"bold"}
                                 color={"#EEEEEE"}
                             /> */}
-                            <Text my={"auto"} pl='2'>Category Deleted</Text>
-                        </Button>
+                                <Text my={"auto"} pl='2'>Category Deleted</Text>
+                            </Button>
 
-                        <Modal
-                            initialFocusRef={initialRef}
-                            finalFocusRef={finalRef}
-                            isOpen={modalCategory.isOpen}
-                            onClose={modalCategory.onClose}
-                        >
-                            <ModalOverlay />
-                            <ModalContent bgColor="green.500" color={"#EEEEEE"}>
-                                <ModalHeader color="white">
-                                    Add New Category
-                                </ModalHeader>
-                                <ModalCloseButton />
-                                <ModalBody pb={6}>
-                                    <FormControl>
-                                        <FormLabel color={"#EEEEEE"}>
-                                            Category Name
-                                        </FormLabel>
-                                        <Input
-                                            ref={initialRef}
-                                            placeholder="Enter new category name"
-                                            _hover={""}
-                                            bgColor="#white"
+                            <Modal
+                                initialFocusRef={initialRef}
+                                finalFocusRef={finalRef}
+                                isOpen={modalCategory.isOpen}
+                                onClose={modalCategory.onClose}
+                            >
+                                <ModalOverlay />
+                                <ModalContent bgColor="green.500" color={"#EEEEEE"}>
+                                    <ModalHeader color="white">
+                                        Add New Category
+                                    </ModalHeader>
+                                    <ModalCloseButton />
+                                    <ModalBody pb={6}>
+                                        <FormControl>
+                                            <FormLabel color={"#EEEEEE"}>
+                                                Category Name
+                                            </FormLabel>
+                                            <Input
+                                                ref={initialRef}
+                                                placeholder="Enter new category name"
+                                                _hover={""}
+                                                bgColor="#white"
+                                                color="green.500"
+                                                variant={"link"}
+                                                onChange={(e) => setCategory(e.target.value)}
+                                            />
+                                        </FormControl>
+                                    </ModalBody>
+
+                                    <ModalFooter>
+                                        <Button
+                                            bgColor="green"
+                                            color="#EEEEEE"
+                                            _hover=""
+                                            mr={3}
+                                            onClick={btnAddCategory}
+                                        >
+                                            Save
+                                        </Button>
+                                        <Button
+                                            bgColor="#EEEEEE"
                                             color="green.500"
-                                            variant={"link"}
-                                            onChange={(e) => setCategory(e.target.value)}
-                                        />
-                                    </FormControl>
-                                </ModalBody>
+                                            _hover=""
+                                            onClick={modalCategory.onClose}
+                                        >
+                                            Cancel
+                                        </Button>
+                                    </ModalFooter>
+                                </ModalContent>
+                            </Modal>
+                        </>
 
-                                <ModalFooter>
-                                    <Button
-                                        bgColor="green"
-                                        color="#EEEEEE"
-                                        _hover=""
-                                        mr={3}
-                                        onClick={btnAddCategory}
-                                    >
-                                        Save
-                                    </Button>
-                                    <Button
-                                        bgColor="#EEEEEE"
-                                        color="green.500"
-                                        _hover=""
-                                        onClick={modalCategory.onClose}
-                                    >
-                                        Cancel
-                                    </Button>
-                                </ModalFooter>
-                            </ModalContent>
-                        </Modal>
-                    </>
+                    </Box>
 
+                    <Box mt='4'>
+                        <TableContainer>
+                            <Table variant='simple' color={'black'}>
+                                <Thead>
+                                    <Tr>
+                                        <Th w='10%'>No</Th>
+                                        {/* <Th w='10%'>ID</Th> */}
+                                        <Th w='60%'>Category</Th>
+                                        <Th></Th>
+                                    </Tr>
+                                </Thead>
+                                {printCategoryData()}
+                            </Table>
+                        </TableContainer>
+                    </Box>
+                    <Flex my='10' w='full' justify={'center'}>
+                        <Pagination size={size} page={page} totalData={totalData} paginate={paginate} />
+                    </Flex>
                 </Box>
-
-                <Box mt='4'>
-                    <TableContainer>
-                        <Table variant='simple' color={'black'}>
-                            <Thead>
-                                <Tr>
-                                    <Th w='10%'>No</Th>
-                                    {/* <Th w='10%'>ID</Th> */}
-                                    <Th w='60%'>Category</Th>
-                                    <Th></Th>
-                                </Tr>
-                            </Thead>
-                            {printCategoryData()}
-                        </Table>
-                    </TableContainer>
-                </Box>
-                <Flex my='10' w='full' justify={'center'}>
-              <Pagination size={size} page={page} totalData={totalData} paginate={paginate} />
             </Flex>
-            </Box>
-        </Flex>
+        </Box>
     );
 }
 
