@@ -13,6 +13,7 @@ import {
     AlertTitle,
     Checkbox,
     Divider,
+    useDisclosure,
     AlertDescription,
     AlertDialog,
     AlertDialogOverlay,
@@ -20,21 +21,132 @@ import {
     AlertDialogContent,
     AlertDialogFooter,
     AlertDialogHeader,
+    useToast,
 } from "@chakra-ui/react"
 import logo from '../../Asset/logo.png'
 import { FaArrowRight } from "react-icons/fa"
 import { Link, Link as LinkRouterDom, useNavigate } from "react-router-dom"
 import CartItem from "../../Components/CartItem";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import axios from 'axios'
+import { itemCart, getSubTotal, getTotalQty } from "../../Reducers/cartSlice"
+
 
 function CartPage() {
     // Token
+    let token = localStorage.getItem('grocery_login')
+
     // state function
+    const [cartItems, setCartItems] = useState(false);
+    const [checkout, setCheckOut] = useState({});
+
     // redux toolkit 
+    const dispatch = useDispatch()
+    const cartSelector = useSelector((state) => state.cartSlice)
+
     // react-router-dom
+    const navigate = useNavigate()
+
     // toast chakra UI
+    const toast = useToast()
+
     // alert
+    const { isOpen, onOpen, onClose } = useDisclosure()
+
     // fetch cart item 
-    // cart data
+    const getCartItems = async () => {
+        try {
+            const response = await axios.get("http://localhost:8000/api/cart/me", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            // console.log('ini dari response getCartItem: ', response)
+
+            dispatch(itemCart(response.data.data))
+
+            const productChecked = response.data.data.map((val) => val.isChecked)
+
+            if (!productChecked.includes(false)) {
+                setCartItems(true)
+            } else {
+                setCartItems(false)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    // total function
+
+
+    // checked all product
+    const checkAllProduct = async () => {
+        try {
+            const response = await axios.patch("http://localhost:8000/api/cart/checkAll")
+
+            // console.log('ini response dari yang di checked: ', response);
+
+            const productChecked = response.data.data.map((val) => val.isChecked)
+
+            if (!productChecked.includes(false)) {
+                setCartItems(true)
+            } else {
+                setCartItems(false)
+            }
+
+            getCartItems()
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    // checkout button
+    const btnCheckout = () => {
+        // navigate("")
+    }
+
+    // delete product
+    const deleteProduct = async (id) => {
+        try {
+            await axios.delete(`http://localhost:8000/api/cart/${id}`)
+
+            getCartItems()
+
+            toast({ title: "Remove product", status: "success", duration: 1000 })
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    // render cart component
+    const renderCartItem = () => {
+        return cartSelector.cart.map((val) => {
+            return (
+                <CartItem
+                    key={val.id.toString()}
+                    productId={val.productId}
+                    quantity={val.quantity}
+                    cartId={val.id}
+                    isChecked={val.isChecked}
+                    productName={val.product.name}
+                    price={val.product.price}
+                    productImg={val.product.image}
+                    // category={val.category.category}
+                    getCartItems={getCartItems}
+                    checkAllProduct={cartItems}
+                />
+            )
+        })
+    }
+
+    useEffect(() => {
+        getCartItems()
+    }, [])
 
     return (
         <>
@@ -55,21 +167,20 @@ function CartPage() {
                             fontWeight="extrabold"
                         >
                             {/* <Image src={logo}></Image> */}
-                            <Text  color={'6FA66F'}>
+                            <Text color={'6FA66F'}>
                                 FreshFinds | Cart
                             </Text>
                         </Heading>
                         <Flex justifyContent="space-between">
                             <Checkbox
-                                // colorScheme="teal"
-                                // isChecked={allProductCheck}
+                                // isChecked={cartItems}
                                 borderColor="#6FA66F"
                                 size="lg"
 
                             >
                                 <Text>Select All</Text>
                             </Checkbox>
-                            {/* {allProductCheck !== true ? null : ( */}
+                            {/* {cartItems !== true ? null : ( */}
                             <Text
                                 fontSize="17px"
                                 fontWeight="700"
@@ -80,40 +191,39 @@ function CartPage() {
                             >
                                 Delete
                             </Text>
-                            {/* )} */}
+                            {/* )}  */}
                         </Flex>
                         <Divider backgroundColor="#F6F6F6" border="5px" />
 
                         <Stack spacing="6">
-                            {/* {!cartSelector.cart.length ? ( */}
-                            <Alert
-                                // status="error"
-                                bgColor={'#F6F6F6'}
-                                variant="subtle"
-                                flexDir="column"
-                                alignItems="center"
-                                justifyContent="center"
-                                textAlign="center"
-                                h="200px"
-                            >
-                                <AlertIcon boxSize="40px" mr="0" />
-                                <AlertTitle
-                                    my={'2'}
+                            {!cartSelector.cart.length ? (
+                                <Alert
+                                    bgColor={'#F6F6F6'}
+                                    variant="subtle"
+                                    flexDir="column"
+                                    alignItems="center"
+                                    justifyContent="center"
+                                    textAlign="center"
+                                    h="200px"
                                 >
-                                    Your cart is empty!
-                                </AlertTitle>
-                                <AlertDescription
-                                    mb="2"
-                                >
-                                    Looking for more options? Check out our recommended products.
-                                </AlertDescription>
-                                <Link to="/product">
-                                    <Button>Continue Shopping?</Button>
-                                </Link>
-                            </Alert>
-                            {/* // ) : ( */}
-                            {/* //     renderCartItem() */}
-                            {/* // )} */}
+                                    <AlertIcon boxSize="40px" mr="0" />
+                                    <AlertTitle
+                                        my={'2'}
+                                    >
+                                        Your cart is empty!
+                                    </AlertTitle>
+                                    <AlertDescription
+                                        mb="2"
+                                    >
+                                        Looking for more options? Check out our recommended products.
+                                    </AlertDescription>
+                                    <Link to="/product">
+                                        <Button>Continue Shopping?</Button>
+                                    </Link>
+                                </Alert>
+                            ) : (
+                                renderCartItem()
+                            )}
                         </Stack>
                     </Stack>
 
@@ -132,17 +242,19 @@ function CartPage() {
                             <Stack spacing="6">
                                 <Flex justify="space-between" fontSize="sm">
                                     <Text fontWeight="medium" color="gray.600">
-
+                                        Amount of (0 pcs)
                                     </Text>
                                     <Text fontWeight="medium">
+                                        Rp0
                                         {/* {Rupiah(cartSelector.subTotal)} */}
                                     </Text>
                                 </Flex>
                                 <Flex justify="space-between">
                                     <Text fontSize="lg" fontWeight="semibold">
-                                        Amount
+                                        Total
                                     </Text>
                                     <Text fontSize="xl" fontWeight="extrabold">
+                                        Rp0
                                         {/* {Rupiah(cartSelector.subTotal)} */}
                                     </Text>
                                 </Flex>
@@ -151,20 +263,18 @@ function CartPage() {
                             <Stack spacing="6">
                                 <Flex justify="space-between" fontSize="sm">
                                     <Text fontWeight="medium" color="gray.600">
-                                        amount 7 pcs {/* Total Harga ({cartSelector.totalQty} Barang) */}
+                                        {/* Total Harga ({cartSelector.totalQty} Barang) */}
                                     </Text>
                                     <Text fontWeight="medium">
                                         {/* {Rupiah(cartSelector.subTotal)} */}
-                                        Rp20.000
+
                                     </Text>
                                 </Flex>
                                 <Flex justify="space-between">
                                     <Text fontSize="lg" fontWeight="semibold">
-                                        total
                                     </Text>
                                     <Text fontSize="xl" fontWeight="extrabold">
                                         {/* {Rupiah(cartSelector.subTotal)} */}
-                                        Rp20.000
                                     </Text>
                                 </Flex>
                             </Stack>

@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey:'stockBranchId'});
       stockBranch.hasMany(models.historyStockProduct);
       stockBranch.hasMany(models.cart);
-    }
+    } 
   } 
   stockBranch.init({
     stock: DataTypes.INTEGER, 
