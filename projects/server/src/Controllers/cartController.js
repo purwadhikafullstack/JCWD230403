@@ -32,15 +32,6 @@ module.exports = {
                     quantity: quantity
                 })
 
-                // const findProductItem = await models.cart.findAll({
-                //     where: {
-                //         productId: addProduct.stockBranchId
-                //     },
-                //     include: [{
-                //         models: models.stockBranch
-                //     }]
-                // })
-
                 return res.status(200).send({
                     message: 'Product added to cart',
                     data: addProduct
@@ -193,34 +184,34 @@ module.exports = {
         }
     },
   
-    totalPrice: async (req, res, next) => {
-        try {
-          const { id } = req.decrypt.id;
+    // totalPrice: async (req, res, next) => {
+    //     try {
+    //       const { id } = req.decrypt.id;
       
-          const getSubTotal = await models.cart.findAndCountAll({
-            attributes: [
-              [sequelize.fn("sum", sequelize.col("models.product.price * models.cart.quantity")), "totalPrice"],
-              [sequelize.fn("sum", sequelize.col("models.quantity")), "totalQty"]
-            ],
-            include: {
-              model: models.product,
-              attributes: []
-            },
-            where: {
-              isChecked: true,
-              userId: id
-            },
-            raw: true
-          });
+    //       const getSubTotal = await models.cart.findAndCountAll({
+    //         attributes: [
+    //           [sequelize.fn("sum", sequelize.col("models.product.price * models.cart.quantity")), "totalPrice"],
+    //           [sequelize.fn("sum", sequelize.col("models.quantity")), "totalQty"]
+    //         ],
+    //         include: {
+    //           model: models.product,
+    //           attributes: []
+    //         },
+    //         where: {
+    //           isChecked: true,
+    //           userId: id
+    //         },
+    //         raw: true
+    //       });
       
-          const totalPrice = getSubTotal.rows[0];
+    //       const totalPrice = getSubTotal.rows[0];
       
-          return res.status(200).send({ message: "Total Price", data: totalPrice });
-        } catch (error) {
-          console.error(error);
-          next(error)
-        }
-      },
+    //       return res.status(200).send({ message: "Total Price", data: totalPrice });
+    //     } catch (error) {
+    //       console.error(error);
+    //       next(error)
+    //     }
+    //   },
       
     // getCartProductById: async (req, res) => {
     //     try {
@@ -301,119 +292,3 @@ module.exports = {
         }
     }
 }
-    //   // add same product, if product already added just increment the quantity of product
-    //   addProductQty: async (req, res) => {
-    //     try {
-    //       const { ProductId } = req.params
-    //       const { quantity } = req.body
-    //       const addProductQty = await db.Cart.findOne({
-    //         where: { ProductId },
-    //         include: [
-    //           {
-    //             model: db.Product,
-    //             include: [{ model: db.ProductPicture }, { model: db.ProductStock }],
-    //           },
-    //         ],
-    //       })
-
-    //       const productStock = addProductQty.Product.ProductStocks.map(
-    //         (val) => val.stock
-    //       )
-    //       let subtotal = 0
-
-    //       for (let i = 0; i < productStock.length; i++) {
-    //         subtotal += Number(productStock[i])
-    //       }
-
-    //       const totalProductStock = subtotal
-
-    //       if (addProductQty.quantity + quantity > totalProductStock) {
-    //         return res.status(400).json({
-    //           message: "Stok Barang Habis",
-    //         })
-    //       }
-
-    //       if (!quantity) {
-    //         await db.Cart.update(
-    //           { quantity: addProductQty.quantity + 1 },
-    //           { where: { id: addProductQty.id } }
-    //         )
-
-    //         return res.status(200).json({ message: "Product Added" })
-    //       }
-
-    //       if (quantity) {
-    //         await db.Cart.update(
-    //           { quantity: addProductQty.quantity + quantity },
-    //           { where: { id: addProductQty.id } }
-    //         )
-
-    //         return res.status(200).json({ message: "Product Added" })
-    //       }
-    //     } catch (err) {
-    //       console.log(err)
-    //       return res.status(500).json({
-    //         message: err.message,
-    //       })
-    //     }
-    //   },
-    //   decreaseQty: async (req, res) => {
-    //     try {
-    //       const { id } = req.params
-
-    //       const findProduct = await db.Cart.findByPk(id)
-
-    //       if (findProduct.quantity <= 1) {
-    //         return res.status(200).json({
-    //           message: "Minimal 1 Quantity Produk",
-    //         })
-    //       }
-
-    //       await db.Cart.update(
-    //         { quantity: findProduct.quantity - 1 },
-    //         { where: { id: findProduct.id } }
-    //       )
-
-    //       return res.status(200).json({ message: "Quantity Berkurang" })
-    //     } catch (err) {
-    //       console.log(err)
-    //     }
-    //   },
-    //   addQty: async (req, res) => {
-    //     try {
-    //       const { id } = req.params
-
-    //       const findProduct = await db.Cart.findByPk(id, {
-    //         include: [
-    //           {
-    //             model: db.Product,
-    //             include: [{ model: db.ProductPicture }, { model: db.ProductStock }],
-    //           },
-    //         ],
-    //       })
-
-    //       const productCart = findProduct.Product.ProductStocks.map(
-    //         (val) => val.stock
-    //       )
-    //       let total = 0
-
-    //       for (let i = 0; i < productCart.length; i++) {
-    //         total += Number(total[i])
-    //       }
-
-    //       const subTotal = total
-
-    //       if (findProduct.quantity + 1 > subTotal) {
-    //         return res.status(400).json({ message: "Stok Produk Habis" })
-    //       }
-
-    //       await db.Cart.update(
-    //         { quantity: findProduct.quantity + 1 },
-    //         { where: { id: findProduct.id } }
-    //       )
-
-    //       return res.status(200).json({ message: "Berhasil Menambah Quantity" })
-    //     } catch (err) {
-    //       return res.status(500).json({ message: err.message })
-    //     }
-    //   },

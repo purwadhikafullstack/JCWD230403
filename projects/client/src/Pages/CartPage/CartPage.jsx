@@ -79,8 +79,27 @@ function CartPage() {
         }
     }
 
-    // total function
+     // rupiah converter function 
+     const rupiah = (value) => {
+        return new Intl.NumberFormat("id-ID", {
+            style: "currency",
+            currency: "IDR",
+            minimumFractionDigits: 0,
+        }).format(value);
+    };
 
+    // total function
+    const totalHarga = async () => {
+        try {
+          const response = await axios.get("http://localhost:8000/api/cart/")
+    
+          dispatch(getSubTotal()) //totalPrice
+          dispatch(getTotalQty()) //totalqty
+          getCartItems()
+        } catch (err) {
+          console.log(err)
+        }
+      }
 
     // checked all product
     const checkAllProduct = async () => {
@@ -176,7 +195,7 @@ function CartPage() {
                                 // isChecked={cartItems}
                                 borderColor="#6FA66F"
                                 size="lg"
-
+                                colorScheme={'green'}
                             >
                                 <Text>Select All</Text>
                             </Checkbox>
@@ -245,8 +264,8 @@ function CartPage() {
                                         Amount of (0 pcs)
                                     </Text>
                                     <Text fontWeight="medium">
-                                        Rp0
-                                        {/* {Rupiah(cartSelector.subTotal)} */}
+                                        Rp 0
+                                        {/* {rupiah(cartSelector.subTotal)} */}
                                     </Text>
                                 </Flex>
                                 <Flex justify="space-between">
@@ -254,8 +273,8 @@ function CartPage() {
                                         Total
                                     </Text>
                                     <Text fontSize="xl" fontWeight="extrabold">
-                                        Rp0
-                                        {/* {Rupiah(cartSelector.subTotal)} */}
+                                        Rp 0
+                                        {/* {rupiah(cartSelector.subTotal)} */}
                                     </Text>
                                 </Flex>
                             </Stack>
@@ -263,18 +282,19 @@ function CartPage() {
                             <Stack spacing="6">
                                 <Flex justify="space-between" fontSize="sm">
                                     <Text fontWeight="medium" color="gray.600">
-                                        {/* Total Harga ({cartSelector.totalQty} Barang) */}
+                                        Amount of ({cartSelector.totalQty} item(s))
                                     </Text>
                                     <Text fontWeight="medium">
-                                        {/* {Rupiah(cartSelector.subTotal)} */}
+                                        {rupiah(cartSelector.subTotal)}
 
                                     </Text>
                                 </Flex>
                                 <Flex justify="space-between">
                                     <Text fontSize="lg" fontWeight="semibold">
+                                        Total 
                                     </Text>
                                     <Text fontSize="xl" fontWeight="extrabold">
-                                        {/* {Rupiah(cartSelector.subTotal)} */}
+                                        {rupiah(cartSelector.subTotal)}
                                     </Text>
                                 </Flex>
                             </Stack>
