@@ -22,12 +22,14 @@ app.use(express.json());
 const userRouter = require('./routers/userRouter');
 const adminRoute = require('./routers/adminRouter');
 const productRouter = require('./routers/productRouter');
+const categoryRouter = require('./routers/categoryRouter');
 // ===========================
 // NOTE : Add your routes here
 
 app.use("/api/product", productRouter);
 app.use('/api/user', userRouter);
 app.use('/api/admin', adminRoute);
+app.use("/api/category", categoryRouter);
 
 
 app.get("/api", (req, res) => {

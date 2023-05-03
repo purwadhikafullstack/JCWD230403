@@ -21,6 +21,7 @@ import ForgotPassword from "./Pages/ForgotPassword";
 import ResetPassword from "./Pages/ResetPassword";
 import ChangePassword from "./Pages/ChangePassword";
 import ProductLanding from "./Pages/ProductLanding";
+import CategoryManagement from "./Pages/CategoryManagement";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -90,6 +91,7 @@ function App() {
           <Routes>
             <Route path="/adminlogin" element={<AdminLogin/>}/>
             <Route path="/admin" element={<AdminLanding/>}/>
+          <Route path="/categorymanagement" element={<CategoryManagement/>}/>
             <Route path="*" element={<PageNotFound/>}/>
           </Routes>
           <Footer/>

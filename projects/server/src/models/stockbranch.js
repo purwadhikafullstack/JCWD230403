@@ -24,6 +24,8 @@ module.exports = (sequelize, DataTypes) => {
     takenProduct: DataTypes.INTEGER,
     takenProduct: DataTypes.INTEGER,
     entryDate: DataTypes.DATEONLY,
+    product_id: DataTypes.INTEGER,
+    branch_id: DataTypes.INTEGER,
     isEnable: {
       type: DataTypes.BOOLEAN,
       defaultValue: true
