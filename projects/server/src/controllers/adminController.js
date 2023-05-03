@@ -369,6 +369,53 @@ module.exports = {
             console.log(error);
             next(error);
         }
-    }
+    },
+    // Admin list for Admin Dashboard
+    adminBranchList: async (req, res, next) => {
+        try {
+            const branchId = req.query.branchId
+            let branchFilter = {
+                roleId: {[sequelize.Op.in]: [1, 2]}
+            }
+            if (branchId) {
+                branchFilter.branchId = branchId
+            }
+            
+            const {page = 1, size = 5 , name, sortby = 'name', order = 'asc'} = req.query
 
+            let offset = parseInt(page * size)
+            if (name) {
+                offset = 0
+            }
+
+            let getAdmin = await model.user.findAndCountAll({
+                where: {
+                    ...branchFilter,
+                    name: { [sequelize.Op.like]: `%${name}%` },
+                },
+                attributes: ['name', 'branchId', 'isDeleted'],
+                include: [{
+                    model: model.branch,
+                    attributes: ['name']
+                }],
+                order: [[sortby, order]],
+                offset: offset,
+                limit: parseInt(size)
+            })
+
+            console.log("ini data dari getAdmin :", getAdmin);
+            
+            return res.status(200).send({
+                success: true,
+                datanum: getAdmin.count,
+                data: getAdmin.rows,
+                limit: parseInt(size),
+                totalPage: Math.ceil(getAdmin.count / size)
+
+            })
+        } catch (error) {
+            console.log("ini data dari error :", error);
+            next(error)
+        }
+    }
 }
