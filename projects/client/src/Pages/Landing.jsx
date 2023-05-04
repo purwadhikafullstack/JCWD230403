@@ -166,7 +166,6 @@ function Landing() {
                 </Box>
             </Flex>
         </>
-        <Footer />
     </div>);
 
 }
