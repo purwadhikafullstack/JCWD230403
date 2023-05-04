@@ -28,7 +28,7 @@ module.exports = {
                         uuid, 
                         name, 
                         email, 
-                        password, 
+                        // password,
                         phone,
                         isVerified: 0,
                         profileId: null,

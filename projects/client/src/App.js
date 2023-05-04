@@ -29,6 +29,7 @@ import Transaction from "./Pages/Transaction";
 import Report from "./Pages/Report";
 import ProductDetailUser from "./Pages/ProductDetail/ProductDetailUser";
 import CategoryManagement from "./Pages/CategoryManagement";
+import CartPage from "./Pages/CartPage/CartPage";
 
 
 function App() {
@@ -131,6 +132,7 @@ function App() {
               <Route path="/change" element={<ChangePassword/>}/>
               <Route path="/product" element={<ProductLanding/>} />
               <Route path="/detail/:id" element={<ProductDetailUser/>} />
+              <Route path="/cart/me" element={<CartPage/>} />
               <Route path="*" element={<PageNotFound/>}/>
             </Routes>
             <Footer/>
@@ -148,6 +150,7 @@ function App() {
               <Route path="/reset/:token" element={<ResetPassword/>}/>
               <Route path="/product" element={<ProductLanding/>} />
               <Route path="/detail/:id" element={<ProductDetailUser/>} />
+              <Route path="/cart/me" element={<CartPage/>} />
             <Route path="*" element={<PageNotFound/>}/>
           </Routes>
           <Footer/>
