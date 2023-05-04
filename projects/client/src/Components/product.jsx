@@ -13,7 +13,7 @@ function Products({name, productimage, price, productId, stock}) {
     //     try {
     //         let response = await axios.get(`${API_URL}/product/detail/${params.id}`)
     //         console.log("ini data dari response getDetailProduct", response)
-    //         setProduct(response);
+    //         setProduct(response.data);
     //     } catch (error) {
     //         console.log(error);
     //     }

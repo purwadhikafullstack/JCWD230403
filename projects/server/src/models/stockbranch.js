@@ -23,15 +23,15 @@ module.exports = (sequelize, DataTypes) => {
     }
   } 
   stockBranch.init({
-    stock: DataTypes.INTEGER, 
+    stock: DataTypes.INTEGER,
     booking: DataTypes.INTEGER,
     entryDate: DataTypes.DATEONLY,
-    isEnable: {
-      type: DataTypes.BOOLEAN, 
-      defaultValue: true
-    },
     product_id: DataTypes.INTEGER,
     branch_id: DataTypes.INTEGER,
+    isEnable: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true
+    }
   }, {
     sequelize,
     modelName: 'stockBranch',

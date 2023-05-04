@@ -61,7 +61,7 @@ function Landing() {
         });
         return print;
     }
- 
+
     // Pagination
     const paginate = pageNumbers => {
         setPage(pageNumbers);

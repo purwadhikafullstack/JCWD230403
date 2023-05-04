@@ -392,4 +392,5 @@ function ProductDetailUser() {
     );
 }
 
+
 export default ProductDetailUser;
