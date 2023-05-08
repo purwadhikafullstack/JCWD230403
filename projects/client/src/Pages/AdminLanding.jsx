@@ -325,11 +325,12 @@ function AdminLanding() {
 
     return ( 
       <Flex
-        w={'85%'}
+        w={{base: '100%', sm: '100%', md:'90%', lg: '85%'}}
         // backgroundColor={'blue.100'}
+        flexDir={{base:'column', sm:'column', md:'row'}}
       >
         <Flex
-          w={'55vw'}
+          w={{base: '100vw', sm: '100vw', md:'60vw', lg: '55vw'}}
           // backgroundColor={'yellow.100'}
           flexDir={'column'}
           overflow={'auto'}
@@ -370,35 +371,108 @@ function AdminLanding() {
             }
           </Flex>
           {/* ///////// LIST ADMIN, USER, & PRODUCT ///////// */}
-          <Flex py={'6'} justifyContent={'space-evenly'}>
-            <Box backgroundColor={'green.400'} p={'3'} rounded={'lg'}>
-              <Flex alignItems={'center'} gap={'2'}>
-                <Box textAlign={'center'} maxH={'12'} width={'12'} color={'green.500'} backgroundColor={'white'} p={'2'} rounded={'full'}>
-                  <Icon fontSize={'3xl'} as={FaUserCog} />
+          <Flex 
+            py={'6'} 
+            justifyContent={'space-evenly'}
+            flexDir={{base:'column', sm:'column', md:'row', lg: 'row'}}
+            w={{base: '65%', sm: '50%', md: '100%'}}
+            mx={{base: 'auto', sm: 'auto', md: null, lg: null}}
+            gap={{base: '2', sm: '3', md: null, lg: null}}
+          >
+            <Box 
+              backgroundColor={'green.400'} 
+              p={'3'} 
+              rounded={'lg'}
+            >
+              <Flex 
+                alignItems={'center'} 
+                gap={'2'}
+                justifyContent={{base:'space-evenly', sm:'space-evenly', md: null, lg: null}}
+              >
+                <Box 
+                  textAlign={'center'} 
+                  maxH={'12'} 
+                  width={'12'} 
+                  color={'green.500'} 
+                  backgroundColor={'white'} 
+                  p={'2'} 
+                  rounded={'full'}
+                >
+                  <Icon 
+                    fontSize={'3xl'} 
+                    as={FaUserCog} 
+                  />
                 </Box>
-                <Box color={'white'} textAlign={'center'}>
+                <Box 
+                  color={'white'} 
+                  textAlign={'center'}
+                >
                   <Text>Total Admins</Text>
                   {adminTotalData}
                 </Box>
               </Flex>
             </Box>
-            <Box backgroundColor={'green.400'} p={'3'} rounded={'lg'}>
-              <Flex alignItems={'center'} gap={'2'}>
-                <Box textAlign={'center'} maxH={'12'} width={'12'} color={'green.500'} backgroundColor={'white'} p={'2'} rounded={'full'}>
-                  <Icon fontSize={'3xl'} as={FaUsers} />
+            <Box 
+              backgroundColor={'green.400'} 
+              p={'3'} 
+              rounded={'lg'}
+            >
+              <Flex 
+                alignItems={'center'} 
+                gap={'2'}
+                justifyContent={{base:'space-evenly', sm:'space-evenly', md: null, lg: null}}
+              >
+                <Box 
+                  textAlign={'center'} 
+                  maxH={'12'} 
+                  width={'12'} 
+                  color={'green.500'} 
+                  backgroundColor={'white'} 
+                  p={'2'} 
+                  rounded={'full'}
+                >
+                  <Icon 
+                    fontSize={'3xl'} 
+                    as={FaUsers} 
+                  />
                 </Box>
-                <Box color={'white'} textAlign={'center'}>
+                <Box 
+                  color={'white'} 
+                  textAlign={'center'}
+                >
                   <Text>Total Users</Text>
                   {userTotalData}
                 </Box>
               </Flex>
             </Box>
-            <Box backgroundColor={'green.400'} p={'3'} rounded={'lg'}>
-              <Flex alignItems={'center'} gap={'2'}>
-                <Box textAlign={'center'} maxH={'12'} width={'12'} color={'green.500'} backgroundColor={'white'} p={'2'} rounded={'full'}>
-                  <Icon fontSize={'3xl'} as={BsBoxes} />
+            <Box 
+              backgroundColor={'green.400'} 
+              p={'3'} 
+              rounded={'lg'}
+            >
+              <Flex 
+                alignItems={'center'} 
+                gap={'2'}
+                justifyContent={{base:'space-evenly', sm:'space-evenly', md: null, lg: null}}
+              >
+                <Box 
+                  textAlign={'center'} 
+                  maxH={'12'} 
+                  width={'12'} 
+                  color={'green.500'} 
+                  backgroundColor={'white'} 
+                  p={'2'} 
+                  rounded={'full'}
+                >
+                  <Icon 
+                    fontSize={'3xl'} 
+                    as={BsBoxes} 
+                  />
                 </Box>
-                <Box color={'white'} textAlign={'center'}>
+                <Box 
+                  color={'white'} 
+                  textAlign={'center'}
+                >
                   <Text>Total Products</Text>
                   {productTotalData}
                 </Box>
@@ -406,32 +480,72 @@ function AdminLanding() {
             </Box>
           </Flex>
           {/* ///////// CHARTS LIST ///////// */}
-          <Box py={'4'} textAlign={'center'}>
-            <Heading py={'2'} size={'md'} >Revenue Sales Report</Heading>
+          {/* --- SALES --- */}
+          <Box 
+            py={'4'} 
+            textAlign={'center'}
+          >
+            <Heading 
+              py={'2'} 
+              size={'md'} 
+            >
+              Revenue Sales Report
+            </Heading>
             <SalesChart/>
           </Box>
-          <Box alignSelf={'center'}>
-            <Box py={'4'} textAlign={'center'} w={'40vw'}>
-              <Heading py={'2'} size={'md'}>Order Progress Tracker</Heading>
+          {/* --- ORDER --- */}
+          <Box 
+            alignSelf={'center'}
+          >
+            <Box 
+              py={'4'} 
+              textAlign={'center'} 
+              w={{base: 'none', sm: 'none',md:'40vw', lg: '40vw'}}
+            >
+              <Heading 
+                py={'2'} 
+                size={'md'}
+              >
+                Order Progress Tracker
+              </Heading>
               <OrderChart/>
             </Box>
           </Box>
+          {/* ///// PRODUCT LIST TITLE AND FILTER ///// */}
           <Box>
             <Flex
               justifyContent={'space-between'}
               mt={'4'}
+              mx={{base: '1.5', sm: '1.5', md: '2', lg: '4'}}
             >
               <Flex
-                alignItems={'flex-end'}
+                alignItems={{base: 'start', sm:'start', md: 'baseline', lg: 'baseline'}}
+                flexDir={{base: 'column', sm: 'column', md: 'inherit', lg: 'inherit'}}
               >
-                <Heading size={'md'} letterSpacing={'tight'} >Product List</Heading>
-                <Text fontSize={'sm'} color={'gray'} ml={'2'}><Flex display={'inline-flex'} fontWeight={'bold'}>{branchName()}</Flex></Text>
+                <Heading 
+                  size={'md'} 
+                  letterSpacing={'tight'} 
+                >
+                  Product List
+                </Heading>
+                <Text 
+                  fontSize={'sm'} 
+                  color={'gray'} 
+                  ml={{base: '0', sm: '0', md:'2', lg: '2'}}
+                >
+                    <Flex 
+                      // display={'inline-flex'}
+                      fontWeight={'bold'}
+                    >
+                      {branchName()}
+                    </Flex>
+                </Text>
               </Flex>
               <Input
                 h={'1.5rem'}
                 placeholder='Filter by name' 
                 size="sm" 
-                w={'25%'}
+                w={{base:'39%', sm: '40%', md:'25%', lg:'25%'}}
                 type={'search'} 
                 rounded={'lg'} 
                 backgroundColor={'white'}
@@ -453,14 +567,27 @@ function AdminLanding() {
                   variant={'unstyled'} 
                   mt={'4'}
                   size={'sm'}
+                  sx={{
+                    td:{
+                      p:'0.45rem 0.5rem',
+                      borderBottom: 'none'
+                    },
+                    th: {
+                      p:'0.45rem 0.5rem',
+                      borderBottom: 'none'
+                    }
+                  }}
+                  mx={{base: '0.5', sm: '1', md:'4', lg: '8'}}
                 >
                   <Thead>
                     <Th
                       fontWeight={'semibold'}
                       onClick={() => handleSortProduct('name')}
                     >
-                      <Flex alignItems={'center'}>
-                        Product Name
+                      <Flex 
+                        alignItems={'center'}
+                      >
+                        Product
                         <Icon 
                             as={
                               productSort === 'name' && productOrder === 'ASC' ?
@@ -473,7 +600,9 @@ function AdminLanding() {
                       fontWeight={'semibold'}
                       onClick={() => handleSortCategory()}
                     >
-                      <Flex alignItems={'center'}>
+                      <Flex 
+                        alignItems={'center'}
+                      >
                         Category 
                         <Icon 
                             as={
@@ -488,7 +617,10 @@ function AdminLanding() {
                       fontWeight={'semibold'}
                       onClick={() => handleSortProduct('price')}
                     >
-                      <Flex alignItems={'center'} justifyContent={'center'}>
+                      <Flex 
+                        alignItems={'center'} 
+                        justifyContent={'center'}
+                      >
                         Price
                         <Icon 
                             as={
@@ -503,7 +635,10 @@ function AdminLanding() {
                       fontWeight={'semibold'}
                       onClick={() => handleSortStock()}
                     >
-                      <Flex alignItems={'center'} justifyContent={'center'}>
+                      <Flex 
+                        alignItems={'center'} 
+                        justifyContent={'center'}
+                      >
                         Stock
                         <Icon 
                             as={
@@ -529,16 +664,21 @@ function AdminLanding() {
             </Flex>
           </Box>
         </Flex>
+        {/* RIGHT SIDE */}
         <Flex
-          w={'30vw'}
+          w={{base: '100vw', sm: '100vw', md:'30vw', lg: '30vw'}}
+          minW={{ base: null, sm: null, md: '30vw', lg: '30vw'}}
           h={'auto'}
+          flexDir={{base:'column', sm:'column', md:'row', lg: 'row'}}
           backgroundColor={'gray.100'}
+          mt={{base: '4', sm: '4', md: '0', lg: '0'}}
+          pb={{base: '2', sm: '2', md: '0', lg: '0'}}
         >
           <Box>
             {/* ///////// TABLE OF BRANCH ADMIN LIST ///////// */}
             <Box 
-              h={'50%'}
-              w={'30vw'}
+              h={{base: '45vh', sm: '45vh', md:'50%', lg: '50%'}}
+              w={{base: '100vw', sm: '100vw',md:'30vw', lg: '30vw'}}
               // backgroundColor={'lightcoral'}
               textAlign={'start'}
               p={'2%'}
@@ -564,7 +704,7 @@ function AdminLanding() {
                   h={'1.5rem'}
                   placeholder='Filter by name' 
                   size="sm" 
-                  w={'35%'}
+                  w={{base:'37%', sm: '48%', md:'39%', lg:'39%'}}
                   type={'search'} 
                   rounded={'lg'} 
                   backgroundColor={'white'}
@@ -640,8 +780,8 @@ function AdminLanding() {
             </Box>
             {/* ///////// TABLE OF BRANCH CUSTOMER LIST ///////// */}
             <Box
-              h={'50%'}
-              w={'30vw'}
+              h={{base: '45vh', sm: '45vh', md:'50%', lg: '50%'}}
+              w={{base: '100vw', sm: '100vw',md:'30vw'}}
               // backgroundColor={'skyblue'}
               textAlign={'start'}
               p={'2%'}
@@ -666,7 +806,7 @@ function AdminLanding() {
                   h={'1.5rem'}
                   placeholder='Filter by name' 
                   size="sm" 
-                  w={'35%'}
+                  w={{base:'37%', sm: '48%', md:'39%', lg:'39%'}}
                   type={'search'} 
                   rounded={'lg'} 
                   backgroundColor={'white'}

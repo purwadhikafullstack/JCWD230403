@@ -38,8 +38,10 @@ import {BsPersonVcard, BsFillBoxSeamFill} from 'react-icons/bs';
 import {HiOutlinePresentationChartLine} from 'react-icons/hi';
 import {BiTransfer, BiCategoryAlt} from 'react-icons/bi';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 function Sidebar() {
+    const roleId = useSelector((state) => state.authAdminReducer.roleId);
     const navigate = useNavigate();
     return ( 
         <Flex
@@ -73,38 +75,47 @@ function Sidebar() {
                   <Text className='active' onClick={() => navigate('/admin')}>Home</Text>
                 </Link>
               </Flex>
-              <Flex className='sidebar-items' justifyContent={'center'}>
-                <Link display={{base:'center', sm:'center', md:'flex-start', lg:'flex-start'}}>
-                  <Icon display={{base:'none', sm:'none', md:'flex', lg:'flex'}} as={BsPersonVcard} fontSize={'2xl'} className='active-icon' onClick={() => navigate('/usermanagement')}/>
-                </Link>
-                <Link _hover={{textDecoration:'none'}} display={{base:'flex', sm:'flex', md:'none', lg:'flex'}}>
-                  <Text className='active' onClick={() => navigate('/usermanagement')}>Employee</Text>
-                </Link>
-              </Flex>
-              <Flex className='sidebar-items' justifyContent={'center'}>
-                <Link display={{base:'center', sm:'center', md:'flex-start', lg:'flex-start'}}>
-                  <Icon display={{base:'none', sm:'none', md:'flex', lg:'flex'}} as={BiCategoryAlt} fontSize={'2xl'} className='active-icon' onClick={() => navigate('/categorymanagement')}/>
-                </Link>
-                <Link _hover={{textDecoration:'none'}} display={{base:'flex', sm:'flex', md:'none', lg:'flex'}}>
-                  <Text className='active' onClick={() => navigate('/categorymanagement')} >Category</Text>
-                </Link>
-              </Flex>
-              <Flex className='sidebar-items' justifyContent={'center'}>
-                <Link display={{base:'center', sm:'center', md:'flex-start', lg:'flex-start'}}>
-                  <Icon display={{base:'none', sm:'none', md:'flex', lg:'flex'}} as={BsFillBoxSeamFill} fontSize={'2xl'} className='active-icon' onClick={() => navigate('/productmanagement')}/>
-                </Link>
-                <Link _hover={{textDecoration:'none'}} display={{base:'flex', sm:'flex', md:'none', lg:'flex'}}>
-                  <Text className='active' onClick={() => navigate('/productmanagement')} >Product</Text>
-                </Link>
-              </Flex>
-              <Flex className='sidebar-items' justifyContent={'center'}>
-                <Link display={{base:'center', sm:'center', md:'flex-start', lg:'flex-start'}}>
-                  <Icon display={{base:'none', sm:'none', md:'flex', lg:'flex'}} as={BiTransfer} fontSize={'2xl'} className='active-icon' onClick={() => navigate('/transaction')}/>
-                </Link>
-                <Link _hover={{textDecoration:'none'}} display={{base:'flex', sm:'flex', md:'none', lg:'flex'}}>
-                  <Text className='active' onClick={() => navigate('/transaction')} >Transaction</Text>
-                </Link>
-              </Flex>
+              {
+                roleId === 1 ?
+                  <Flex className='sidebar-items' justifyContent={'center'}>
+                    <Link display={{base:'center', sm:'center', md:'flex-start', lg:'flex-start'}}>
+                      <Icon display={{base:'none', sm:'none', md:'flex', lg:'flex'}} as={BsPersonVcard} fontSize={'2xl'} className='active-icon' onClick={() => navigate('/usermanagement')}/>
+                    </Link>
+                    <Link _hover={{textDecoration:'none'}} display={{base:'flex', sm:'flex', md:'none', lg:'flex'}}>
+                      <Text className='active' onClick={() => navigate('/usermanagement')}>Employee</Text>
+                    </Link>
+                  </Flex>
+                  : null
+              }
+              {
+                roleId === 2 ?
+                <>
+                  <Flex className='sidebar-items' justifyContent={'center'}>
+                    <Link display={{base:'center', sm:'center', md:'flex-start', lg:'flex-start'}}>
+                      <Icon display={{base:'none', sm:'none', md:'flex', lg:'flex'}} as={BiCategoryAlt} fontSize={'2xl'} className='active-icon' onClick={() => navigate('/categorymanagement')}/>
+                    </Link>
+                    <Link _hover={{textDecoration:'none'}} display={{base:'flex', sm:'flex', md:'none', lg:'flex'}}>
+                      <Text className='active' onClick={() => navigate('/categorymanagement')} >Category</Text>
+                    </Link>
+                  </Flex>
+                  <Flex className='sidebar-items' justifyContent={'center'}>
+                    <Link display={{base:'center', sm:'center', md:'flex-start', lg:'flex-start'}}>
+                      <Icon display={{base:'none', sm:'none', md:'flex', lg:'flex'}} as={BsFillBoxSeamFill} fontSize={'2xl'} className='active-icon' onClick={() => navigate('/productmanagement')}/>
+                    </Link>
+                    <Link _hover={{textDecoration:'none'}} display={{base:'flex', sm:'flex', md:'none', lg:'flex'}}>
+                      <Text className='active' onClick={() => navigate('/productmanagement')} >Product</Text>
+                    </Link>
+                  </Flex>
+                  <Flex className='sidebar-items' justifyContent={'center'}>
+                    <Link display={{base:'center', sm:'center', md:'flex-start', lg:'flex-start'}}>
+                      <Icon display={{base:'none', sm:'none', md:'flex', lg:'flex'}} as={BiTransfer} fontSize={'2xl'} className='active-icon' onClick={() => navigate('/transaction')}/>
+                    </Link>
+                    <Link _hover={{textDecoration:'none'}} display={{base:'flex', sm:'flex', md:'none', lg:'flex'}}>
+                      <Text className='active' onClick={() => navigate('/transaction')} >Transaction</Text>
+                    </Link>
+                  </Flex>
+                </> : null
+              }
               <Flex className='sidebar-items' justifyContent={'center'}>
                 <Link display={{base:'center', sm:'center', md:'flex-start', lg:'flex-start'}}>
                   <Icon display={{base:'none', sm:'none', md:'flex', lg:'flex'}} as={HiOutlinePresentationChartLine} fontSize={'2xl'} className='active-icon' onClick={() => navigate('/report')}/>

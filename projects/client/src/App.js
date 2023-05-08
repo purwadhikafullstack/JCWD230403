@@ -112,9 +112,18 @@ function App() {
                 :
                 <Route path="*" element={<PageNotFound/>}/>
               }
-              <Route path="/categorymanagement" element={<CategoryManagement/>} />
-              <Route path="/productmanagement" element={<ProductManagement/>}/>
-              <Route path="/transaction" element={<Transaction/>}/>
+              {
+                adminRoleId === 2 ? 
+                (
+                  <>
+                    <Route path="/categorymanagement" element={<CategoryManagement/>} />
+                    <Route path="/productmanagement" element={<ProductManagement/>}/>
+                    <Route path="/transaction" element={<Transaction/>}/>
+                  </>
+                ) 
+                :
+                <Route path="*" element={<PageNotFound/>}/>
+              }
               <Route path="/report" element={<Report/>}/>
               <Route path="*" element={<PageNotFound/>}/>
             </Routes>
