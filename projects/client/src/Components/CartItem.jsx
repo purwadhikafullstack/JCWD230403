@@ -27,11 +27,12 @@ import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import axios from 'axios'
 
-function CartItem({ productName, price, productImg, quantity, category, cartId, getCartItems, checkAllProduct }) {
+function CartItem({ productName, price, productImg, quantity, category, cartId, productId, getCartItems, checkAllProduct, finalPrice }) {
 
     // state function
-    const [productStock, setProductStock] = useState(0)
-    const [qtyProduct, setQtyProduct] = useState(quantity)
+    const [productStock, setProductStock] = useState(0);
+    const [qtyProduct, setQtyProduct] = useState(quantity);
+    const [checkProduct, setCheckProduct] = useState(false);
 
 
     // handle button 
@@ -43,6 +44,7 @@ function CartItem({ productName, price, productImg, quantity, category, cartId, 
 
     // redux
     const cartSelector = useSelector((state) => state.cartSlice)
+    // console.log('ini isi cart nya dari reducer isChecked: ', cartSelector.cart);
 
     // toast 
     const toast = useToast()
@@ -56,23 +58,91 @@ function CartItem({ productName, price, productImg, quantity, category, cartId, 
         }).format(value);
     };
 
-    // get cart by id
+    // get cart item by id (stock)
     const getCartById = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/cart/${cartId}`)
+            const response = await axios.get(`http://localhost:8000/api/cart/${cartId}`)
+            
+            // console.log('ini dari response getcartbyid', response.data.data[0].product.stockBranches[0].stock)
 
-            console.log('ini dari response cartId: ', response)
+            const stock = response.data.data[0].product.stockBranches[0].stock
+
+            setProductStock(stock)
+
+            // if(response.data.data.isChecked === true){
+            //     setCheckProduct(true)
+            // } else {
+            //     setCheckProduct(false)
+            // }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    // get cart by product
+    const getCartByProduct = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8000/api/cart/cartItem/${productId}`)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    // check cart item
+    const checkPerProduct = async () => {
+        try {
+            const response = await axios.patch(`http://localhost:8000/api/cart/check/${cartId}`)
+
+            console.log('ini response dari checkperproduct: ', response)
+
+            if (response.data.data.isChecked === true) {
+                setCheckProduct(true)
+            } else {
+                setCheckProduct(false)
+            }
+            finalPrice()
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const addQty = async () => {
+        try {
+            await axios.patch(`http://localhost:8000/api/cart/add/${cartId}`)
+            getCartItems()
+            setQtyProduct(quantity + 1)
+
+            finalPrice()
+            getCartByProduct()
 
         } catch (error) {
             console.log(error)
         }
     }
-    // get cart item by id
+
+    const decQty = async () => {
+        try {
+            await axios.patch(`http://localhost:8000/api/cart/decrease/${cartId}`)
+            getCartItems()
+            if (quantity <= 1) {
+                return 1
+            }
+            setQtyProduct(quantity - 1)
+
+            finalPrice()
+            getCartByProduct()
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     // render 
     useEffect(() => {
+        getCartById()
+        getCartByProduct()
         getCartItems()
-    }, [checkAllProduct])
+    }, [checkAllProduct, qtyProduct])
 
 
     return (
@@ -90,6 +160,8 @@ function CartItem({ productName, price, productImg, quantity, category, cartId, 
                         colorScheme='green'
                         size="lg"
                         borderColor="#6FA66F"
+                        // isChecked={checkProduct}
+                        onChange={() => checkPerProduct()}
                     ></Checkbox>
                     <Image
                         rounded="lg"
@@ -130,27 +202,27 @@ function CartItem({ productName, price, productImg, quantity, category, cartId, 
                     >
                         <Button
                             variant="unstyled"
-                        // color={qtyProduct > 1 ? "#0095DA" : "#c0cada"}
+                            onClick={decQty}
+                            color={qtyProduct > 1 ? "#0095DA" : "#c0cada"}
+                            // isDisabled={productStock <= qtyProduct}
+
                         >
                             <MinusIcon fontSize="10" />
                         </Button>
 
                         <Text mt="2">
-                            {/* {qtyProduct} */}
-                            1
+                            {qtyProduct}
+                            
                         </Text>
 
                         <Button
                             variant="unstyled"
-                        // isDisabled={productStock <= qtyProduct}
-                        // color={productStock <= qtyProduct ? "#c0cada" : "#0095DA"}
+                            onClick={addQty}
+                            color={productStock <= qtyProduct ? "#c0cada" : "#0095DA"}
                         >
                             <AddIcon fontSize="10" />
 
                         </Button>
-
-
-
                     </Box>
 
                     <HStack spacing="1">

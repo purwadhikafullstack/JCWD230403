@@ -41,7 +41,7 @@ import { addProductToCart } from '../../Reducers/cartSlice';
 import CarouselProduct from '../../Components/CarouselProduct';
 import Header from '../../Components/Header'
 function ProductDetailUser() {
-
+ 
     // Token
     let token = localStorage.getItem('grocery_login')
 
@@ -55,6 +55,9 @@ function ProductDetailUser() {
     // redux toolkit
     const authSelector = useSelector((state) => state.authUserReducer)
     const cartSelector = useSelector((state) => state.cartSlice)
+
+    console.log("ini isi cart yang di add to cart dari redux: ", cartSelector)
+
     const dispatch = useDispatch()
 
     // react router
@@ -131,6 +134,8 @@ function ProductDetailUser() {
 
                 // dispatch(addProductToCart(response.data.data))
 
+                // console.log("ini yang redux cart nya: ", addProductToCart)
+
                 toast({
                     title: "Added",
                     status: "success",
@@ -148,6 +153,24 @@ function ProductDetailUser() {
                 duration: 1000,
                 description: err.response.data.message,
             })
+        }
+    }
+
+    // update qty of existed product in cart
+    const updateAddProduct = async () => {
+        try {
+            let updateQty ={
+                quantity: qty
+            }
+
+            await axios.patch(`http://localhost:8000/api/cart/addexisting/${products?.id}`, updateQty)
+            toast({
+                title: "added",
+                status: "success",
+                duration: 1000
+            })
+        } catch (error) {
+            console.log(error)
         }
     }
 
@@ -173,6 +196,10 @@ function ProductDetailUser() {
     useEffect(() => {
         getProduct()
     }, [])
+
+    // useEffect(() => {
+    //     addToCart()
+    // }, [])
 
     return (
         <>

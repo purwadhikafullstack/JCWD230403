@@ -2,13 +2,13 @@ const { Op } = require('sequelize');
 const models = require('../models');
 const { v4: uuidv4 } = require('uuid');
 const cart = require('../models/cart');
+const { sequelize } = require('../models');
 // const {} = require('')
 
 module.exports = {
     addToCart: async (req, res, next) => {
         try {
             // const { quantity } = req.body;
-            // 
             // const { userId } = req.decrypt.id
 
             const getUser = await models.user.findAll({
@@ -24,24 +24,130 @@ module.exports = {
             if (getUser.length > 0) {
                 const uuid = uuidv4()
                 const { stockBranchId, quantity, productId } = req.body
+
+                const findProduct = await models.cart.findAll({
+
+                    attritbutes: ["id", "isChecked", "quantity"],
+                    include: [
+                        {
+                            model: models.product,
+                            attritbutes: ["name", "price"],
+                            include: [
+                                {
+                                    model: models.stockBranch,
+                                    atritbuttes: ["product_id", "stock", "branch_id"],
+                                    // where: {
+                                    //     product_id: { [Op.like]: `%${product_id}%` }
+                                    // }
+                                }
+                            ]
+                        }
+                    ]
+                })
+
+                // console.log('ini dari findProduct.product: ', findProduct[0].product)
+
+                const findProductStockId = await models.product.findAll({
+                    where: {
+                        id: productId
+                    }, include: [
+                        {
+                            model: models.stockBranch
+                        }
+                    ]
+                })
+
+                // console.log('ini findProductStock', findProductStockId)
+
+                const stock = findProductStockId[0].dataValues.stockBranches[0].dataValues.stock
+
+                // console.log('ini stock: ', stock);
+
+                if (stock === 0) {
+                    return res.status(400).send({
+                        message: 'Out of stock'
+                    })
+                }
+
+                if (findProduct && quantity > stock) {
+                    return res.status(400).send({
+                        message: 'not enough stock available'
+                    })
+                }
+
+                // if (!findProduct) {
                 const addProduct = await models.cart.create({
                     uuid,
-                    // stockBranchId,
+                    stockBranchId: findProductStockId[0].dataValues.stockBranches[0].dataValues.id,
                     userId: req.decrypt.id,
                     productId: productId,
                     quantity: quantity
                 })
-
                 return res.status(200).send({
-                    message: 'Product added to cart',
+                    message: 'Item added to cart',
                     data: addProduct
                 })
-
             } else {
                 console.log(error)
                 next(error)
             }
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    },
 
+    addExistingProduct: async (req, res, next) => {
+        try {
+            const { productId } = req.params
+            const { quantity } = req.body
+            const updateQty = await models.cart.findAll({
+                where: {
+                    // id: id,
+                    productId: productId,
+                },
+                include: [
+                    {
+                        model: models.product,
+                        include: [{ model: models.stockBranch }]
+                    }
+                ]
+            })
+
+            const stock = updateQty[0].dataValues.product.dataValues.stockBranches[0].stock
+            // console.log('ini stock dari updateQty: ', stock);
+
+            if (updateQty[0].quantity + quantity > stock) {
+                return res.status(400).send({
+                    message: 'Out of stock'
+                })
+            }
+
+            if (!quantity) {
+                await models.cart.update({
+                    quantity: updateQty[0].quantity + 1
+                },
+                    {
+                        where: {
+                            id: updateQty[0].id
+                        }
+                    }
+                )
+                return res.status(200).send({
+                    message: 'product updated'
+                })
+            }
+
+            if (quantity) {
+                await models.cart.update({
+                    quantity: updateQty[0].quantity + quantity
+                }, {
+                    where: { id: updateQty[0].id }
+                })
+                return res.status(200).send({
+                    message: 'product updated'
+                })
+            }
         } catch (error) {
             console.log(error);
             next(error)
@@ -64,7 +170,7 @@ module.exports = {
                 const getUsersCart = await models.cart.findAll({
                     where: {
                         [Op.and]: [
-                            { isChecked: 0 },
+                            // { isChecked: 0 },
                             { userId: req.decrypt.id }
                         ],
                     },
@@ -76,6 +182,8 @@ module.exports = {
                     ],
                     order: [["createdAt", "DESC"]]
                 })
+
+                // console.log('ini getusercart: ', getUsersCart)
                 return res.status(200).send({
                     message: 'get user\'s cart',
                     data: getUsersCart
@@ -89,43 +197,41 @@ module.exports = {
 
     checkProduct: async (req, res, next) => {
         try {
-            const { id } = req.params
+            let getCart = await models.cart.findAll({
+                where: {
+                    id: req.params.id
+                }
+            })
+            // console.log('Data dari getCartId', getCart)
 
-            const checkProduct = await models.cart.findByPk(id)
-
-            if (checkProduct.isChecked === true) {
-                await models.cart.update(
-                    { isChecked: false },
-                    { where: { id: checkProduct.id } }
-                )
-
-                const uncheckProduct = await models.cart.findByPk(id, {
-                    include: [
-                        { model: models.product },
-                    ],
+            if (getCart[0].dataValues.isChecked === false) {
+                const unChecked = await models.cart.update({
+                    isChecked: 1
+                }, {
+                    where: {
+                        id: req.params.id
+                    }
                 })
 
-                return res.status(200).send({
-                    message: "Product Uncheck",
-                    data: uncheckProduct,
+                res.status(200).send({
+                    success: true,
+                    message: "unchecked",
+                    data: unChecked
+                })
+            } else {
+                const checked = await models.cart.update({
+                    isChecked: 0
+                }, {
+                    where: {
+                        id: req.params.id
+                    }
+                })
+                res.status(200).send({
+                    success: true,
+                    message: "checked",
+                    data: checked
                 })
             }
-
-            await models.cart.update(
-                { isChecked: true },
-                { where: { id: checkProduct.id } }
-            )
-
-            const checkProductById = await models.cart.findByPk(id, {
-                include: [
-                    { model: models.product },
-                ],
-            })
-
-            return res.status(200).send({
-                message: "Product Checked",
-                data: checkProductById,
-            })
         } catch (error) {
             console.log(error)
             next(error)
@@ -183,63 +289,134 @@ module.exports = {
             next(error)
         }
     },
-  
+
+    // increase & decrease
+    decreaseQty: async (req, res, next) => {
+        try {
+            const { id } = req.params
+
+            const findProduct = await models.cart.findAll({
+                where: {
+                    id: id
+                }
+            })
+
+            // console.log('ini findProduct dari decQty: ', findProduct[0].dataValues.quantity)
+
+            if (findProduct[0].dataValues.quantity <= 1) {
+                return res.status(200).send({
+                    message: "Minimum quantity product is 1",
+                })
+            }
+
+            await models.cart.update(
+                { quantity: findProduct[0].dataValues.quantity - 1 },
+                { where: { id: findProduct[0].id } }
+            )
+
+            return res.status(200).send(
+                {
+                    message: "Quantity decreased"
+                })
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    },
+    addQty: async (req, res, next) => {
+        try {
+            const { id } = req.params
+            // const { quantity } = req.body.quantity
+
+            const findProduct = await models.cart.findAll({
+                where: {
+                    id: id
+                },
+                include: [
+                    {
+                        model: models.product,
+                        // atritbuttes: ["id", "name", "stockBranchId"],
+                        include: [
+                            {
+                                model: models.stockBranch
+                                // atritbuttes: ["stock"]
+                            }
+                        ]
+                    }
+                ]
+            })
+
+            // console.log('ini dari findProduct addQty: ', findProduct[0].dataValues.product.dataValues.stockBranches[0].stock)
+
+            const stock = findProduct[0].dataValues.product.dataValues.stockBranches[0].stock
+
+            if (findProduct[0].quantity + 1 > stock) {
+                return res.status(400).send({
+                    message: 'you are at maximum product\'s stock available'
+                })
+            }
+
+            await models.cart.update({
+                quantity: findProduct[0].quantity + 1
+            }, {
+                where: { id: findProduct[0].id }
+            })
+
+            return res.status(200).send({
+                message: 'added quantity'
+            })
+        } catch (error) {
+            console.log(error)
+            next(error)
+        }
+    },
     totalPrice: async (req, res, next) => {
         try {
-          const { id } = req.decrypt.id;
-      
-          const getSubTotal = await models.cart.findAndCountAll({
-            attributes: [
-              [sequelize.fn("sum", sequelize.col("models.product.price * models.cart.quantity")), "totalPrice"],
-              [sequelize.fn("sum", sequelize.col("models.quantity")), "totalQty"]
-            ],
-            include: {
-              model: models.product,
-              attributes: []
-            },
-            where: {
-              isChecked: true,
-              userId: id
-            },
-            raw: true
-          });
-      
-          const totalPrice = getSubTotal.rows[0];
-      
-          return res.status(200).send({ message: "Total Price", data: totalPrice });
+            const cartData = await models.cart.findAll({
+                where: {
+                    userId: req.decrypt.id,
+                    isChecked: true
+                },
+                include: [
+                    {
+                        model: models.product,
+                        attritbutes: ['price']
+                    }
+                ]
+            })
+
+            console.log('ini cart data: ', cartData)
+
+            let finalPrice = 0
+            let totalQty = 0
+
+            cartData.forEach(val => {
+                finalPrice += val.quantity * val.product.price
+                totalQty += val.quantity
+            });
+
+            return res.status(200).send({
+                message: 'Total price',
+                data: {
+                    finalPrice, totalQty
+                }
+            })
+
+           
         } catch (error) {
-          console.error(error);
-          next(error)
+            console.error(error);
+            next(error)
         }
-      },
-      
-    // getCartProductById: async (req, res) => {
-    //     try {
-    //       const { ProductId } = req.params
-    //       const getCartProductById = await db.Cart.findOne({
-    //         where: { ProductId },
-    //         include: [
-    //           {
-    //             model: db.Product,
-    //             include: [{ model: db.ProductPicture }, { model: db.ProductStock }],
-    //           },
-    //         ],
-    //       })
-    //       return res.status(200).json({
-    //         message: "Get Product Cart By Id",
-    //         data: getCartProductById,
-    //       })
-    //     } catch (err) {
-    //       console.log(err)
-    //       return res.status(500).json({
-    //         message: err.message,
-    //       })
-    //     }
-    //   },
+    },
+
     getCartById: async (req, res, next) => {
         try {
             const { id } = req.params
-            const getCartById = await models.cart.findByPk(id, {
+            const getCartById = await models.cart.findAll({
+                where: {
+                    id: id
+                },
+
                 include: [
                     {
                         model: models.product,
@@ -257,26 +434,51 @@ module.exports = {
         }
     },
 
+    getCartProductById: async (req, res, next) => {
+        try {
+            const { productId } = req.params
+            const getCartProductById = await models.cart.findAll({
+                where: {
+                    productId: productId
+                }, include: [
+                    {
+                        model: models.product,
+                        include: [{
+                            model: models.stockBranch
+                        }]
+                    }
+                ]
+            })
+            return res.status(200).send({
+                message: "get product cart by Id",
+                data: getCartProductById
+            })
+        } catch (error) {
+            console.log(error)
+            next(error)
+        }
+    },
+
     deleteProduct: async (req, res, next) => {
         try {
-            const {id} = req.params
+            const { id } = req.params
 
             await models.cart.destroy({
                 where: {
-                    id:id
+                    id: id
                 },
             })
             return res.status(200).send({
                 message: "Item has been removed from your cart"
             })
-            
+
         } catch (error) {
             console.log(error)
             next(error)
         }
-    }, 
+    },
 
-    deleteAllProduct: async (req,res,next) => {
+    deleteAllProduct: async (req, res, next) => {
         try {
             await models.cart.destroy({
                 where: {

@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       user.hasMany(models.cart);
       user.hasMany(models.transaction);
       user.belongsTo(models.role, {foreignKey: 'roleId'});
+      user.belongsTo(models.branch, {foreignKey: "branchId"})
     }
   }
   user.init({

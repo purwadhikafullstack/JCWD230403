@@ -11,15 +11,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      stockBranch.belongsTo(models.admin);
+      // stockBranch.belongsTo(models.admin);
       stockBranch.belongsTo(models.branch, {
         foreignKey:'branch_id'});
       stockBranch.belongsTo(models.product, {
         foreignKey:'product_id'});
-      stockBranch.belongsTo(models.product, {
+      stockBranch.hasMany(models.product, {
         foreignKey:'stockBranchId'});
       stockBranch.hasMany(models.historyStockProduct);
-      stockBranch.hasMany(models.cart);
+      stockBranch.hasMany(models.cart, {
+        foreignKey: 'stockBranchId' 
+      });
     } 
   } 
   stockBranch.init({

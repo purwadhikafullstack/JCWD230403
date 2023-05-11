@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      branch.belongsTo(models.admin);
+      // branch.belongsTo(models.admin);
       branch.hasMany(models.stockBranch,{
         foreignKey:'branch_id'});
       branch.hasMany(models.addresses);
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       branch.hasMany(models.transaction);
       branch.hasMany(models.historyStockProduct);
       branch.belongsTo(models.product)
-
+      branch.hasMany(models.user, {foreignKey: "branchId" })
     }
   }
   branch.init({
@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     lattitude: DataTypes.STRING,
     city: DataTypes.STRING,
     province: DataTypes.STRING,
-    subDistrict: DataTypes.STRING
+    subDistrict: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'branch',

@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey:'product_id'});
       product.belongsTo(models.stockBranch, {foreignKey: 'stockBranchId'})
       product.hasMany(models.transaction_detail);
-      product.hasMany(models.cart);
+      product.hasMany(models.cart, {foreignKey: 'productId'});
       product.belongsTo(models.categories, {foreignKey: 'category_id'})
     }
   }  

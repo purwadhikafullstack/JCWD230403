@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     stockBranchId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
     branchId: DataTypes.INTEGER,
-    productId: DataTypes.INTEGER
+    productId: DataTypes.INTEGER 
   }, {
     sequelize,
     modelName: 'cart',

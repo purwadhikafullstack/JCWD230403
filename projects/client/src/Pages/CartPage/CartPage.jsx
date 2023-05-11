@@ -46,6 +46,10 @@ function CartPage() {
     const dispatch = useDispatch()
     const cartSelector = useSelector((state) => state.cartSlice)
 
+    // console.log('ini reducer nya cart', cartSelector)
+
+    // console.log('ini cartselector dari cart page: ', cartSelector);
+
     // react-router-dom
     const navigate = useNavigate()
 
@@ -63,7 +67,7 @@ function CartPage() {
                     Authorization: `Bearer ${token}`
                 }
             })
-            // console.log('ini dari response getCartItem: ', response)
+            console.log('ini dari response getCartItem: ', response.data.data)
 
             dispatch(itemCart(response.data.data))
 
@@ -88,14 +92,18 @@ function CartPage() {
         }).format(value);
     };
 
-    
+
     // checked all product
     const checkAllProduct = async () => {
         try {
-            const response = await axios.patch("http://localhost:8000/api/cart/checkAll")
+            const response = await axios.patch("http://localhost:8000/api/cart/checkAll", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
 
-            // console.log('ini response dari yang di checked: ', response);
-            
+            console.log('ini response dari yang di checked: ', response);
+
             const productChecked = response.data.data.map((val) => val.isChecked)
 
             if (!productChecked.includes(false)) {
@@ -105,21 +113,25 @@ function CartPage() {
             }
 
             getCartItems()
-            
+            finalPrice()
         } catch (error) {
             console.log(error)
         }
     }
-    
+
     // total function
-    const totalHarga = async () => {
+    const finalPrice = async () => {
         try {
-            const response = await axios.get("http://localhost:8000/api/cart/total")
+            const response = await axios.get("http://localhost:8000/api/cart/price/total", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
 
+            console.log('ini response total harga: ', response.data.data);
 
-
-            dispatch(getSubTotal()) //totalPrice
-            dispatch(getTotalQty()) //totalqty
+            dispatch(getSubTotal(response.data.data.finalPrice)) //totalPrice
+            dispatch(getTotalQty(response.data.data.totalQty)) //totalqty
             getCartItems()
         } catch (err) {
             console.log(err)
@@ -127,7 +139,7 @@ function CartPage() {
     }
     // checkout button
     const btnCheckout = () => {
-        // navigate("")
+        navigate("/cart/shipment")
     }
 
     // delete product
@@ -154,12 +166,13 @@ function CartPage() {
                     quantity={val.quantity}
                     cartId={val.id}
                     isChecked={val.isChecked}
-                    productName={val.product.name}
-                    price={val.product.price}
-                    productImg={val.product.image}
+                    productName={val.product?.name}
+                    price={val.product?.price}
+                    productImg={val.product?.image}
                     // category={val.category.category}
                     getCartItems={getCartItems}
                     checkAllProduct={cartItems}
+                    finalPrice={finalPrice}
                 />
             )
         })
@@ -167,6 +180,7 @@ function CartPage() {
 
     useEffect(() => {
         getCartItems()
+        finalPrice()
     }, [])
 
     return (
@@ -198,6 +212,7 @@ function CartPage() {
                                 borderColor="#6FA66F"
                                 size="lg"
                                 colorScheme={'green'}
+                                onChange={()=> checkAllProduct}
                             >
                                 <Text>Select All</Text>
                             </Checkbox>
@@ -324,7 +339,7 @@ function CartPage() {
                                     rightIcon={<FaArrowRight />}
                                     color={'white'}
                                     rounded={'none'}
-                                // onClick={btnCheckout}
+                                    onClick={btnCheckout}
                                 >
                                     Checkout ( {cartSelector.totalQty} )
                                 </Button>
