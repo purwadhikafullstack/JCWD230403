@@ -41,7 +41,7 @@ import { addProductToCart } from '../../Reducers/cartSlice';
 import CarouselProduct from '../../Components/CarouselProduct';
 import Header from '../../Components/Header'
 function ProductDetailUser() {
- 
+
     // Token
     let token = localStorage.getItem('grocery_login')
 
@@ -159,7 +159,7 @@ function ProductDetailUser() {
     // update qty of existed product in cart
     const updateAddProduct = async () => {
         try {
-            let updateQty ={
+            let updateQty = {
                 quantity: qty
             }
 
@@ -338,27 +338,7 @@ function ProductDetailUser() {
                             </HStack>
                         </HStack>
                         {/* add to cart */}
-                        {/* {quantity === null ? ( */}
-                        <Button
-                            color="white"
-                            bg="#6FA66F"
-                            size="md"
-                            w='90%'
-                            mt="12"
-                            mx='auto'
-                            display={'flex'}
-                            justifyItems={'center'}
-                            p="4"
-                            rounded='none'
-                            justifyContent={'center'}
-                            _hover={{ boxShadow: 'xl' }}
-                            onClick={
-                                addToCart
-                            }
-                        >
-                            ADD TO CART
-                        </Button>
-                        {/* <HStack>
+                        {quantity === null ? (
                             <Button
                                 color="white"
                                 bg="#6FA66F"
@@ -366,17 +346,45 @@ function ProductDetailUser() {
                                 w='90%'
                                 mt="12"
                                 mx='auto'
+                                display={'flex'}
+                                justifyItems={'center'}
                                 p="4"
                                 rounded='none'
+                                justifyContent={'center'}
                                 _hover={{ boxShadow: 'xl' }}
-                                onClick={addToCart}
+                                onClick={
+                                    addToCart
+                                }
                             >
-                                <BsCartPlus />
-                                <Text ml={'4'}>
-                                    ADD TO CART
-                                </Text>
+                                ADD TO CART
                             </Button>
-                        </HStack> */}
+                        ) : (
+
+                            <HStack>
+                                <Button
+                                    color="white"
+                                    bg="#6FA66F"
+                                    size="md"
+                                    w='90%'
+                                    mt="12"
+                                    mx='auto'
+                                    display={'flex'}
+                                    justifyItems={'center'}
+                                    p="4"
+                                    rounded='none'
+                                    justifyContent={'center'}
+                                    _hover={{ boxShadow: 'xl' }}
+                                    onClick={
+                                        updateAddProduct
+                                    }
+                                >
+                                    <BsCartPlus />
+                                    <Text ml={'4'}>
+                                        ADD TO CART
+                                    </Text>
+                                </Button>
+                            </HStack>
+                            )}
                     </Box>
                 </Flex>
                 {/* description */}
