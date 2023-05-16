@@ -31,7 +31,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import axios from 'axios'
-import { itemCart, getSubTotal, getTotalQty } from "../../Reducers/cartSlice"
+import { itemCart, getSubTotal, getTotalQty, resetCart } from "../../Reducers/cartSlice"
 
 
 function CartPage() {
@@ -40,7 +40,7 @@ function CartPage() {
 
     // state function
     const [cartItems, setCartItems] = useState(false);
-    const [checkout, setCheckOut] = useState({});
+    // const [checkout, setCheckOut] = useState({});
 
     // redux toolkit 
     const dispatch = useDispatch()
@@ -120,6 +120,9 @@ function CartPage() {
     }
 
     // total function
+    // const [checkOut, setCheckOut] = useState([])
+    // const [total_price, setTotal_price] = useState(0)
+    // const [total_qty, setTotal_qty] = useState(0)
     const finalPrice = async () => {
         try {
             const response = await axios.get("http://localhost:8000/api/cart/price/total", {
@@ -128,18 +131,70 @@ function CartPage() {
                 }
             })
 
-            console.log('ini response total harga: ', response.data.data);
+            // console.log('ini response total harga: ', response.data.data);
+            
+            let finalPrice = 0
+            let totalQty = 0
 
-            dispatch(getSubTotal(response.data.data.finalPrice)) //totalPrice
-            dispatch(getTotalQty(response.data.data.totalQty)) //totalqty
+            response.data.data.forEach(val => {
+                finalPrice += val.quantity * val.product.price
+                totalQty += val.quantity
+            });
+
+            dispatch(getSubTotal(finalPrice))
+            dispatch(getTotalQty(totalQty))
             getCartItems()
+
+
+            // setCheckOut(response.data.data)
+
+            // let kali = response.data.data.map((val) => {
+
+            //     let total = 0
+            //     if (val.isChecked === true) {
+            //         total += val.quantity * val.product.price
+            //     } else {
+            //         total = 0
+            //     }
+
+            //     return total
+            // })
+
+            // let tambah = kali.reduce((a, b) => a + b)
+
+            // setTotal_price(parseInt(tambah))
+
+            // let amount = 0
+            // let totalQty = response.data.data.map((val) => {
+                
+            //     amount = val.quantity
+
+            //     amount.reduce((a,b) => a + b)
+
+            //     return amount 
+            // })
+
+            // let amount = totalQty.reduce((a, b) => a + b)
+
+            // setTotal_qty(totalQty)
+
         } catch (err) {
             console.log(err)
         }
     }
+
+    // const calculate = () => {
+    //     let kali = checkOut.map((val,idx) => {
+    //         return val.quantity * val.product.price
+    //     })
+    //     let tambah = kali.reduce((a,b) => a + b)
+    //     return tambah;
+    // }
     // checkout button
     const btnCheckout = () => {
+        dispatch(resetCart())
         navigate("/cart/shipment")
+
     }
 
     // delete product
@@ -212,7 +267,7 @@ function CartPage() {
                                 borderColor="#6FA66F"
                                 size="lg"
                                 colorScheme={'green'}
-                                onChange={()=> checkAllProduct}
+                                onChange={() => checkAllProduct}
                             >
                                 <Text>Select All</Text>
                             </Checkbox>
@@ -264,6 +319,7 @@ function CartPage() {
                     </Stack>
 
                     {/* Ringkasan Belanja */}
+
                     <Flex direction="column" align="center" flex="1">
                         <Stack
                             spacing="8"
@@ -274,7 +330,52 @@ function CartPage() {
                         >
                             <Heading size="md">Summary</Heading>
 
-                            {!cartSelector.totalQty ? (
+                            {!getTotalQty ? (
+                                <Stack spacing="6">
+                                    <Flex justify="space-between" fontSize="sm">
+                                        <Text fontWeight="medium" color="gray.600">
+                                            Amount of ({cartSelector.getTotalQty} pcs)
+                                        </Text>
+                                        <Text fontWeight="medium">
+                                            {/* Rp {cartSelector.subTotal} */}
+                                            {rupiah(cartSelector.subTotal)}
+                                        </Text>
+                                    </Flex>
+                                    <Flex justify="space-between">
+                                        <Text fontSize="lg" fontWeight="semibold">
+                                            Total
+                                        </Text>
+                                        <Text fontSize="xl" fontWeight="extrabold">
+                                            {/* Rp {cartSelector.getSubTotal} */}
+                                            {rupiah(cartSelector.subTotal)}
+                                        </Text>
+                                    </Flex>
+                                </Stack>
+                            ) : (
+
+                                <Stack spacing="6">
+                                    <Flex justify="space-between" fontSize="sm">
+                                        <Text fontWeight="medium" color="gray.600">
+                                            Amount of ({cartSelector.totalQty} pcs)
+                                        </Text>
+                                        <Text fontWeight="medium">
+                                            {/* Rp {cartSelector.subTotal} */}
+                                            {rupiah(cartSelector.subTotal)}
+                                        </Text>
+                                    </Flex>
+                                    <Flex justify="space-between">
+                                        <Text fontSize="lg" fontWeight="semibold">
+                                            Total
+                                        </Text>
+                                        <Text fontSize="xl" fontWeight="extrabold">
+                                            {/* Rp {cartSelector.subTotal} */}
+                                            {rupiah(cartSelector.subTotal)}
+                                        </Text>
+                                    </Flex>
+                                </Stack>
+                            )}
+
+                            {/* {!cartSelector.totalQty ? (
                                 <Stack spacing="6">
                                     <Flex justify="space-between" fontSize="sm">
                                         <Text fontWeight="medium" color="gray.600">
@@ -282,7 +383,7 @@ function CartPage() {
                                         </Text>
                                         <Text fontWeight="medium">
                                             Rp 0
-                                            {/* {rupiah(cartSelector.subTotal)} */}
+                                            {rupiah(cartSelector.subTotal)}
                                         </Text>
                                     </Flex>
                                     <Flex justify="space-between">
@@ -291,7 +392,7 @@ function CartPage() {
                                         </Text>
                                         <Text fontSize="xl" fontWeight="extrabold">
                                             Rp 0
-                                            {/* {rupiah(cartSelector.subTotal)} */}
+                                            {rupiah(cartSelector.subTotal)}
                                         </Text>
                                     </Flex>
                                 </Stack>
@@ -315,7 +416,7 @@ function CartPage() {
                                         </Text>
                                     </Flex>
                                 </Stack>
-                            )}
+                            )} */}
 
                             {!cartSelector.totalQty ? (
                                 <Button

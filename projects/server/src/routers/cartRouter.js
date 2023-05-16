@@ -21,7 +21,7 @@ route.patch('/add/:id', addQty)
 route.patch('/decrease/:id', decreaseQty)
 
 // add quantity to existed product in cart
-route.patch('/addexisting/:productId', addExistingProduct)
+// route.patch('/addexisting/:productId', addExistingProduct)
 
 // total price 
 route.get('/price/total', readToken, totalPrice)

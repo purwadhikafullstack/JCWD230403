@@ -27,12 +27,12 @@ import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import axios from 'axios'
 
-function CartItem({ productName, price, productImg, quantity, category, cartId, productId, getCartItems, checkAllProduct, finalPrice }) {
+function CartItem({ productName, price, productImg, quantity, category, cartId, productId, getCartItems, checkAllProduct, finalPrice, isChecked }) {
 
     // state function
     const [productStock, setProductStock] = useState(0);
     const [qtyProduct, setQtyProduct] = useState(quantity);
-    const [checkProduct, setCheckProduct] = useState(false);
+    const [checkProduct, setCheckProduct] = useState(isChecked ? true : false);
 
 
     // handle button 
@@ -160,9 +160,11 @@ function CartItem({ productName, price, productImg, quantity, category, cartId, 
                         colorScheme='green'
                         size="lg"
                         borderColor="#6FA66F"
-                        // isChecked={checkProduct}
+                        defaultChecked={checkProduct ? true : false}
                         onChange={() => checkPerProduct()}
-                    ></Checkbox>
+                    >
+                        {/* {checkProduct} */}
+                    </Checkbox>
                     <Image
                         rounded="lg"
                         width="120px"

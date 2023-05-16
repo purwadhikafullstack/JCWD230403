@@ -20,18 +20,19 @@ module.exports = {
             })
             // console.log('ini get user:', getUser);
 
+            const { productId, quantity } = req.body
 
             if (getUser.length > 0) {
                 const uuid = uuidv4()
-                const { stockBranchId, quantity, productId } = req.body
 
-                const findProduct = await models.cart.findAll({
-
-                    attritbutes: ["id", "isChecked", "quantity"],
+                // 1. cari product by id di model cart
+                const getCart = await models.cart.findAll({
+                    where: {
+                        productId: productId
+                    },
                     include: [
                         {
                             model: models.product,
-                            attritbutes: ["name", "price"],
                             include: [
                                 {
                                     model: models.stockBranch,
@@ -45,114 +46,125 @@ module.exports = {
                     ]
                 })
 
-                // console.log('ini dari findProduct.product: ', findProduct[0].product)
+                // console.log('ini getcart product id: ', getCart[0].dataValues.productId)
 
-                const findProductStockId = await models.product.findAll({
-                    where: {
-                        id: productId
-                    }, include: [
-                        {
-                            model: models.stockBranch
-                        }
-                    ]
-                })
-
-                // console.log('ini findProductStock', findProductStockId)
-
-                const stock = findProductStockId[0].dataValues.stockBranches[0].dataValues.stock
-
-                // console.log('ini stock: ', stock);
-
-                if (stock === 0) {
-                    return res.status(400).send({
-                        message: 'Out of stock'
-                    })
-                }
-
-                if (findProduct && quantity > stock) {
-                    return res.status(400).send({
-                        message: 'not enough stock available'
-                    })
-                }
-
-                // if (!findProduct) {
-                const addProduct = await models.cart.create({
-                    uuid,
-                    stockBranchId: findProductStockId[0].dataValues.stockBranches[0].dataValues.id,
-                    userId: req.decrypt.id,
-                    productId: productId,
-                    quantity: quantity
-                })
-                return res.status(200).send({
-                    message: 'Item added to cart',
-                    data: addProduct
-                })
-            } else {
-                console.log(error)
-                next(error)
-            }
-        } catch (error) {
-            console.log(error);
-            next(error)
-        }
-    },
-
-    addExistingProduct: async (req, res, next) => {
-        try {
-            const { productId } = req.params
-            const { quantity } = req.body
-            const updateQty = await models.cart.findAll({
-                where: {
-                    // id: id,
-                    productId: productId,
-                },
-                include: [
-                    {
-                        model: models.product,
-                        include: [{ model: models.stockBranch }]
-                    }
-                ]
-            })
-
-            const stock = updateQty[0].dataValues.product.dataValues.stockBranches[0].stock
-            // console.log('ini stock dari updateQty: ', stock);
-
-            if (updateQty[0].quantity + quantity > stock) {
-                return res.status(400).send({
-                    message: 'Out of stock'
-                })
-            }
-
-            if (!quantity) {
-                await models.cart.update({
-                    quantity: updateQty[0].quantity + 1
-                },
-                    {
+                // 2. jika ada, patch produk tsb untuk di tambahkan quantitynya
+                if (getCart[0].dataValues.productId === req.body.productId) {
+                    let findProductQuantity = await models.cart.findOne({
+                        attributes: ['quantity', 'productId', 'id'],
                         where: {
-                            id: updateQty[0].id
+                            productId
                         }
-                    }
-                )
-                return res.status(200).send({
-                    message: 'product updated'
-                })
-            }
+                    })
 
-            if (quantity) {
-                await models.cart.update({
-                    quantity: updateQty[0].quantity + quantity
-                }, {
-                    where: { id: updateQty[0].id }
-                })
-                return res.status(200).send({
-                    message: 'product updated'
-                })
+                    // console.log('ini findProductQuantity: ', findProductQuantity.dataValues)
+                    // console.log('ini req.body.quantity:', quantity)
+
+                    // let newQty = findProductQuantity.dataValues.quantity + quantity
+                    // console.log('ini newqty: ', newQty)
+
+                    const updateQty = await models.cart.update({
+                        quantity: findProductQuantity.dataValues.quantity + quantity
+                    }, {
+                        where: {
+                            id: findProductQuantity.dataValues.id
+                        }
+                    })
+
+                    const getNew = await models.cart.findOne({
+                        where: {
+                            id: findProductQuantity.dataValues.id
+                        }
+                    })
+
+                    // console.log('ini hasil update: ', updateQty)
+
+                    return res.status(200).send({
+                        message: 'data updated',
+                        data: {
+                            status: updateQty,
+                            data: getNew
+                        }
+                    })
+                } else {
+                    // 3. jika tidak ada, gunakan create ke model cart
+                    const addToCart = await models.cart.create({
+                        uuid,
+                        // stockBranchId: findProduct[0].dataValues.stockBranches[0].dataValues.id,
+                        userId: req.decrypt.id,
+                        productId: productId,
+                        quantity: quantity
+                    })
+
+                    return res.status(200).send({
+                        message: 'data add to cart',
+                        data: addToCart
+                    })
+                }
             }
+            // 4. get all cart
         } catch (error) {
             console.log(error);
             next(error)
         }
     },
+
+    // addExistingProduct: async (req, res, next) => {
+    //     try {
+    //         const { productId } = req.params
+    //         const { quantity } = req.body
+    //         const updateQty = await models.cart.findAll({
+    //             where: {
+    //                 // id: id,
+    //                 productId: productId,
+    //             },
+    //             include: [
+    //                 {
+    //                     model: models.product,
+    //                     include: [{ model: models.stockBranch }]
+    //                 }
+    //             ]
+    //         })
+
+    //         const stock = updateQty[0].dataValues.product.dataValues.stockBranches[0].stock
+    //         // console.log('ini stock dari updateQty: ', stock);
+
+    //         if (updateQty[0].quantity + quantity > stock) {
+    //             return res.status(400).send({
+    //                 message: 'Out of stock'
+    //             })
+    //         }
+
+    //         if (!quantity) {
+    //             await models.cart.update({
+    //                 quantity: updateQty[0].quantity + 1
+    //             },
+    //                 {
+    //                     where: {
+    //                         id: updateQty[0].id
+    //                     }
+    //                 }
+    //             )
+    //             return res.status(200).send({
+    //                 message: 'product updated'
+    //             })
+    //         }
+
+    //         if (quantity) {
+    //             await models.cart.update({
+    //                 quantity: updateQty[0].quantity + quantity
+    //             }, {
+    //                 where: { id: updateQty[0].id }
+    //             })
+    //             return res.status(200).send({
+    //                 message: 'product updated'
+    //             })
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //         next(error)
+    //     }
+    // },
     getAllCartItem: async (req, res, next) => {
         try {
             const getUser = await models.user.findAll({
@@ -163,7 +175,6 @@ module.exports = {
                 }
             })
             // console.log('ini get user:', getUser);
-
 
             if (getUser.length > 0) {
 
@@ -182,8 +193,6 @@ module.exports = {
                     ],
                     order: [["createdAt", "DESC"]]
                 })
-
-                // console.log('ini getusercart: ', getUsersCart)
                 return res.status(200).send({
                     message: 'get user\'s cart',
                     data: getUsersCart
@@ -205,7 +214,7 @@ module.exports = {
             // console.log('Data dari getCartId', getCart)
 
             if (getCart[0].dataValues.isChecked === false) {
-                const unChecked = await models.cart.update({
+                const checked = await models.cart.update({
                     isChecked: 1
                 }, {
                     where: {
@@ -215,11 +224,11 @@ module.exports = {
 
                 res.status(200).send({
                     success: true,
-                    message: "unchecked",
-                    data: unChecked
+                    message: "checked",
+                    data: checked
                 })
             } else {
-                const checked = await models.cart.update({
+                const unChecked = await models.cart.update({
                     isChecked: 0
                 }, {
                     where: {
@@ -228,8 +237,8 @@ module.exports = {
                 })
                 res.status(200).send({
                     success: true,
-                    message: "checked",
-                    data: checked
+                    message: "unChecked",
+                    data: unChecked
                 })
             }
         } catch (error) {
@@ -375,7 +384,7 @@ module.exports = {
             const cartData = await models.cart.findAll({
                 where: {
                     userId: req.decrypt.id,
-                    isChecked: true
+                    isChecked: 1
                 },
                 include: [
                     {
@@ -387,22 +396,12 @@ module.exports = {
 
             console.log('ini cart data: ', cartData)
 
-            let finalPrice = 0
-            let totalQty = 0
-
-            cartData.forEach(val => {
-                finalPrice += val.quantity * val.product.price
-                totalQty += val.quantity
-            });
-
             return res.status(200).send({
                 message: 'Total price',
-                data: {
-                    finalPrice, totalQty
-                }
+                data: cartData
             })
 
-           
+
         } catch (error) {
             console.error(error);
             next(error)

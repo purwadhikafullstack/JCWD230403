@@ -79,7 +79,7 @@ function ProductDetailUser() {
 
             setProducts(response.data.data[0])
             console.log('ini dari response.data[0]', response.data.data[0])
-            // setProductId(response.data.data[0].id)
+            setProductId(response.data.data[0].id)
             console.log("ini data dari response.data.id", response.data.data[0].id);
             // setProductImg(response.data.data[0].image)
             console.log('ini gambar dari response: ', response.data.data[0].image)
@@ -160,10 +160,10 @@ function ProductDetailUser() {
     const updateAddProduct = async () => {
         try {
             let updateQty = {
-                quantity: qty
+                quantity
             }
 
-            await axios.patch(`http://localhost:8000/api/cart/addexisting/${products?.id}`, updateQty)
+            await axios.patch(`http://localhost:8000/api/cart/addexisting/${productId}`, updateQty)
             toast({
                 title: "added",
                 status: "success",
@@ -338,53 +338,26 @@ function ProductDetailUser() {
                             </HStack>
                         </HStack>
                         {/* add to cart */}
-                        {quantity === null ? (
-                            <Button
-                                color="white"
-                                bg="#6FA66F"
-                                size="md"
-                                w='90%'
-                                mt="12"
-                                mx='auto'
-                                display={'flex'}
-                                justifyItems={'center'}
-                                p="4"
-                                rounded='none'
-                                justifyContent={'center'}
-                                _hover={{ boxShadow: 'xl' }}
-                                onClick={
-                                    addToCart
-                                }
-                            >
-                                ADD TO CART
-                            </Button>
-                        ) : (
-
-                            <HStack>
-                                <Button
-                                    color="white"
-                                    bg="#6FA66F"
-                                    size="md"
-                                    w='90%'
-                                    mt="12"
-                                    mx='auto'
-                                    display={'flex'}
-                                    justifyItems={'center'}
-                                    p="4"
-                                    rounded='none'
-                                    justifyContent={'center'}
-                                    _hover={{ boxShadow: 'xl' }}
-                                    onClick={
-                                        updateAddProduct
-                                    }
-                                >
-                                    <BsCartPlus />
-                                    <Text ml={'4'}>
-                                        ADD TO CART
-                                    </Text>
-                                </Button>
-                            </HStack>
-                            )}
+                        {/* {quantity === null ? ( */}
+                        <Button
+                            color="white"
+                            bg="#6FA66F"
+                            size="md"
+                            w='90%'
+                            mt="12"
+                            mx='auto'
+                            display={'flex'}
+                            justifyItems={'center'}
+                            p="4"
+                            rounded='none'
+                            justifyContent={'center'}
+                            _hover={{ boxShadow: 'xl' }}
+                            onClick={
+                                addToCart
+                            }
+                        >
+                            ADD TO CART
+                        </Button>
                     </Box>
                 </Flex>
                 {/* description */}

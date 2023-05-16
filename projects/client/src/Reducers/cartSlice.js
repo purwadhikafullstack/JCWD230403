@@ -23,9 +23,12 @@ const cartSlice = createSlice({
     getTotalQty: (state, action) => {
       state.totalQty = action.payload
     },
+    resetCart: (state, action) => {
+      state.cart = []
+    }
   },
 })
 
-export const { addProductToCart, itemCart, getSubTotal, getTotalQty } =
+export const { addProductToCart, itemCart, getSubTotal, getTotalQty, resetCart } =
   cartSlice.actions
 export default cartSlice.reducer
