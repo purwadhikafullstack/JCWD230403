@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Promo from '../Components/Promo';
 import ProductCategories from '../Components/ProductCategories';
 import ProductSuggestions from '../Components/ProductSuggestions';
@@ -11,6 +11,7 @@ import Pagination from '../Components/Pagination';
 import Location from '../Components/Location';
 import Header from '../Components/Header';
 import { useSelector } from 'react-redux';
+import { AiOutlineDoubleRight, AiOutlineDoubleLeft } from 'react-icons/ai';
 
 
 function Landing() {
@@ -86,10 +87,25 @@ function Landing() {
 
     console.log(`The nearest branch is km away.`, nearestBranch);
 
+    //// --- PRODUCT CATEGORY NAVIGATION --- ////
+    const sliderRef = useRef(null);
+
+    const scrollLeft = () => {
+        if (sliderRef.current) {
+          sliderRef.current.scrollBy({ left: -200, behavior: 'smooth' });
+        }
+      };
+    const scrollRight = () => {
+        if (sliderRef.current) {
+          sliderRef.current.scrollBy({ left: 200, behavior: 'smooth' });
+        }
+    };
+
     return (<div>
         <Header/>
         <Promo />
-        <Box py={'8'} mt='8' px={'2'} backgroundColor={'whitesmoke'}>
+        {/* --- PRODUCT CATEGORY --- */}
+        {/* <Box py={'8'} mt='8' px={'2'} backgroundColor={'whitesmoke'}>
             <Heading fontSize={'xl'}>Categories</Heading>
             <Flex maxW='6xs' flexWrap='wrap' justifyContent='center' gap={'2'} alignItem='start'>
                 <ProductCategories
@@ -110,6 +126,50 @@ function Landing() {
                 <ProductCategories
                     path="/product"
                 />
+            </Flex>
+        </Box> */}
+        <Box py={8} mt={8} px={8} backgroundColor="whitesmoke">
+          <Heading fontSize="xl">Categories</Heading>
+          <Flex
+              ref={sliderRef}
+              overflowX="scroll"
+              flexWrap="nowrap"
+              justifyContent="flex-start"
+              gap={2}
+              align="start"
+              css={{
+                scrollBehavior: 'smooth',
+                '&::-webkit-scrollbar': {
+                  display: 'none',
+                },
+                '-ms-overflow-style': 'none',
+                'scrollbar-width': 'none',
+              }}
+            >
+              <ProductCategories path="/product" />
+              <ProductCategories path="/product" />
+              <ProductCategories path="/product" />
+              <ProductCategories path="/product" />
+              <ProductCategories path="/product" />
+              <ProductCategories path="/product" />
+            </Flex>
+            <Flex justifyContent="center" mt={4}>
+              {/* Left navigation button */}
+              <IconButton
+                icon={<AiOutlineDoubleLeft />}
+                onClick={scrollLeft}
+                aria-label="Scroll Left"
+                size="sm"
+                variant="ghost"
+              />
+              {/* Right navigation button */}
+              <IconButton
+                icon={<AiOutlineDoubleRight />}
+                onClick={scrollRight}
+                aria-label="Scroll Right"
+                size="sm"
+                variant="ghost"
+              />
             </Flex>
         </Box>
         <>

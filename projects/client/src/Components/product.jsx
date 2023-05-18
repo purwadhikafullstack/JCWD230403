@@ -158,6 +158,7 @@ function Products({name, productimage, price, productId, stock, specialPrice}) {
                         ml={'auto'}
                         variant={'outline'}
                         colorScheme='green'
+                        size={'sm'}
                     >
                         Detail
                     </Button>
