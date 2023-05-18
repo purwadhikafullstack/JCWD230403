@@ -49,13 +49,13 @@ function AdminLanding() {
     setBranchId(selectBranch);
   }, [selectBranch])
 
-  const branches = {
-    1: 'Jakarta',
-    2: 'Bandung',
-    3: 'Bogor',
-    4: 'Bali',
-    5: 'Surabaya'
-  }
+  // const branches = {
+  //   1: 'Jakarta',
+  //   2: 'Bandung',
+  //   3: 'Bogor',
+  //   4: 'Bali',
+  //   5: 'Surabaya'
+  // }
 
   const branchName = () => {
     // return branches[branchId] || '';
@@ -65,6 +65,50 @@ function AdminLanding() {
       return 'All Branches'
     }
   }
+
+  ////////// GET BRANCH LIST //////////
+  const [branchList, setBranchList] = useState([]);
+
+  console.log("Data from branchList :", branchList);
+
+const getBranchList = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/branch/branchlist`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    setBranchList(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const branchData = branchList.map(branch => ({ id: branch.id, city: branch.city }));
+console.log("Branch Data:", branchData);
+
+const branches = branchList.reduce((acc, branch) => {
+  acc[branch.id] = branch.city;
+  return acc;
+}, {});
+
+console.log("Branches:", branches);
+// const getBranchList = async () => {
+//   try {
+//     const response = await axios.get(`${API_URL}/branch/branchlist?id=${''}`, {
+//       headers: {
+//         Authorization: `Bearer ${token}`
+//       }
+//     });
+//     setBranchList(response.data);
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+React.useEffect(() => {
+  getBranchList();
+}, []);
 
    ////////// ADMIN BRANCH LIST //////////
    const [adminPage, setAdminPage] = useState(0);
@@ -81,8 +125,8 @@ function AdminLanding() {
            Authorization: `Bearer ${token}`
          }
        })
-       console.log("ini data dari adminBranchList :", response);
-       console.log("type dari response data :", typeof response.data);
+      //  console.log("ini data dari adminBranchList :", response);
+      //  console.log("type dari response data :", typeof response.data);
        setAdminBranch(response.data.data)
        console.log("data dari set admin branch :", response.data.data);
        setAdminTotalData(response.data.datanum)
@@ -91,7 +135,7 @@ function AdminLanding() {
        console.log(error);
      }
    }
-   console.log("Ini Hasil Response Jumlah Admin :", adminTotalData);
+  //  console.log("Ini Hasil Response Jumlah Admin :", adminTotalData);
  
    const printAdminBranch = () => {
      return adminBranch.map((val, idx) => {
@@ -103,7 +147,7 @@ function AdminLanding() {
            >
              {val.name}
            </Td>
-           <Td>{val.branch?.name}</Td>
+           <Td>{val.branch?.city}</Td>
            <Td>
              <Box
                // bg={val.isDeleted ? 'red.500' : 'green.500'}
@@ -164,7 +208,7 @@ function AdminLanding() {
       console.log(error);
     }
   }
-  console.log('Ini hasil Response Jumlah User :', userTotalData);
+  // console.log('Ini hasil Response Jumlah User :', userTotalData);
 
   const printUserBranch = () => {
     return userBranch.map((val, idx) => {
@@ -191,7 +235,7 @@ function AdminLanding() {
               </Box>
             </Flex>
           </Td>
-          <Td>{val.branch?.name}</Td>
+          <Td>{val.branch?.city}</Td>
           <Td>
             <Box
               color={val.isDeleted ? 'red.500' : 'green.500'}
@@ -251,13 +295,13 @@ function AdminLanding() {
       });
       setProductBranch(response.data.data);
       setProductTotalData(response.data.datanum);
-      console.log("ini Jumlah Product :", response.data.datanum);
+      // console.log("ini Jumlah Product :", response.data.datanum);
     } catch (error) {
       console.log(error);
     }
   }
 
-  console.log('Ini Hasil Response Jumlah Product :', productTotalData);
+  // console.log('Ini Hasil Response Jumlah Product :', productTotalData);
 
   const printProductBranch = () => {
     return productBranch
@@ -275,7 +319,7 @@ function AdminLanding() {
     })
   }
 
-  console.log('Ini data dari printProductBranch :', productBranch)
+  // console.log('Ini data dari printProductBranch :', productBranch)
 
   const productPaginate = pageNumber => {
     setProductPage(pageNumber);
@@ -353,7 +397,7 @@ function AdminLanding() {
               roleId === 1 ? 
               (
                 <Box>
-                  <Select 
+                  {/* <Select 
                     placeholder='All Branches' 
                     size='xs' 
                     variant='flushed'
@@ -365,7 +409,19 @@ function AdminLanding() {
                     <option value='3'>Bogor</option>
                     <option value='4'>Bali</option>
                     <option value='5'>Surabaya</option>
-                  </Select>
+                  </Select> */}
+
+                <Select 
+                  placeholder='All Branches' 
+                  size='xs' 
+                  variant='flushed'
+                  onChange={(element) => setSelectBranch(element.target.value)}
+                  value={selectBranch}
+                >
+                  {branchList.map(branch => (
+                    <option key={branch.id} value={branch.id.toString()}>{branch.city}</option>
+                  ))}
+                </Select>
                 </Box>
               ) : null
             }

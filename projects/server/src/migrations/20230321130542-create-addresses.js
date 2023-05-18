@@ -21,7 +21,7 @@ module.exports = {
       longitude: {
         type: Sequelize.STRING
       },
-      lattitude: {
+      latitude: {
         type: Sequelize.STRING
       },
       city: {
@@ -50,6 +50,9 @@ module.exports = {
       },
       userUuid: {
         type: Sequelize.STRING
+      },
+      branchId: {
+        type: Sequelize.INTEGER
       },
       isDeleted: {
         type: Sequelize.BOOLEAN
