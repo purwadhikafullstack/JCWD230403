@@ -30,6 +30,7 @@ import Report from "./Pages/Report";
 import ProductDetailUser from "./Pages/ProductDetail/ProductDetailUser";
 import CategoryManagement from "./Pages/CategoryManagement";
 import CartPage from "./Pages/CartPage/CartPage";
+import DiscountManagement from "./Pages/DiscountManagement";
 
 
 function App() {
@@ -119,6 +120,7 @@ function App() {
                   <>
                     <Route path="/categorymanagement" element={<CategoryManagement/>} />
                     <Route path="/productmanagement" element={<ProductManagement/>}/>
+                    <Route path="/discountmanagement" element={<DiscountManagement/>}/>
                     <Route path="/transaction" element={<Transaction/>}/>
                   </>
                 ) 

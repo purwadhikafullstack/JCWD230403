@@ -9,10 +9,23 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      nominal: {
+      nameDiscount: {
+        allowNull: false,
+        type: Sequelize.STRING
+      },
+      specialPrice: {
         type: Sequelize.INTEGER
       },
-      isActive: {
+      activeDate: {
+        type: Sequelize.DATE
+      },
+      endDate: {
+        type: Sequelize.DATE
+      },
+      productId: {
+        type: Sequelize.INTEGER
+      },
+      isDeleted: {
         type: Sequelize.BOOLEAN
       },
       createdAt: {

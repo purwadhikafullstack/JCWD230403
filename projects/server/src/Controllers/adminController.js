@@ -152,7 +152,7 @@ module.exports = {
                 },
                 {
                     model: model.branch,
-                    attributes: [['name', 'branchname']]
+                    attributes: ['city']
                 }],
                 order: [dataSortby()],
                 offset: offset,
@@ -396,7 +396,7 @@ module.exports = {
                 attributes: ['name', 'branchId', 'isDeleted'],
                 include: [{
                     model: model.branch,
-                    attributes: ['name']
+                    attributes: ['city']
                 }],
                 order: [[sortby, order]],
                 offset: offset,

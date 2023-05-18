@@ -29,7 +29,7 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
-      lattitude: {
+      latitude: {
         allowNull: false,
         type: Sequelize.STRING
       },
