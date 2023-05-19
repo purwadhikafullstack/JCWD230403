@@ -9,9 +9,9 @@ module.exports = {
             if (!page) {
                 page = 0;
             }
-            if (!size) {
-                size = 8;
-            }
+            // if (!size) {
+            //     size = 8;
+            // }
             if (!sortby) {
                 sortby = "category"
             }
@@ -19,18 +19,21 @@ module.exports = {
                 order = "ASC"
             }
             
-            
             let getCategory = await model.categories.findAndCountAll({
                 where: {
                     isDeleted: false
                 },
                 order: [[sortby, order]],
-                limit: parseInt(size),
-                offset: parseInt(page * size)
+                limit: parseInt(size) || null,
+                offset: parseInt(page * size) || 0
             });
+
+
+
             console.log("get all category :", getCategory);
             
             const totalPages = Math.ceil(getCategory.count / size); // total number of pages
+
             
             return res.status(200).send({
                 success: true, 

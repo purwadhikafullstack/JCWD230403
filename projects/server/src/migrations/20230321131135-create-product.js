@@ -25,6 +25,13 @@ module.exports = {
       description: {
         type: Sequelize.STRING
       },
+      category_id: {
+        type: Sequelize.INTEGER
+      },
+      isDeleted: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+      },
       stockBranchId: {
         type: Sequelize.INTEGER
       },

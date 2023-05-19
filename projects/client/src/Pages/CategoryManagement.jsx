@@ -29,7 +29,13 @@ function CategoryManagement() {
 
     const getDataCategory = async () => {
         try {
-            let response = await axios.get(`http://localhost:8000/api/category/allcategory?page=${page}&size=${size}&sortby=${sortby}&order=${order}`);
+            let token = localStorage.getItem('grocery_login');
+            
+            let response = await axios.get(`http://localhost:8000/api/category/allcategory?page=${page}&size=${size}&sortby=${sortby}&order=${order}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
             console.log("ini hasil get all category", response.data.data)
             setDataAllCategory(response.data.data)
             setTotalData(response.data.datanum);
