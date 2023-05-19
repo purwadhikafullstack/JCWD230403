@@ -11,6 +11,7 @@ import {
     StackDivider,
     Icon,
     Image,
+    useColorModeValue,
     Divider,
     Modal,
     ModalOverlay,
@@ -31,21 +32,23 @@ import {
     useToast,
     useDisclosure,
     Spacer,
+    HStack,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 import { FiPlus } from "react-icons/fi";
 import { useState } from "react";
-import { useDispatch } from 'react-redux'
-import { itemCart } from "../../Reducers/cartSlice";
+import { useDispatch, useSelector } from 'react-redux'
+import { getSubTotal, itemCart } from "../../Reducers/cartSlice";
 import { useEffect } from "react";
+import { render } from "react-dom";
 
 
 
 
 function CheckOutPage() {
     // react-router-dom navigate
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
 
 
 
@@ -54,18 +57,24 @@ function CheckOutPage() {
     // const addNewAddress = useDisclosure();
 
     // required state
-    const [cart, setCart] = useState([]);
-    const [price, setPrice] = useState([]);
     const [branch, setBranch] = useState('')
-    const [method, setMethod] = useState([]);
     const [shippingFee, setShippingFee] = useState(0)
     const [service, setService] = useState('')
+
+    // delivery method state
+    const [method, setMethod] = useState([]);
     const [valueRadio, setValueRadio] = useState('0')
+    const [selectedShipping, setSelecetedShipping] = useState(null)
+
+    // summary state
+    const [cart, setCart] = useState([]);
     const [cost, setCost] = useState(0)
+    const [tax, setTax] = useState(0)
 
 
     // redux
     const dispatch = useDispatch()
+    const cartSelector = useSelector((state) => state.cartSlice)
 
     // token local storage 
     let token = localStorage.getItem('grocery_login')
@@ -75,45 +84,62 @@ function CheckOutPage() {
 
     const getCartChecked = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/checkout/')
-            // console.log('ini dari response getCart: ', response.data.data)
+            const response = await axios.get('http://localhost:8000/api/transaction/')
+            // console.log('ini response get checked', response.data.data)
 
-            console.log('ini response get checked', response)
+            let price = 0
+
+            response.data.data.forEach(val => {
+                price += val.quantity * val.product.price
+            });
 
             dispatch(itemCart(response.data.data))
+            dispatch(getSubTotal(price))
             setCart(response.data.data)
-            // setPrice(response.data)
+
+            let taxValue = price * 0.1
+            setTax(parseInt(taxValue))
+
         } catch (error) {
             console.log(error)
         }
     }
+    // console.log('ini tax:', tax)
 
-    const printCart = () => {
-        return cart.map((val, idx) => {
+    const renderCart = () => {
+        // console.log('ini val.product: ', cartSelector.cart[0].product)
+        return cartSelector.cart.map((val, idx) => {
             return (
                 <>
-                    <Flex>
-                        <Flex w={"full"}>
-                            <Flex flexDir={"column"} p={2} w={{ base: "30%", lg: "25%" }}>
-                                <Flex
-                                    h={"full"}
-                                    w={"full"}
-                                    flexDir={"column"}
-                                    justifyContent={"center"}
-                                >
-                                    <Image
-                                        objectFit={"contain"}
-                                        height={{
-                                            base: "120px",
-                                            md: "170px",
-                                        }}
-                                        w={"full"}
-                                        rounded={"xl"}
-                                        alt="product picture"
-                                        // src={`${API_URL}${val.product.productImage}`}
-                                    />
-                                </Flex>
-                            </Flex>
+                    <Flex w={"full"}>
+                        <Flex
+                            flexDir={{
+                                base: "column",
+                                md: "row"
+                            }}
+                            p={2}
+                            w={'full'}
+                            justify={"space-between"}
+                            align="center"
+                        >
+                            <Image
+                                rounded="lg"
+                                width="120px"
+                                height="120px"
+                                fit="contain"
+                                alt="product image"
+                                draggable="false"
+                                src={val.product?.image}
+                            />
+                            <Text>
+                                {val.product.name}
+                            </Text>
+                            <Text>
+                                {val.quantity}
+                            </Text>
+                            <Text>
+                                {rupiah(val.quantity * val.product.price)}
+                            </Text>
                         </Flex>
                     </Flex>
                 </>
@@ -140,20 +166,27 @@ function CheckOutPage() {
                 }
             })
             // console.log('ini response shippingMethod: ', response.data.data.costs)
+            // console.log('ini untuk harga ongkir nya: ', response.data.data.costs[0].cost[0].value)
 
             setMethod(response.data.data.costs)
+            // setCost(response.data.data.costs[0].cost[0].value)
+
             // setBranch(response.branch)
         } catch (error) {
             console.log(error)
         }
     }
     // console.log('ini isinya method: ', method)
+    // console.log('ini seleceted shipping:', selectedShipping)
+    // alert(selectedShipping)
 
     const printMethod = () => {
         return method.map((val, idx) => {
             let key = idx.toString()
             return (
-                <Stack direction={'row'}>
+                <Stack direction={'row'}
+                    onClick={() => setSelecetedShipping(val.cost[0].value)}
+                >
                     <Radio
                         value={key}
                         w="full"
@@ -181,6 +214,18 @@ function CheckOutPage() {
             )
         })
     }
+    // proceed to payment
+
+    // const deleteCart = async() => {
+    //     try {
+    //         const response = axios.
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
+    const checkOutBtn = () => {
+        navigate('/transaction/detail')
+    }
 
     useEffect(() => {
         shippingMethod();
@@ -188,6 +233,7 @@ function CheckOutPage() {
 
     useEffect(() => {
         getCartChecked()
+        // renderCart()
     }, [])
 
     return (
@@ -270,20 +316,65 @@ function CheckOutPage() {
                 w={'7xl'}
                 mx={'auto'}
                 rounded={'none'}
+                my={'8'}
             >
                 <Card
-                    color={"white"}
-                    bg={"inherit"}
+                    // color={"white"}
+                    // bg={"inherit"}
                     boxShadow={"md"}
                     rounded={'none'}
                 >
                     <CardHeader>
-                        <Heading size="md">Order Summary</Heading>
+                        <Heading size="lg">Order Summary</Heading>
                     </CardHeader>
-
                     <CardBody>
-                        <Flex flexDir={"column"} gap={"8"}>
-                            {/* {printCart()} */}
+                        <Flex
+                            flexDir={"column"}
+
+                            // gap={"8"}
+                            justify={'space-between'}
+                        >
+                            {/* <Box>
+                                <Text
+                                    fontWeight={'semibold'}
+                                >
+                                    Order Summary
+                                </Text>
+                            </Box> */}
+                            <Flex
+                                flexDir={{
+                                    base: "column",
+                                    md: "row"
+                                }}
+                                p={2}
+                                w={'full'}
+                                justify={"space-between"}
+                                align="center"
+                            >
+                                <Box>
+
+                                </Box>
+                                <Box>
+                                    <Flex
+                                        fontWeight={'semibold'}
+                                        flexDirection={'row-reverse'}
+                                        justify={'space-evenly'}
+                                    >
+                                        <Text>
+                                            Total
+                                        </Text>
+                                        <Text>
+                                            Quantity
+                                        </Text>
+                                        <Text>
+                                            Name
+                                        </Text>
+                                    </Flex>
+                                </Box>
+                            </Flex>
+                            <Box>
+                                {renderCart()}
+                            </Box>
                         </Flex>
                     </CardBody>
                 </Card>
@@ -302,9 +393,13 @@ function CheckOutPage() {
                     my={'4'}
                     rounded={"none"}
                 >
+                    <CardHeader>
+                        <Heading size="lg">Shipping Method</Heading>
+                    </CardHeader>
                     <CardBody>
+
                         <Flex justify={'space-between'}>
-                            <Box
+                            {/* <Box
                                 fontSize={'lg'}
                             // my="auto"
                             // mr={'32'}
@@ -314,7 +409,7 @@ function CheckOutPage() {
                                 >
                                     Shipping Method
                                 </Text>
-                            </Box>
+                            </Box> */}
                             <Box>
                                 <RadioGroup onChange={setValueRadio} value={valueRadio}>
                                     {printMethod()}
@@ -341,6 +436,7 @@ function CheckOutPage() {
                                         fontSize={{ base: "md", md: "sm", lg: "md" }}
                                         fontWeight={"semibold"}
                                     >
+                                        {rupiah(cartSelector.subTotal)}
                                     </Text>
                                 </Flex>
 
@@ -358,7 +454,7 @@ function CheckOutPage() {
                                         fontSize={{ base: "md", md: "sm", lg: "md" }}
                                         fontWeight={"semibold"}
                                     >
-
+                                        {rupiah(selectedShipping)}
                                     </Text>
                                 </Flex>
 
@@ -370,12 +466,16 @@ function CheckOutPage() {
                                         fontSize={{ base: "md", md: "sm", lg: "md" }}
                                         fontWeight={"semibold"}
                                     >
-
+                                        {rupiah(tax)}
                                     </Text>
                                 </Flex>
                             </Box>
                             <Flex justifyContent={"space-between"} my="2">
-                                <Text fontSize={{ base: "md", md: "sm", lg: "md" }}>
+                                <Text
+                                    fontSize={{ base: "md", md: "sm", lg: "md" }}
+                                    fontWeight={'bold'}
+                                    color={'#6FA66F'}
+                                >
                                     Total
                                 </Text>
                                 <Text
@@ -383,14 +483,14 @@ function CheckOutPage() {
                                     color={"#34D399"}
                                     fontWeight={"semibold"}
                                 >
-                                    -
+
                                 </Text>
                                 <Text
                                     fontSize={{ base: "md", md: "sm", lg: "md" }}
-                                    color={"#34D399"}
+                                    color={"#6FA66F"}
                                     fontWeight={"semibold"}
                                 >
-
+                                    {rupiah(cartSelector.subTotal + selectedShipping + tax)}
                                 </Text>
 
                             </Flex>
@@ -404,6 +504,7 @@ function CheckOutPage() {
                                 rounded={'none'}
                                 variant={"solid"}
                                 mt="4"
+                                onClick={checkOutBtn}
                             >
                                 Proceed to Payment
                             </Button>

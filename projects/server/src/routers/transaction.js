@@ -1,6 +1,6 @@
 const express = require('express');
 const route = express.Router();
-const { getChecked } = require('../Controllers/checkOutController');
+const { getChecked } = require('../Controllers/transaction');
 
 route.get('/', getChecked)
 

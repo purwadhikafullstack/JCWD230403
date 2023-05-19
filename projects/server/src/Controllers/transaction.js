@@ -9,7 +9,12 @@ module.exports = {
             const data = await models.cart.findAll({
                 where: {
                     isChecked: 1
-                }
+                },
+                include: [
+                    {
+                        model: models.product
+                    }],
+                order: [["createdAt", "DESC"]]
             })
 
             res.status(200).send({
@@ -19,6 +24,21 @@ module.exports = {
         } catch (error) {
             console(error)
             next(error)
+        }
+    },
+    checkoutTransaction: async(req, res, next) => {
+        try {
+            const response = await models.cart.destroy({
+                where: {
+                    isChecked: 1
+                }
+            })
+
+            return res.status(200).send({
+                message: 'removed cart item from cart',
+            })
+        } catch (error) {
+            
         }
     }
 }

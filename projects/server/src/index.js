@@ -24,7 +24,7 @@ const adminRoute = require('./routers/adminRouter');
 const productRouter = require('./routers/productRouter');
 const cartRouter = require('./routers/cartRouter');
 const shippingRouter = require('./routers/shippingRouter');
-const checkoutRouter = require('./routers/checkOutRouter');
+const transactionRouter = require('./routers/transaction');
 
 // ===========================
 // NOTE : Add your routes here
@@ -34,7 +34,7 @@ app.use('/api/user', userRouter);
 app.use('/api/admin', adminRoute);
 app.use('/api/cart', cartRouter);
 app.use('/api/shipping', shippingRouter)
-app.use('/api/checkout', checkoutRouter)
+app.use('/api/transaction', transactionRouter)
 
 
 app.get("/api", (req, res) => {

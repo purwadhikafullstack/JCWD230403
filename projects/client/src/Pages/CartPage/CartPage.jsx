@@ -120,9 +120,6 @@ function CartPage() {
     }
 
     // total function
-    // const [checkOut, setCheckOut] = useState([])
-    // const [total_price, setTotal_price] = useState(0)
-    // const [total_qty, setTotal_qty] = useState(0)
     const finalPrice = async () => {
         try {
             const response = await axios.get("http://localhost:8000/api/cart/price/total", {
@@ -190,6 +187,7 @@ function CartPage() {
     //     let tambah = kali.reduce((a,b) => a + b)
     //     return tambah;
     // }
+
     // checkout button
     const btnCheckout = () => {
         dispatch(resetCart())
@@ -219,7 +217,7 @@ function CartPage() {
                     key={val.id.toString()}
                     productId={val.productId}
                     quantity={val.quantity}
-                    cartId={val.id}
+                    cartId={val.id} 
                     isChecked={val.isChecked}
                     productName={val.product?.name}
                     price={val.product?.price}
@@ -231,7 +229,7 @@ function CartPage() {
                 />
             )
         })
-    }
+    } 
 
     useEffect(() => {
         getCartItems()
