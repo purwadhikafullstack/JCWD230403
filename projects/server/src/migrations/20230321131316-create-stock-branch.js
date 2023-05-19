@@ -24,8 +24,9 @@ module.exports = {
       branch_id: {
         type: Sequelize.INTEGER
       },
-      isEnable: {
-        type: Sequelize.BOOLEAN
+      isDeleted: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       createdAt: {
         allowNull: false,

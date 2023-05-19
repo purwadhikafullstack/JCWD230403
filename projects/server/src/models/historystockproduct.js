@@ -14,9 +14,12 @@ module.exports = (sequelize, DataTypes) => {
       // historyStockProduct.belongsTo(stockBranch);
       // historyStockProduct.belongsTo(branch);
       // historyStockProduct.belongsTo(transaction);
+      historyStockProduct.belongsTo(models.product, {
+        foreignKey:'product_id'});
     }
   }
   historyStockProduct.init({
+    product_id: DataTypes.INTEGER,
     before: DataTypes.INTEGER,
     after: DataTypes.INTEGER,
     type: DataTypes.STRING,

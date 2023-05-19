@@ -17,6 +17,9 @@ const app = express();
 app.use(cors());
 app.use(bearerToken());
 app.use(express.json());
+app.use(express.static("src/public"));
+
+app.use("/api", express.static(__dirname + "/public"));
 
 //#region API ROUTES
 const userRouter = require('./routers/userRouter');

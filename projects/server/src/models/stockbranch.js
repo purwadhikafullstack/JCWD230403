@@ -28,9 +28,9 @@ module.exports = (sequelize, DataTypes) => {
     entryDate: DataTypes.DATEONLY,
     product_id: DataTypes.INTEGER,
     branch_id: DataTypes.INTEGER,
-    isEnable: {
+    isDeleted: {
       type: DataTypes.BOOLEAN,
-      defaultValue: true
+      defaultValue: 0
     }
   }, {
     sequelize,
