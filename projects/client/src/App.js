@@ -31,6 +31,7 @@ import ProductDetailUser from "./Pages/ProductDetail/ProductDetailUser";
 import CategoryManagement from "./Pages/CategoryManagement";
 import CartPage from "./Pages/CartPage/CartPage";
 import DiscountManagement from "./Pages/DiscountManagement";
+import CheckOutPage from "./Pages/CheckOut/CheckOutPage";
 
 
 function App() {
@@ -95,7 +96,7 @@ function App() {
   return (
     <div className="App">
       {
-        adminRoleId === 1 || adminRoleId === 2 ? 
+        adminRoleId === 1 || adminRoleId === 2 ?
         (<div>
           <Navbar/>
           <Flex
@@ -108,26 +109,6 @@ function App() {
             <Routes>
               <Route path="/adminlogin" element={<AdminLogin/>}/>
               <Route path="/admin" element={<AdminLanding/>}/>
-              {
-                adminRoleId === 1 ? 
-                <Route path="/usermanagement" element={<UserManagement/>}/>
-                :
-                <Route path="*" element={<PageNotFound/>}/>
-              }
-              {
-                adminRoleId === 2 ? 
-                (
-                  <>
-                    <Route path="/categorymanagement" element={<CategoryManagement/>} />
-                    <Route path="/productmanagement" element={<ProductManagement/>}/>
-                    <Route path="/discountmanagement" element={<DiscountManagement/>}/>
-                    <Route path="/transaction" element={<Transaction/>}/>
-                  </>
-                ) 
-                :
-                <Route path="*" element={<PageNotFound/>}/>
-              }
-              <Route path="/report" element={<Report/>}/>
               <Route path="*" element={<PageNotFound/>}/>
             </Routes>
           </Flex>
@@ -144,6 +125,7 @@ function App() {
               <Route path="/product" element={<ProductLanding/>} />
               <Route path="/detail/:id" element={<ProductDetailUser/>} />
               <Route path="/cart/me" element={<CartPage/>} />
+              <Route path="/checkout" element={<CheckOutPage/>} />
               <Route path="*" element={<PageNotFound/>}/>
             </Routes>
             <Footer/>
@@ -162,6 +144,7 @@ function App() {
               <Route path="/product" element={<ProductLanding/>} />
               <Route path="/detail/:id" element={<ProductDetailUser/>} />
               <Route path="/cart/me" element={<CartPage/>} />
+              <Route path="/checkout" element={<CheckOutPage/>} />
             <Route path="*" element={<PageNotFound/>}/>
           </Routes>
           <Footer/>

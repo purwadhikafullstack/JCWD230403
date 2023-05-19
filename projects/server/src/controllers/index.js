@@ -7,6 +7,8 @@ const discountController = require('./discountController');
 const addressController = require('./addressController');
 const branchController = require('./branchController');
 
+const shippingController = require('./shippingController')
+
 module.exports = {
     productController,
     categoryController,
@@ -15,5 +17,6 @@ module.exports = {
     cartController,
     discountController,
     addressController,
-    branchController
+    branchController,
+    shippingController
 }

@@ -16,14 +16,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   addresses.init({
-    uuid: DataTypes.STRING,
-    addressLine: DataTypes.STRING,
-    postalCode: DataTypes.STRING,
+    address: DataTypes.STRING,
     longitude: DataTypes.STRING,
     latitude: DataTypes.STRING,
     city: DataTypes.STRING,
     province: DataTypes.STRING,
     detail: DataTypes.STRING,
+    isPrimary: DataTypes.BOOLEAN,
+    postalCode: DataTypes.STRING,
     defaultAddress: DataTypes.BOOLEAN,
     receiverName: DataTypes.STRING,
     receiverPhone: DataTypes.STRING,
@@ -34,7 +34,10 @@ module.exports = (sequelize, DataTypes) => {
     isDeleted: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
-    }
+    },
+    province_id: DataTypes.INTEGER,
+    city_id: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'addresses',

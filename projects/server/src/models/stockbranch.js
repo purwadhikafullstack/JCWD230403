@@ -16,22 +16,24 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey:'branch_id'});
       stockBranch.belongsTo(models.product, {
         foreignKey:'product_id'});
-      stockBranch.belongsTo(models.product, {
+      stockBranch.hasMany(models.product, {
         foreignKey:'stockBranchId'});
       stockBranch.hasMany(models.historyStockProduct);
-      stockBranch.hasMany(models.cart);
-    }
+      stockBranch.hasMany(models.cart, {
+        foreignKey: 'stockBranchId' 
+      });
+    } 
   } 
   stockBranch.init({
-    stock: DataTypes.INTEGER,
+    stock: DataTypes.INTEGER, 
     booking: DataTypes.INTEGER,
     entryDate: DataTypes.DATEONLY,
+    isEnable: {
+      type: DataTypes.BOOLEAN, 
+      defaultValue: true
+    },
     product_id: DataTypes.INTEGER,
     branch_id: DataTypes.INTEGER,
-    isEnable: {
-      type: DataTypes.BOOLEAN,
-      defaultValue: true
-    }
   }, {
     sequelize,
     modelName: 'stockBranch',
