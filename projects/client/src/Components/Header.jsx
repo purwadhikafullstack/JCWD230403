@@ -72,7 +72,6 @@ function Header() {
                         px={{ base: '4', sm: '8', md: '20', lg: '20' }}
                     >
                         <Flex
-                            // justifyContent={'space-between'}
                             gap={'2'}
                             alignItems={'baseline'}
                         >
@@ -93,8 +92,6 @@ function Header() {
                               letterSpacing={'tighter'}
                             >
                               {userAddress.map((address) => {
-                                console.log('Data from user address Key in header :', address.id);
-                                console.log('Data from user address Value in header :', address.branchId);
                                 return (
                                   <option 
                                     key={address.id}

@@ -107,11 +107,7 @@ function ProductLanding(props) {
   }, [])
 
   // --- SELECTED ADDRESS BY USER --- //
-  const [selectedAddress, setSelectedAddress] = useState('');
-
-  console.log('BranchId Address selected by user :', selectedAddress);
   const handleAddressChange = (event) => {
-      // setSelectedAddress(event.target.value);
       dispatch(setActiveBranch(event.target.value))
     };
 
@@ -126,7 +122,6 @@ function ProductLanding(props) {
               px={{ base: '4', sm: '8', md: '20', lg: '20' }}
           >
               <Flex
-                  // justifyContent={'space-between'}
                   gap={'2'}
                   alignItems={'baseline'}
               >
@@ -147,8 +142,6 @@ function ProductLanding(props) {
                     letterSpacing={'tighter'}
                   >
                     {userAddress.map((address) => {
-                      console.log('Data from user address Key in header :', address.id);
-                      console.log('Data from user address Value in header :', address.branchId);
                       return (
                         <option 
                           key={address.id}
