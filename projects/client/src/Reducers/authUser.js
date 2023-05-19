@@ -23,9 +23,12 @@ const authUserSlice = createSlice({
             state.isVerified = "";
             state.roleId = "";
             state.branchId = "";
+        },
+        setActiveBranch: (state, action) => {
+            state.branchId = action.payload;
         }
     }
 });
 
-export const {loginActionUser, logoutActionUser} = authUserSlice.actions;
+export const {loginActionUser, logoutActionUser, setActiveBranch} = authUserSlice.actions;
 export default authUserSlice.reducer;
