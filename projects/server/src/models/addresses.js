@@ -11,29 +11,33 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      addresses.belongsTo(models.user);
-      addresses.belongsTo(models.branch);
+      addresses.hasOne(models.user, { foreignKey: 'addressId' });
+      addresses.belongsTo(models.branch, {foreignKey: 'branchId'});
     }
   }
   addresses.init({
-    uuid: DataTypes.STRING,
-    addressLine: DataTypes.STRING,
-    postalCode: DataTypes.STRING,
+    address: DataTypes.STRING,
     longitude: DataTypes.STRING,
-    lattitude: DataTypes.STRING,
+    latitude: DataTypes.STRING,
     city: DataTypes.STRING,
     province: DataTypes.STRING,
     detail: DataTypes.STRING,
+    isPrimary: DataTypes.BOOLEAN,
+    postalCode: DataTypes.STRING,
     defaultAddress: DataTypes.BOOLEAN,
     receiverName: DataTypes.STRING,
     receiverPhone: DataTypes.STRING,
     receiverEmail: DataTypes.STRING,
     subDistrict: DataTypes.STRING,
     userUuid: DataTypes.STRING,
+    branchId: DataTypes.INTEGER,
     isDeleted: {
       type: DataTypes.BOOLEAN,
       defaultValue: false
-    }
+    },
+    province_id: DataTypes.INTEGER,
+    city_id: DataTypes.INTEGER,
+    userId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'addresses',

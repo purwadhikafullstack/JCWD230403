@@ -108,7 +108,7 @@ function UserManagement() {
                       </Box>
                       <Box w="100%" mb="4">
                         <Text fontWeight="bold">Branch:</Text>
-                        <Text>{val.branch?.branchname}</Text>
+                        <Text>{val.branch?.city}</Text>
                       </Box>
                       <Flex alignItems="center" justifyContent="space-evenly" gap="2" w="100%">
                         <Switch
@@ -165,18 +165,30 @@ function UserManagement() {
                 <Tr key={val.uuid}>
                     <Td>
                         <Box w={'50%'}>
-                            {idx + 1}
+                            <Flex>
+                                {idx + 1}
+                            </Flex>
                         </Box>
                     </Td>
                     <Td>
-                        <Box w={'50%'}>
+                        <Flex
+                            alignItems={'center'}
+                            w={'70px'}
+                        >
                             {val.name}
-                        </Box>
+                        </Flex>
                     </Td>
-                    <Td>{val.email}</Td>
+                    <Td>
+                        <Flex
+                            alignItems={'center'}
+                            w={'110px'}
+                        >
+                            {val.email}
+                        </Flex>
+                    </Td>
                     <Td>{val.phone}</Td>
                     <Td>{val.role?.role}</Td>
-                    <Td>{val.branch?.branchname}</Td> 
+                    <Td>{val.branch?.city}</Td> 
                     <Td>
                         <Flex 
                             alignItems={'center'} 
@@ -371,7 +383,6 @@ function UserManagement() {
             console.log("branchId after set: ", branchId);
 
             if(response.data.success) {
-                // alert('Register Success ✅');
                 toast({
                     position: 'top',
                     title: "Create new admin",
@@ -383,7 +394,6 @@ function UserManagement() {
                 onCloseRegister();
                 getAdminList();
             } else {
-                // alert('Registration failed ❌');
                 return toast({
                     position: 'bottom',
                     title: "Create new admin",
@@ -396,7 +406,6 @@ function UserManagement() {
 
         } catch (error) {
             console.log(error);
-            // alert(error.response.data.message);
             return toast({
                 position: 'top',
                 title: "Status",
@@ -489,7 +498,6 @@ function UserManagement() {
             console.log("ini Data dari response edit :", response);
 
             if (response.data.success) {
-                // alert('Admin Change Success ✅');
                 toast({
                     position: 'top',
                     title: 'Edit account',
@@ -501,7 +509,6 @@ function UserManagement() {
                 onCloseEdit();
                 getAdminList();
             } else {
-                // alert('Admin change failed ❌');
                 toast({
                     position: 'top',
                     title: 'Edit account',
@@ -513,7 +520,6 @@ function UserManagement() {
             }
         } catch (error) {
             console.log(error);
-            // alert('An error occurred. Please try again later.');
             toast({
                 position: 'top',
                 title: 'Edit account',

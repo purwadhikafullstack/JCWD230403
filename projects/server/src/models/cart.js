@@ -14,16 +14,17 @@ module.exports = (sequelize, DataTypes) => {
       cart.belongsTo(models.stockBranch, {foreignKey: 'stockBranchId'});
       cart.belongsTo(models.user, {foreignKey: 'userId'});
       cart.belongsTo(models.branch, {foreignKey: 'branchId'});
+      cart.belongsTo(models.product, {foreignKey: 'productId'});
     }
-  }
+  } 
   cart.init({
     quantity: DataTypes.INTEGER,
-    current_price: DataTypes.INTEGER,
-    amount: DataTypes.INTEGER,
-    status: DataTypes.BOOLEAN,
+    // amount: DataTypes.INTEGER,
+    isChecked: DataTypes.BOOLEAN,
     stockBranchId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER,
-    branchId: DataTypes.INTEGER
+    branchId: DataTypes.INTEGER,
+    productId: DataTypes.INTEGER 
   }, {
     sequelize,
     modelName: 'cart',

@@ -6,7 +6,8 @@ const authUserSlice = createSlice({
         name: "",
         email: "",
         isVerified: "",
-        roleId: ""
+        roleId: "",
+        branchId: "",
     },
     reducers: {
         loginActionUser: (state, action) => {
@@ -14,15 +15,20 @@ const authUserSlice = createSlice({
             state.email = action.payload.email;
             state.isVerified = action.payload.isVerified;
             state.roleId = action.payload.roleId;
+            state.branchId = action.payload.branchId;
         },
         logoutActionUser: (state) => {
             state.name = "";
             state.email = "";
             state.isVerified = "";
             state.roleId = "";
+            state.branchId = "";
+        },
+        setActiveBranch: (state, action) => {
+            state.branchId = action.payload;
         }
     }
 });
 
-export const {loginActionUser, logoutActionUser} = authUserSlice.actions;
+export const {loginActionUser, logoutActionUser, setActiveBranch} = authUserSlice.actions;
 export default authUserSlice.reducer;

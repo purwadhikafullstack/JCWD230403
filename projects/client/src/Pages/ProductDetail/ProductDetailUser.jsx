@@ -16,7 +16,14 @@ import {
     useToast,
     useNumberInput,
     useDisclosure,
-    Image
+    Image,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    ModalHeader,
+    ModalCloseButton,
+    ModalBody,
+    ModalFooter
 } from '@chakra-ui/react'
 import {
     AddIcon,
@@ -27,13 +34,12 @@ import { HiOutlineMinus } from 'react-icons/hi'
 import { BsCartPlus } from 'react-icons/bs'
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { addProductToCart } from '../../Reducers/cartSlice';
 import CarouselProduct from '../../Components/CarouselProduct';
-import Header from '../../Components/Header';
-
+import Header from '../../Components/Header'
 function ProductDetailUser() {
 
     // state function
@@ -46,6 +52,9 @@ function ProductDetailUser() {
     // redux toolkit
     const authSelector = useSelector((state) => state.authUserReducer)
     const cartSelector = useSelector((state) => state.cartSlice)
+
+    console.log("ini isi cart yang di add to cart dari redux: ", cartSelector)
+
     const dispatch = useDispatch()
 
     // react router
@@ -66,15 +75,15 @@ function ProductDetailUser() {
             console.log('ini hasil dari get response detail', response);
 
             setProducts(response.data.data[0])
-            console.log('ini dari response.data[0]', response.data.data[0])
-            // setProductId(response.data.data[0].id)
-            console.log("ini data dari response.data.id", response.data.data[0].id);
+            // console.log('ini dari response.data[0]', response.data.data[0])
+            setProductId(response.data.data[0].id)
+            // console.log("ini data dari response.data.id", response.data.data[0].id);
             // setProductImg(response.data.data[0].image)
-            console.log('ini gambar dari response: ', response.data.data[0].image)
+            // console.log('ini gambar dari response: ', response.data.data[0].image)
             setProductStock(response.data.data[0].stockBranches[0].stock)
-            console.log('ini stock jmlh stock nya: ', response.data.data[0].stockBranches[0].stock)
+            // console.log('ini stock jmlh stock nya: ', response.data.data[0].stockBranches[0].stock)
 
-            // const stockProduct = response.data.stockBranch.map((val) => {
+            // const stockProduct = response.data.data[0].stockBranches[0].map((val) => {
             //     return val.stock
             // })
             // let total = 0
@@ -82,6 +91,8 @@ function ProductDetailUser() {
             //     total += Number(stockProduct[i])
             // }
             // setProductStock(total);
+
+            // console.log('total stock', total)
 
         } catch (error) {
             console.log(error)
@@ -104,20 +115,33 @@ function ProductDetailUser() {
 
     const addToCart = async () => {
         try {
-            let addToCart = {
-                productId: productId,
-                quantity: qty,
+            if (!token) {
+                onOpen()
+            } else {
+                let addToCart = {
+                    productId: products?.id,
+                    quantity: qty,
+                }
+                const response = await axios.post("http://localhost:8000/api/cart/add", addToCart, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
+                console.log("ini dari response add to cart", response)
+
+                // dispatch(addProductToCart(response.data.data))
+
+                // console.log("ini yang redux cart nya: ", addProductToCart)
+
+                toast({
+                    title: "Added",
+                    status: "success",
+                    duration: 1000,
+                })
+
+                getProduct()
+                navigate('/cart/me')
             }
-            const response = await axios.post("http://localhost:8000/api/cart/add", addToCart)
-
-            dispatch(addProductToCart(response.data))
-
-            toast({
-                title: "Added",
-                status: "success",
-                duration: 1000,
-            })
-
         } catch (err) {
             console.log(err)
             toast({
@@ -129,6 +153,24 @@ function ProductDetailUser() {
         }
     }
 
+    // update qty of existed product in cart
+    const updateAddProduct = async () => {
+        try {
+            let updateQty = {
+                quantity
+            }
+
+            await axios.patch(`http://localhost:8000/api/cart/addexisting/${productId}`, updateQty)
+            toast({
+                title: "added",
+                status: "success",
+                duration: 1000
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     // rupiah converter function 
     const rupiah = (value) => {
         return new Intl.NumberFormat("id-ID", {
@@ -137,20 +179,24 @@ function ProductDetailUser() {
             minimumFractionDigits: 0,
         }).format(value);
     };
-    // validate user
+    // validate user 
     const validateUser = () => {
         if (!authSelector.id) {
-          onOpen()
+            onOpen()
         }
-      }
-      const navigateLogin = () => {
+    }
+    const navigateLogin = () => {
         onClose()
-      }
+    }
 
     // rendering 
+    useEffect(() => {
+        getProduct()
+    }, [])
+
     // useEffect(() => {
-    //     getProduct()
-    // }, [qty, quantity, products])
+    //     addToCart()
+    // }, [])
 
     return (
         <>
@@ -289,27 +335,27 @@ function ProductDetailUser() {
                             </HStack>
                         </HStack>
                         {/* add to cart */}
-                        <HStack>
-                            <Button
-                                color="white"
-                                bg="#6FA66F"
-                                size="md"
-                                w='90%'
-                                mt="12"
-                                mx='auto'
-                                p="4"
-                                rounded='none'
-                                _hover={{ boxShadow: 'xl' }}
-                                onClick={addToCart}
-                            >
-                                <BsCartPlus />
-                                <Text ml={'4'}>
-                                    ADD TO CART
-                                </Text>
-                            </Button>
-                        </HStack>
+                        {/* {quantity === null ? ( */}
+                        <Button
+                            color="white"
+                            bg="#6FA66F"
+                            size="md"
+                            w='90%'
+                            mt="12"
+                            mx='auto'
+                            display={'flex'}
+                            justifyItems={'center'}
+                            p="4"
+                            rounded='none'
+                            justifyContent={'center'}
+                            _hover={{ boxShadow: 'xl' }}
+                            onClick={
+                                addToCart
+                            }
+                        >
+                            ADD TO CART
+                        </Button>
                     </Box>
-
                 </Flex>
                 {/* description */}
                 <Box>
@@ -386,9 +432,49 @@ function ProductDetailUser() {
                         </Box>
                     </Box>
                 </Box>
+                {/* user validate modal */}
+                <Modal
+                    isOpen={isOpen}
+                    onClose={onClose}
+                    isCentered
+                    motionPreset={'slideInBottom'}
+                >
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader>You can't add any product to cart!</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>
+                            You have to Register / Login first to proceed any Transaction. Thank you.
+                        </ModalBody>
+                        <ModalFooter gap="3">
+                            <Link to="/login" replace state={{ from: location }}>
+                                <Button
+                                    bgColor={'#6FA66F'}
+                                    onClick={navigateLogin}
+                                    // variant={''}
+                                    color={'white'}
+                                    rounded={'none'}
+                                >
+                                    Login
+                                </Button>
+                            </Link>
+                            <Link to="/register">
+                                <Button
+                                    bgColor={'white'}
+                                    onClick={navigateLogin}
+                                    color={'#6FA66F'}
+                                    _hover={'none'}
+                                >
+                                    Register
+                                </Button>
+                            </Link>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
             </Box>
         </>
     );
 }
+
 
 export default ProductDetailUser;

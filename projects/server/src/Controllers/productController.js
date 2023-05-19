@@ -625,5 +625,4 @@ module.exports = {
             });
         }
     },
-
 };
