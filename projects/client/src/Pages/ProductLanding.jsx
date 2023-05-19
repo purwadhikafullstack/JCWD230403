@@ -65,9 +65,6 @@ function ProductLanding(props) {
     console.log("ini isi showStock :", showStock);
     let print = showStock.map((val, idx) => {
       console.log("ini val :", val);
-<<<<<<< HEAD
-      return <Product name={val.name} productimage={val.image} price={val.price} productId={val.id} stock={stock} /> 
-=======
       return (
         <div>
           <Product 
@@ -78,7 +75,6 @@ function ProductLanding(props) {
           />
         </div>
       )
->>>>>>> develop
     });
     return print;
   };

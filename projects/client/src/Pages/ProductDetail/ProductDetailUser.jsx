@@ -41,7 +41,7 @@ import { addProductToCart } from '../../Reducers/cartSlice';
 import CarouselProduct from '../../Components/CarouselProduct';
 import Header from '../../Components/Header'
 function ProductDetailUser() {
-
+    let token = localStorage.getItem('grocery_login');
     // state function
     const [products, setProducts] = useState([]);
     const [productId, setProductId] = useState([]);
