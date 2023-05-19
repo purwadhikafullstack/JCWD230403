@@ -9,9 +9,10 @@ route.get('/allstock', productController.allStock);
 route.post('/allstock', productController.allStock);
 route.get('/allbranch', productController.allBranch);
 route.get('/detail/:id', productController.getDetailProduct);
+route.get('/productlist', productController.productList);
 
 
- 
 
- 
+
+
 module.exports = route;

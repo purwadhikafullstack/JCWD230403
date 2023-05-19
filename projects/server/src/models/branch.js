@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       // branch.belongsTo(models.admin);
       branch.hasMany(models.stockBranch,{
         foreignKey:'branch_id'});
-      branch.hasMany(models.addresses);
+      branch.hasMany(models.addresses, {foreignKey: 'branchId'});
       branch.hasMany(models.cart);
       branch.hasMany(models.transaction_detail);
       branch.hasMany(models.transaction);

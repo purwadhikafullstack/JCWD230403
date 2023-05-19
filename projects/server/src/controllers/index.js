@@ -1,14 +1,22 @@
-const productController = require('./productController');
+const productController = require("./productController");
 const userController = require("./userController");
 const adminController = require("./adminController");
-const cartController = require('./cartController');
-const shippingController = require('./shippingController')
+const categoryController = require("./categoryController");
+const cartController = require('./cartController')
+const discountController = require('./discountController');
+const addressController = require('./addressController');
+const branchController = require('./branchController');
 
+const shippingController = require('./shippingController')
 
 module.exports = {
     productController,
+    categoryController,
     userController,
     adminController,
-    cartController, 
+    cartController,
+    discountController,
+    addressController,
+    branchController,
     shippingController
 }

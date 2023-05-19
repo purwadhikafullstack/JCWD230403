@@ -10,7 +10,7 @@ import {
     Button,
     ButtonGroup
 } from '@chakra-ui/react';
- 
+  
 function ProductCarousel(props) {
     return (
         <>

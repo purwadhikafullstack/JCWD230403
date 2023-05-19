@@ -18,11 +18,13 @@ module.exports = (sequelize, DataTypes) => {
       product.hasMany(models.transaction_detail);
       product.hasMany(models.cart, {foreignKey: 'productId'});
       product.belongsTo(models.categories, {foreignKey: 'category_id'})
+      product.belongsTo(models.discount, {foreignKey: 'productId'})
+      product.hasOne(models.discount, { foreignKey: 'productId' });
     }
-  }  
+  } 
   product.init({
     uuid: DataTypes.STRING,
-    name: DataTypes.STRING, 
+    name: DataTypes.STRING,
     price: DataTypes.INTEGER,
     image: DataTypes.STRING,
     description: DataTypes.STRING,

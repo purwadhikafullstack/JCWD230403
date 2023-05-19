@@ -22,19 +22,26 @@ app.use(express.json());
 const userRouter = require('./routers/userRouter');
 const adminRoute = require('./routers/adminRouter');
 const productRouter = require('./routers/productRouter');
-const cartRouter = require('./routers/cartRouter');
+const categoryRouter = require('./routers/categoryRouter');
+const cartRouter = require('./routers/cartRouter')
 const shippingRouter = require('./routers/shippingRouter');
 const transactionRouter = require('./routers/transaction');
-
+const discountRouter = require('./routers/discountRouter');
+const addressRouter = require('./routers/addressRouter');
+const branchRouter = require('./routers/branchRouter');
 // ===========================
 // NOTE : Add your routes here
 
 app.use("/api/product", productRouter);
 app.use('/api/user', userRouter);
 app.use('/api/admin', adminRoute);
+app.use("/api/category", categoryRouter);
 app.use('/api/cart', cartRouter);
 app.use('/api/shipping', shippingRouter)
 app.use('/api/transaction', transactionRouter)
+app.use('/api/discount', discountRouter);
+app.use('/api/address', addressRouter);
+app.use('/api/branch', branchRouter);
 
 
 app.get("/api", (req, res) => {

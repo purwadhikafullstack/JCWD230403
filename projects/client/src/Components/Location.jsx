@@ -64,9 +64,8 @@ function Location(props) {
                 nearestBranch = { ...branch, distance: minDistance };
             }
         });
-        console.log('ini data dari findNearestBranch :', nearestBranch)
-        // console.log('ini data dari findNearestBranch id :', nearestBranch.id)
-        // alert(`The nearest branch is ${nearestBranch?.name}, ${minDistance.toFixed(2)} km away.`);
+        console.log('ini data dari findNearestBranch dari location :', nearestBranch)
+        console.log(`The nearest location branch is ${nearestBranch?.name}, ${(minDistance / 1000).toFixed(2)} km away.`)
         props.setNearestBranch(nearestBranch);
     }
     // console.log('branch', branches)

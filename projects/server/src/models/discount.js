@@ -12,11 +12,19 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       discount.hasMany(models.price);
+      discount.belongsTo(models.product, {foreignKey: 'productId'});
     }
   }
   discount.init({
-    nominal: DataTypes.INTEGER,
-    isActive: DataTypes.BOOLEAN
+    nameDiscount: DataTypes.STRING,
+    specialPrice: DataTypes.INTEGER,
+    activeDate: DataTypes.DATE,
+    endDate: DataTypes.DATE,
+    productId: DataTypes.INTEGER,
+    isDeleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    }
   }, {
     sequelize,
     modelName: 'discount',

@@ -11,7 +11,8 @@ import {
     InputRightAddon, 
     Text, 
     Image,
-    useBreakpointValue
+    useBreakpointValue,
+    useToast
 } from '@chakra-ui/react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import axios from 'axios';
@@ -29,6 +30,7 @@ function AdminLogin() {
     const boxWidth = useBreakpointValue({base:'full', sm:'full', md:'40%', lg:'40%'});
     const borderRadiusA = useBreakpointValue({base:'none', sm:'3xl', md:'3xl', lg:'3xl'});
     const borderRadiusB = useBreakpointValue({base:'none', sm:'3xl', md:'none', lg:'none'});
+    const toast = useToast();
 
     const handleVisible = () => {
         if (visible == 'password') {
@@ -42,29 +44,77 @@ function AdminLogin() {
         try {
             // console.log('adminLogin called');
             if (email == '' || password == '') {
-                alert('Please fill in all form')
+                // alert('Please fill in all form')
+                return toast({
+                    position: 'top',
+                    title: 'Login',
+                    description: 'Please fill in both email and password fields.',
+                    status: 'warning',
+                    duration: 2000,
+                    isClosable: true
+                })
             }
             if (!checkEmail(email)) {
-                return alert('Please enter a valid email address');
+                // return alert('Please enter a valid email address');
+                return toast({
+                    position: 'top',
+                    title: 'Login',
+                    description: 'Please enter a valid email address',
+                    status: 'warning',
+                    duration: 2000,
+                    isClosable: true
+                })
             }
             if (!checkPassword(password)) {
-                return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
+                // return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
+                return toast({
+                    position: 'top',
+                    title: 'Login',
+                    description: 'Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number',
+                    status: 'warning',
+                    duration: 2000,
+                    isClosable: true
+                })
             }
             let response = await axios.post(`${API_URL}/admin/auth`, {
                 email: email,
                 password: password
             });
             if (response.data.length == 0) {
-                alert('Account not found ❌')
+                // alert('Account not found ❌')
+                return toast({
+                    position: 'top',
+                    title: 'Login',
+                    description: 'Account not found ❌',
+                    status: 'warning',
+                    duration: 2000,
+                    isClosable: true
+                })
             } else {
-                alert('Login success ✅');
+                // alert('Login success ✅');
+                toast({
+                    position: 'bottom',
+                    title: 'Login',
+                    description: 'Login success ✅',
+                    status: 'success',
+                    duration: 2000,
+                    isClosable: true
+                })
                 localStorage.setItem('grocery_login', response.data.token);
                 dispatch(loginActionAdmin(response.data))
                 navigate('/admin', {replace: true})
             }
         } catch (error) {
             console.log(error);
-            alert(error.response.data.message);
+            // alert(error.response.data.message);
+            toast({
+                position: 'top',
+                title: 'Login',
+                description: error.response.data.message,
+                status: 'error',
+                duration: 2000,
+                isClosable: true
+            })
         }
     }
 
