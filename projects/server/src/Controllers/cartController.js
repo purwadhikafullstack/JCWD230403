@@ -46,10 +46,11 @@ module.exports = {
                     ]
                 })
 
-                // console.log('ini getcart product id: ', getCart[0].dataValues.productId)
+                // console.log('ini getcart  stock branch id: ', getCart[0].dataValues.product.dataValues.stockBranchId)
+                const stockBranchId = getCart[0].dataValues.product.dataValues.stockBranchId
 
                 // 2. jika ada, patch produk tsb untuk di tambahkan quantitynya
-                if (getCart[0].dataValues.productId === req.body.productId) {
+                if (getCart.length !== 0) {
                     let findProductQuantity = await models.cart.findOne({
                         attributes: ['quantity', 'productId', 'id'],
                         where: {
@@ -90,10 +91,10 @@ module.exports = {
                     // 3. jika tidak ada, gunakan create ke model cart
                     const addToCart = await models.cart.create({
                         uuid,
-                        // stockBranchId: findProduct[0].dataValues.stockBranches[0].dataValues.id,
                         userId: req.decrypt.id,
                         productId: productId,
-                        quantity: quantity
+                        quantity: quantity,
+                        stockBranchId: stockBranchId
                     })
 
                     return res.status(200).send({
@@ -101,6 +102,7 @@ module.exports = {
                         data: addToCart
                     })
                 }
+
             }
             // 4. get all cart
         } catch (error) {

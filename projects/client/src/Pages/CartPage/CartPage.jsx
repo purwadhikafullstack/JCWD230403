@@ -67,7 +67,7 @@ function CartPage() {
                     Authorization: `Bearer ${token}`
                 }
             })
-            console.log('ini dari response getCartItem: ', response.data.data)
+            // console.log('ini dari response getCartItem: ', response.data.data)
 
             dispatch(itemCart(response.data.data))
 
@@ -193,7 +193,7 @@ function CartPage() {
     // checkout button
     const btnCheckout = () => {
         dispatch(resetCart())
-        navigate("/cart/shipment")
+        navigate("/checkout")
 
     }
 
