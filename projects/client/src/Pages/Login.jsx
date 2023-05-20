@@ -69,9 +69,9 @@ function Login() {
             
         } catch (error) {
             console.log(error);
-            // alert(error.response.data.message);
-            // alert(error.response.data.error[1].msg);
-            // alert(error.response.data.error[3].msg);
+            alert(error.response.data.message);
+            alert(error.response.data.error[1].msg);
+            alert(error.response.data.error[3].msg);
         }
     }
 
