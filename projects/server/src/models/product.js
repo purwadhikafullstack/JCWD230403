@@ -20,7 +20,6 @@ module.exports = (sequelize, DataTypes) => {
       product.hasMany(models.transaction_detail);
       product.hasMany(models.cart, {foreignKey: 'productId'});
       product.belongsTo(models.categories, {foreignKey: 'category_id'})
-      product.belongsTo(models.discount, {foreignKey: 'productId'})
       product.hasOne(models.discount, { foreignKey: 'productId' });
     }
   } 

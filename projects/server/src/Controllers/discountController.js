@@ -126,6 +126,7 @@ module.exports = {
             limit: parseInt(size)
           });
 
+          console.log('branch_id:', branch_id);
         
           console.log("product from getDiscount :", getDiscount.rows.map(row => row.dataValues.product.stockBranches.map(sb => sb.dataValues.branch_id)));
       

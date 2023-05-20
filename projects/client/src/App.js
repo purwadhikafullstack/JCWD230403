@@ -109,6 +109,26 @@ function App() {
             <Routes>
               <Route path="/adminlogin" element={<AdminLogin/>}/>
               <Route path="/admin" element={<AdminLanding/>}/>
+              {
+                adminRoleId === 1 ? 
+                <Route path="/usermanagement" element={<UserManagement/>}/>
+                :
+                <Route path="*" element={<PageNotFound/>}/>
+              }
+              {
+                adminRoleId === 2 ? 
+                (
+                  <>
+                    <Route path="/categorymanagement" element={<CategoryManagement/>} />
+                    <Route path="/productmanagement" element={<ProductManagement/>}/>
+                    <Route path="/discountmanagement" element={<DiscountManagement/>}/>
+                    <Route path="/transaction" element={<Transaction/>}/>
+                  </>
+                ) 
+                :
+                <Route path="*" element={<PageNotFound/>}/>
+              }
+              <Route path="/report" element={<Report/>}/>
               <Route path="*" element={<PageNotFound/>}/>
             </Routes>
           </Flex>

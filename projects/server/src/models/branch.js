@@ -21,8 +21,8 @@ module.exports = (sequelize, DataTypes) => {
       branch.hasMany(models.historyStockProduct);
       branch.belongsTo(models.product)
       branch.hasMany(models.user, {foreignKey: "branchId" })
-      branch.belongsTo(models.city, {foreignKey: "city_id"})
-      branch.belongsTo(models.province, {foreignKey: "province_id"})
+      // branch.belongsTo(models.city, {foreignKey: "city_id"})
+      // branch.belongsTo(models.province, {foreignKey: "province_id"})
 
     }
   }
@@ -33,8 +33,8 @@ module.exports = (sequelize, DataTypes) => {
     phone: DataTypes.STRING,
     longitude: DataTypes.STRING,
     lattitude: DataTypes.STRING,
-    // city: DataTypes.STRING,
-    // province: DataTypes.STRING,
+    city: DataTypes.STRING,
+    province: DataTypes.STRING,
     subDistrict: DataTypes.STRING,
     city_id: DataTypes.INTEGER,
     province_id: DataTypes.INTEGER
