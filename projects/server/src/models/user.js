@@ -13,8 +13,8 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       user.hasOne(models.profile, {foreignKey: 'profileId'});
       user.hasMany(models.addresses, {foreignKey: 'addressId'});
-      user.hasMany(models.cart);
-      user.hasMany(models.transaction);
+      user.hasMany(models.cart, {foreignKey: 'userId'});
+      user.hasMany(models.transaction, {foreignKey: 'userId'});
       user.belongsTo(models.role, {foreignKey: 'roleId'});
       user.belongsTo(models.branch, {foreignKey: "branchId"})
     }

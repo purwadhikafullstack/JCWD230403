@@ -11,15 +11,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      transaction.belongsTo(models.user);
-      transaction.belongsTo(models.branch);
-      transaction.hasOne(models.transaction_detail);
+      transaction.belongsTo(models.user, {foreignKey: 'userId'});
+      transaction.belongsTo(models.branch, {foreignKey: 'branchId'});
+      transaction.hasOne(models.transaction_detail, {foreignKey: 'transactionId'});
       transaction.hasMany(models.historyStockProduct);
+      // cart.belongsTo(models.stockBranch, {foreignKey: 'stockBranchId'});
+
     }
   }
   transaction.init({
     uuid: DataTypes.STRING,
-    isVoucher: DataTypes.BOOLEAN,
+    // isVoucher: DataTypes.BOOLEAN,
     status: DataTypes.ENUM(
       "Waiting for payment",
       "Please confirm your payment",
@@ -28,8 +30,10 @@ module.exports = (sequelize, DataTypes) => {
       "Order completed",
       "Order is cancelled"
     ),
+    deliveryFee: DataTypes.INTEGER,
     amount: DataTypes.INTEGER,
-    totalOrderQty: DataTypes.INTEGER
+    userId: DataTypes.INTEGER, 
+    branchId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'transaction',

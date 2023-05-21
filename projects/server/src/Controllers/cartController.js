@@ -17,7 +17,7 @@ module.exports = {
                     isVerified: req.decrypt.isVerified,
                     roleId: req.decrypt.roleId
                 }
-            })
+            }) 
             // console.log('ini get user:', getUser);
 
             const { productId, quantity } = req.body
