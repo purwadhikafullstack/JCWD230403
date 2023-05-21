@@ -33,7 +33,8 @@ module.exports = (sequelize, DataTypes) => {
     deliveryFee: DataTypes.INTEGER,
     amount: DataTypes.INTEGER,
     userId: DataTypes.INTEGER, 
-    branchId: DataTypes.INTEGER
+    branchId: DataTypes.INTEGER, 
+    paymentProof: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'transaction',

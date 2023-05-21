@@ -123,6 +123,7 @@ function ProductDetailUser() {
             } else {
                 let addToCart = {
                     productId: products?.id,
+                    stockBranchId: products?.stockBranchId,
                     quantity: qty,
                 }
                 const response = await axios.post("http://localhost:8000/api/cart/add", addToCart, {

@@ -24,6 +24,7 @@ import ProductLanding from "./Pages/ProductLanding";
 import ProductDetailUser from "./Pages/ProductDetail/ProductDetailUser";
 import CartPage from "./Pages/CartPage/CartPage";
 import CheckOutPage from "./Pages/CheckOut/CheckOutPage";
+import TransactionDetail from "./Pages/TransactionDetail/TransactionDetail";
 
 
 function App() {
@@ -127,6 +128,7 @@ function App() {
               <Route path="/detail/:id" element={<ProductDetailUser/>} />
               <Route path="/cart/me" element={<CartPage/>} />
               <Route path="/checkout" element={<CheckOutPage/>} />
+              <Route path="/detail" element={<TransactionDetail />} />
               <Route path="*" element={<PageNotFound/>}/>
             </Routes>
             <Footer/>
@@ -146,6 +148,7 @@ function App() {
               <Route path="/detail/:id" element={<ProductDetailUser/>} />
               <Route path="/cart/me" element={<CartPage/>} />
               <Route path="/checkout" element={<CheckOutPage/>} />
+              <Route path="/detail" element={<TransactionDetail />} />
             <Route path="*" element={<PageNotFound/>}/>
           </Routes>
           <Footer/>

@@ -96,9 +96,9 @@ module.exports = {
 
                 const updatedStock = stockBranch.stock - product.quantity;
                 console.log(updatedStock)
-                // if (updatedStock < 0) {
-                //     return res.status(400).send({ message: 'Insufficient stock' });
-                // }
+                if (updatedStock < 0) {
+                    return res.status(400).send({ message: 'Insufficient stock' });
+                }
                 await models.stockBranch.update(
                     { stock: updatedStock },
                     { where: { id: stockBranch.id } }
@@ -107,6 +107,7 @@ module.exports = {
                 //     // 4. Buat detail transaksi
                 await models.transaction_detail.create({
                     // productId: product.productId,
+                    invoice: uuid,
                     transactionId: checkout.id,
                     quantity: product.quantity,
                     totalCheckOut: checkout.amount
@@ -115,12 +116,12 @@ module.exports = {
             }
 
             //   // 5. Hapus keranjang yang dicek (cart yang checked)
-            await models.cart.destroy({
-                where: {
-                    userId: req.decrypt.id,
-                    isChecked: 1
-                }
-            });
+            // await models.cart.destroy({
+            //     where: {
+            //         userId: req.decrypt.id,
+            //         isChecked: 1
+            //     }
+            // });
             res.status(200).send({
                 message: 'success',
                 data: checkout
@@ -129,5 +130,63 @@ module.exports = {
             console.log(error)
             next(error)
         }
-    }
+    },
+
+    // payment: async (req, res, next) => {
+    //     try {
+    //         if (req.files) {
+    //             console.log("aaaaaaaaaaaaaaaaaaaaa", req.body.data);
+
+    //             let { order } = JSON.parse(req.body.data);
+    //             console.log("order = ", order);
+
+    //             const findOrderId = await model.order.findOne({
+    //                 where: {
+    //                     uuid: order,
+    //                 },
+    //             });
+    //             console.log("bbbbbbbbbbbbbbbb", findOrderId);
+    //             const orderId = findOrderId.dataValues.id;
+
+    //             await model.order.update(
+    //                 {
+    //                     paymentProof: `/PaymentProof/${req.files[0]?.filename}`,
+    //                     statusId: 10,
+    //                 },
+    //                 {
+    //                     where: {
+    //                         id: orderId,
+    //                     },
+    //                 }
+    //             );
+
+    //             await model.stockMutation.update(
+    //                 {
+    //                     statusId: 10,
+    //                 },
+    //                 {
+    //                     where: {
+    //                         orderId: orderId,
+    //                     },
+    //                 }
+    //             );
+
+    //             if (
+    //                 fs.existsSync(`./src/public${findOrderId.dataValues.paymentProof}`) &&
+    //                 !findOrderId.dataValues.paymentProof.includes("default")
+    //             ) {
+    //                 fs.unlinkSync(`./src/public${findOrderId.dataValues.paymentProof}`);
+    //             }
+
+    //             res.status(200).send({ success: true });
+    //         } else {
+    //             res
+    //                 .status(400)
+    //                 .send({ message: "Please ensure that an image is chosen" });
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //         next(error);
+    //     }
+    // },
 }
