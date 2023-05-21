@@ -16,6 +16,7 @@ route.get("/allproducts", readToken, productController.getAllProducts);
 route.post("/addproducts", readToken, uploader('/imgProduct', 'PRO').array('images', 1), productController.addProduct);
 route.patch("/editproducts/:uuid", readToken, uploader('/imgProduct', 'PRO').array('images', 1), productController.editProduct);
 route.delete("/deleteproducts/:uuid", readToken, productController.deleteProduct);
+route.get("/allhistorystock", readToken, productController.getHistoryStock);
 
 
 
