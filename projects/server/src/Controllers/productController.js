@@ -731,4 +731,69 @@ module.exports = {
             });
         }
     },
+    //------------------- HISTORY STOCK PRODUCT --------------------------------- //
+  getHistoryStock: async (req, res, next) => {
+    try {
+      let { page, size, sortby, order, name, branch_id} = req.query;
+      if (!page) {
+        page = 0;
+      }
+      if (!size) {
+        size = 8;
+      }
+      if (!sortby) {
+        sortby = "name"
+      }
+      if (!order) {
+        order = "ASC"
+      }
+      
+
+      let getAllHistoryStock = await model.product.findAndCountAll({
+        where: {
+          name: {
+            [sequelize.Op.like]: `%${name}%`
+          }
+        },
+        include: [
+          {
+            model: model.stockBranch,
+            attributes: ["branch_id"],
+            where: {
+                branch_id: {
+                    [sequelize.Op.like]: `%${branch_id}%`,
+                },
+            },
+            include: [
+              {
+                model: model.branch,
+                attributes: ['name']
+              },
+            ]
+          },
+          {
+            model: model.historyStockProduct,
+            attributes: ["product_id", "before", "after", "type"],
+          }
+        ],
+        order: [[sortby, order]],
+        limit: parseInt(size),
+        offset: parseInt(page * size)
+      });
+      console.log("get all history stock product :", getAllHistoryStock)
+      
+      const totalPages = Math.ceil(getAllHistoryStock.count / size);
+
+      return res.status(200).send({
+        success: true,
+        message: 'have all product',
+        data: getAllHistoryStock.rows,
+        totalPages: Math.ceil(getAllHistoryStock.count / size),
+        datanum: getAllHistoryStock.count
+      })
+    } catch (error) {
+      console.log(error);
+      next(error);
+    }
+  }
 };
