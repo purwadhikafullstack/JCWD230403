@@ -270,7 +270,6 @@ function ProductManagement(props) {
                                 </Flex>
                             </FormControl>
 
-
                             <FormControl flexBasis={{ base: "100%", md: "20%" }} mb={{ base: "4", md: "0" }}>
                                 <Flex>
                                     <Select
