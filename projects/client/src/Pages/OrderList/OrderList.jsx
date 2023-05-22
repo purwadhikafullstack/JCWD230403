@@ -33,14 +33,50 @@ import {
 import axios from 'axios'
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 function OrderList() {
 
     const location = useLocation();
     const navigate = useNavigate();
 
-    const [orderList, setOrderList] = useState([])
-    const [orderBy, setOrderBy] = useState('DESC');
+    const [orders, setOrders] = useState([]);
+    const [status, setStatus] = useState('');
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+
+    useEffect(() => {
+        getOrderList();
+      }, [status, page]);
+
+    const getOrderList = async () => {
+        try {
+          const response = await axios.get('http://localhost:8000/api/transaction/list', {
+            params: { status, page },
+          });
+
+        //   console.log('ini dari response: ', response.data.data)
+
+          const { data, totalPages } = response.data;
+          setOrders(data);
+          setTotalPages(totalPages);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+    //   const printList = () => {
+    //     return orders.map
+    //   }
+
+      const handleStatusChange = (event) => {
+        setStatus(event.target.value);
+        setPage(1);
+      };
+    
+      const handlePageChange = (newPage) => {
+        setPage(newPage);
+      };
     return (
         <>
             <Box>
@@ -70,7 +106,7 @@ function OrderList() {
                             <Tab>On Going</Tab>
                             <Tab>On Delivery</Tab>
                             <Tab>Completed</Tab>
-                            <Tab>Cancelled</Tab> 
+                            <Tab>Cancelled</Tab>
                         </TabList>
                         <TabIndicator
                             mt="-1.5px"
@@ -89,7 +125,7 @@ function OrderList() {
                                         w={{ base: "36%", md: "16%", lg: "13%" }}
                                         float={"right"}
                                         color={"#6FA66F"}
-                                        // style={'none'}
+                                    // style={'none'}
                                     >
                                         <option value="DESC">Newest</option>
                                         <option value="ASC">Oldest</option>

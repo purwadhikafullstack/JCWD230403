@@ -244,91 +244,38 @@ module.exports = {
             next(error)
         }
     },
-    getList: async (req, res, next) => {
+    getOrderList: async (req, res, next) => {
         try {
-            let {
-                status,
-                createdAt,
-                updatedAt, 
-                page,
-                size,
-                sortby,
-                order
-            } = req.query
 
-            if (!page) {
-                page = 0;
-            }
-            if (!size) {
-                size = 5;
-            }
-            if (!sortby) {
-                sortby = 'id';
-            }
-            if (!order) {
-                order = 'DESC';
-            }
-            if (!status) {
-                status = '';
-            }
+            let { page, size, sort, status } = req.query
 
-            let offset = parseInt(page * size)
-            if (status) {
-                offset = 0;
+            if (req.query.status) {
+                let findOrder = await models.transaction.findAndCountAll({
+                    offset: parseInt(page * size),
+                    limit: parseInt(size),
+                    where: {
+                        statusId: parseInt(req.query.status),
+                    },
+                    include: [
+                        {
+                            model: models.user,
+                            attributes: ["uuid", "name"],
+                        },
+
+                        {
+                            model: models.status,
+                            attributes: ["status"],
+                        },
+                    ],
+                    order: [["createdAt", `${req.query.order}`]],
+                });
+
+                return res.status(200).send({
+                    success: true,
+                    data: findOrder.rows,
+                    datanum: findOrder.count,
+                })
             }
-
-            const dataSortby = () => {
-                if (sortby === 'id') {
-                    return ['id', order]
-                } else {
-                    return ['id', order]
-                }
-            }
-
-            const getTransaction = await models.transaction.findAndCountAll({
-                // attributes: ['id', 'shippingMethod', 'userId', 'paymentProof', 'statusId'],
-                where: {
-                    // nameDiscount: {[sequelize.Op.like]: `%${}%`},
-                    userId: req.params.id
-                },
-                // include: [
-                //   {
-                //     model: models.product,
-                //     attributes: ['name', 'price'],
-                //     include: [
-                //       {
-                //         model: model.stockBranch,
-                //         attributes: ['product_id', 'branch_id', 'stock'],
-                //         where: {
-                //             branch_id: branch_id // filter by branch_id
-                //         },
-                //         include: [
-                //           {
-                //             model: model.branch,
-                //             attributes: [['name', 'branchname']]
-                //           }
-                //         ]
-                //       }
-                //     ]
-                //   }
-                // ],
-                order: [dataSortby()],
-                offset: offset,
-                limit: parseInt(size)
-              });
-
-            //   console.log('ini dari getTransaction:', getTransaction)
-    
-            
-            //   console.log("product from getDiscount :", getDiscount.rows.map(row => row.dataValues.product.stockBranches.map(sb => sb.dataValues.branch_id)));
-          
-              res.status(200).send({
-                success: true,
-                datanum: getDiscount.count,
-                limit: parseInt(size),
-                totalPages: Math.ceil(getDiscount.count / size),
-                data: getDiscount.rows
-              });
         } catch (error) {
             console.log(error)
             next(error)
