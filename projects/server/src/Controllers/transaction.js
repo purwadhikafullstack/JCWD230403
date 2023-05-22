@@ -117,12 +117,12 @@ module.exports = {
             }
 
             //   // 5. Hapus keranjang yang dicek (cart yang checked)
-            // await models.cart.destroy({
-            //     where: {
-            //         userId: req.decrypt.id,
-            //         isChecked: 1
-            //     }
-            // });
+            await models.cart.destroy({
+                where: {
+                    userId: req.decrypt.id,
+                    isChecked: 1
+                }
+            });
             res.status(200).send({
                 message: 'success',
                 data: checkout

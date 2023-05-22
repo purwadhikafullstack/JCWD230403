@@ -29,7 +29,6 @@ module.exports = (sequelize, DataTypes) => {
     userId: DataTypes.INTEGER,
     // branchId: DataTypes.INTEGER, 
     paymentProof: DataTypes.INTEGER, 
-    // transaction_detailId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'transaction',

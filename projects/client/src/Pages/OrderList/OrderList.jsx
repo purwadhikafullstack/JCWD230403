@@ -65,10 +65,6 @@ function OrderList() {
         }
       };
 
-    //   const printList = () => {
-    //     return orders.map
-    //   }
-
       const handleStatusChange = (event) => {
         setStatus(event.target.value);
         setPage(1);
@@ -92,9 +88,6 @@ function OrderList() {
                     <Heading mb="6" color={'black'}>Your Orders</Heading>
 
                     <Tabs
-                        // index={status}
-                        // onChange={handleTabsChange}
-                        // isFitted={true}
                         align="center"
                         isLazy
                         variant={"unstyled"}
@@ -119,30 +112,19 @@ function OrderList() {
                             <TabPanel>
                                 <Box position={"relative"} mb="20" mt="3">
                                     <Select
-                                        // onChange={(e) => {
-                                        //     setOrderBy(e.target.value);
-                                        // }}
                                         w={{ base: "36%", md: "16%", lg: "13%" }}
                                         float={"right"}
                                         color={"#6FA66F"}
-                                    // style={'none'}
                                     >
                                         <option value="DESC">Newest</option>
                                         <option value="ASC">Oldest</option>
                                     </Select>
                                 </Box>
-                                {/* {printOrders()} */}
                                 <Flex
                                     justifyContent={"center"}
                                     w={"full"}
-                                // display={orderList.length === 0 ? "none" : "flex"}
                                 >
-                                    {/* <Pagination
-                                        paginate={paginate}
-                                        size={size}
-                                        totalData={totalData}
-                                        page={page}
-                                    /> */}
+                                    
                                 </Flex>
                             </TabPanel>
 
@@ -157,18 +139,11 @@ function OrderList() {
                                         <option value="ASC">Oldest</option>
                                     </Select>
                                 </Box>
-                                {/* {printOrders()} */}
                                 <Flex
                                     justifyContent={"center"}
                                     w={"full"}
-                                // display={orderList.length === 0 ? "none" : "flex"}
                                 >
-                                    {/* <Pagination
-                                        paginate={paginate}
-                                        size={size}
-                                        totalData={totalData}
-                                        page={page}
-                                    /> */}
+                                   
                                 </Flex>
                             </TabPanel>
                             <TabPanel>
@@ -182,18 +157,11 @@ function OrderList() {
                                         <option value="ASC">Oldest</option>
                                     </Select>
                                 </Box>
-                                {/* {printOrders()} */}
                                 <Flex
                                     justifyContent={"center"}
                                     w={"full"}
-                                // display={orderList.length === 0 ? "none" : "flex"}
                                 >
-                                    {/* <Pagination
-                                        paginate={paginate}
-                                        size={size}
-                                        totalData={totalData}
-                                        page={page}
-                                    /> */}
+                                    
                                 </Flex>
                             </TabPanel>
                             <TabPanel>
@@ -207,18 +175,11 @@ function OrderList() {
                                         <option value="ASC">Oldest</option>
                                     </Select>
                                 </Box>
-                                {/* {printOrders()} */}
                                 <Flex
                                     justifyContent={"center"}
                                     w={"full"}
-                                // display={orderList.length === 0 ? "none" : "flex"}
                                 >
-                                    {/* <Pagination
-                                        paginate={paginate}
-                                        size={size}
-                                        totalData={totalData}
-                                        page={page}
-                                    /> */}
+                             
                                 </Flex>
                             </TabPanel>
                             <TabPanel>
@@ -232,18 +193,11 @@ function OrderList() {
                                         <option value="ASC">Oldest</option>
                                     </Select>
                                 </Box>
-                                {/* {printOrders()} */}
                                 <Flex
                                     justifyContent={"center"}
                                     w={"full"}
-                                // display={orderList.length === 0 ? "none" : "flex"}
                                 >
-                                    {/* <Pagination
-                                        paginate={paginate}
-                                        size={size}
-                                        totalData={totalData}
-                                        page={page}
-                                    /> */}
+                                 
                                 </Flex>
                             </TabPanel>
                             <TabPanel>
@@ -257,18 +211,11 @@ function OrderList() {
                                         <option value="ASC">Oldest</option>
                                     </Select>
                                 </Box>
-                                {/* {printOrders()} */}
                                 <Flex
                                     justifyContent={"center"}
                                     w={"full"}
-                                // display={orderList.length === 0 ? "none" : "flex"}
                                 >
-                                    {/* <Pagination
-                                        paginate={paginate}
-                                        size={size}
-                                        totalData={totalData}
-                                        page={page}
-                                    /> */}
+                                  
                                 </Flex>
                             </TabPanel>
 
@@ -283,18 +230,11 @@ function OrderList() {
                                         <option value="ASC">Oldest</option>
                                     </Select>
                                 </Box>
-                                {/* {printOrders()} */}
                                 <Flex
                                     justifyContent={"center"}
                                     w={"full"}
-                                // display={orderList.length === 0 ? "none" : "flex"}
                                 >
-                                    {/* <Pagination
-                                        paginate={paginate}
-                                        size={size}
-                                        totalData={totalData}
-                                        page={page}
-                                    /> */}
+                            
                                 </Flex>
                             </TabPanel>
                         </TabPanels>
