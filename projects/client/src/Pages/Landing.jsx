@@ -42,7 +42,9 @@ function Landing() {
 
     const getAllStock = async () => {
         try {
-            let response = await axios.post(`http://localhost:8000/api/product/allstock?category=${category}&stock=${stock}&branch_id=${branch ? branch : nearestBranch.id}&product_id=${product_id}&sortby=${sortby}&order=${order}&page=${page}&size=${size}`,
+            let token = localStorage.getItem('grocery_login');
+
+            let response = await axios.post(`http://localhost:8000/api/product//allstock?sortby=${sortby}&order=${order}&page=${page}&size=${size}&branch_id=${nearestBranch?.id}&product_id=${product_id}&stock=${stock}&category=${category}&name=${name}`,
                 {},);
             console.log("name", name);
             // console.log("branch_id", branch_id);
@@ -87,6 +89,39 @@ function Landing() {
 
     console.log(`The nearest branch is km away.`, nearestBranch);
 
+    //// --- CATEGORY BRANCH --- ////
+
+    const [categoryBranch, setCategoryBranch] = useState([]);
+    const [imageCategory, setImageCategory] = React.useState("");
+
+    console.log("Data from Category Branch :", categoryBranch)
+
+    const getCategoryBranch = async () => {
+        try {
+            let response = await axios.get(`http://localhost:8000/api/category/categorybranch?branch_id=${branch ? branch : nearestBranch.id}`)
+            setCategoryBranch(response.data.data);
+            console.log("Data from getcategoryBranch :", response.data.data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    React.useEffect(() => {
+        getCategoryBranch();
+    }, [branch]);
+
+    const printCategoryBranch = () => {
+        return categoryBranch.map((val,idx) => (
+          <div key={val.id}>
+            <ProductCategories 
+                category={val.category}
+                categoryId={val.id}
+                imageCategory={val.imageCategory}
+            />
+          </div>
+        ));
+      };
+
     //// --- PRODUCT CATEGORY NAVIGATION --- ////
     const sliderRef = useRef(null);
 
@@ -105,29 +140,6 @@ function Landing() {
         <Header/>
         <Promo />
         {/* --- PRODUCT CATEGORY --- */}
-        {/* <Box py={'8'} mt='8' px={'2'} backgroundColor={'whitesmoke'}>
-            <Heading fontSize={'xl'}>Categories</Heading>
-            <Flex maxW='6xs' flexWrap='wrap' justifyContent='center' gap={'2'} alignItem='start'>
-                <ProductCategories
-                    path="/product"
-                />
-                <ProductCategories
-                    path="/product"
-                />
-                <ProductCategories
-                    path="/product"
-                />
-                <ProductCategories
-                    path="/product"
-                />
-                <ProductCategories
-                    path="/product"
-                />
-                <ProductCategories
-                    path="/product"
-                />
-            </Flex>
-        </Box> */}
         <Box py={8} mt={8} px={8} backgroundColor="whitesmoke">
           <Heading fontSize="xl">Categories</Heading>
           <Flex
@@ -146,12 +158,7 @@ function Landing() {
                 'scrollbar-width': 'none',
               }}
             >
-              <ProductCategories path="/product" />
-              <ProductCategories path="/product" />
-              <ProductCategories path="/product" />
-              <ProductCategories path="/product" />
-              <ProductCategories path="/product" />
-              <ProductCategories path="/product" />
+              {printCategoryBranch()}
             </Flex>
             <Flex justifyContent="center" mt={4}>
               {/* Left navigation button */}

@@ -12,6 +12,9 @@ module.exports = {
       category: {
         type: Sequelize.STRING
       },
+      imageCategory: {
+        type: Sequelize.STRING
+      },
       isDeleted: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
