@@ -96,7 +96,7 @@ module.exports = {
                 nameDiscount: {[sequelize.Op.like]: `%${nameDiscount}%`},
                 productId: {
                     [sequelize.Op.in]: sequelize.literal(
-                      `(SELECT DISTINCT product_id FROM stockBranches WHERE branch_id = ${branch_id})`
+                      `(SELECT DISTINCT product_id FROM stockbranches WHERE branch_id = ${branch_id})`
                     )
                   }
             },
@@ -128,7 +128,7 @@ module.exports = {
 
           console.log('branch_id:', branch_id);
         
-          console.log("product from getDiscount :", getDiscount.rows.map(row => row.dataValues.product.stockbranch.map(sb => sb.dataValues.branch_id)));
+        //   console.log("product from getDiscount :", getDiscount.rows.map(row => row.dataValues.product.stockbranch.map(sb => sb.dataValues.branch_id)));
       
           res.status(200).send({
             success: true,

@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       transaction.belongsTo(models.user);
       transaction.belongsTo(models.branch);
       transaction.hasOne(models.transaction_detail);
-      transaction.hasMany(models.historyStockProduct);
+      transaction.hasMany(models.historystockproduct);
     }
   }
   transaction.init({

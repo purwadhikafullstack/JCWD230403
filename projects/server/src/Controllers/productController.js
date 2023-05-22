@@ -543,7 +543,7 @@ module.exports = {
                 });
                 console.log("ini hasil stockBranch :", newStock);
 
-                const historyStock = await model.historyStockProduct.create({
+                const historyStock = await model.historystockproduct.create({
                     product_id,
                     type: "Add",
                     before,
@@ -703,7 +703,7 @@ module.exports = {
 
                 console.log("Update Stock: ", updateStock);
 
-                const updateHistoryStock = await model.historyStockProduct.update(
+                const updateHistoryStock = await model.historystockproduct.update(
                     {
                         type: "Update",
                         before,
@@ -772,7 +772,7 @@ module.exports = {
             ]
           },
           {
-            model: model.historyStockProduct,
+            model: model.historystockproduct,
             attributes: ["product_id", "before", "after", "type"],
           }
         ],

@@ -31,7 +31,7 @@ function CategoryManagement() {
         try {
             let token = localStorage.getItem('grocery_login');
             
-            let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/category/allcategory?page=${page}&size=${size}&sortby=${sortby}&order=${order}`, {
+            let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/category/allcategory?page=${page}&size=${size}&sortby=${sortby}&order=${order}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

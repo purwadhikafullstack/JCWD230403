@@ -70,13 +70,13 @@ function Report() {
                         {val.name}
                     </Td>
                     <Td>
-                        {val.historyStockProducts[0]?.type}
+                        {val.historystockproducts[0]?.type}
                     </Td>
                     <Td>
-                        {val.historyStockProducts[0]?.before}
+                        {val.historystockproducts[0]?.before}
                     </Td>
                     <Td>
-                        {val.historyStockProducts[0]?.after}
+                        {val.historystockproducts[0]?.after}
                     </Td>
                 </Tr>
             )
