@@ -17,7 +17,12 @@ module.exports = (sequelize, DataTypes) => {
   }
   categories.init({
     category: DataTypes.STRING,
-    image: DataTypes.STRING
+    imageCategory: DataTypes.STRING,
+    isDeleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: 0
+    },
+
   }, {
     sequelize,
     modelName: 'categories',

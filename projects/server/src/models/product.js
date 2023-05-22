@@ -14,19 +14,27 @@ module.exports = (sequelize, DataTypes) => {
       // products.hasOne(models.price);
       product.hasMany(models.stockBranch, {
         foreignKey:'product_id'});
+      product.hasMany(models.historyStockProduct, {
+        foreignKey:'product_id'});
       product.belongsTo(models.stockBranch, {foreignKey: 'stockBranchId'})
       product.hasMany(models.transaction_detail);
       product.hasMany(models.cart, {foreignKey: 'productId'});
       product.belongsTo(models.categories, {foreignKey: 'category_id'})
+      product.hasOne(models.discount, { foreignKey: 'productId' });
     }
-  }  
+  } 
   product.init({
     uuid: DataTypes.STRING,
-    name: DataTypes.STRING, 
+    name: DataTypes.STRING,
     price: DataTypes.INTEGER,
     image: DataTypes.STRING,
     description: DataTypes.STRING,
+    category_id: DataTypes.INTEGER,
     stockBranchId: DataTypes.INTEGER,
+    isDeleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: 0
+    },
   }, {
     sequelize,
     modelName: 'product',

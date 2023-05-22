@@ -28,7 +28,7 @@ module.exports = {
                         uuid, 
                         name, 
                         email, 
-                        password, 
+                        // password,
                         phone,
                         isVerified: 0,
                         profileId: null,
@@ -90,12 +90,19 @@ module.exports = {
             next(error);
         }
     },
-    // login as a user
+    // login as a user with address
     login: async (req, res, next) => {
         try {
             let getUser = await model.user.findAll({
                 where: {
-                    email: req.body.email},
+                    email: req.body.email
+                },
+                include: [
+                    {
+                        model: model.addresses,
+                        attributes: ['userUuid','addressLine', 'postalCode', 'subDistrict', 'province', 'city', 'longitude', 'latitude', 'defaultAddress', 'branchId']
+                    }
+                ]
             })
             
             // check email
@@ -105,20 +112,40 @@ module.exports = {
                     // check password
                     let check = bcrypt.compareSync(req.body.password, getUser[0].dataValues.password);
                     if (check) {
-                        let {id, uuid, name, email, password, isVerified, roleId} = getUser[0].dataValues;
+                        let {id, uuid, name, email, isVerified, roleId, addressId} = getUser[0].dataValues;
+
+                        const {
+                            addressLine = null,
+                            postalCode = null,
+                            longitude = null,
+                            latitude = null,
+                            city = null,
+                            province = null,
+                            subDistrict = null,
+                            branchId = null
+                          } = getUser[0].dataValues.address || {};
+
                         // GENERATE TOKEN
                         let token = createToken({id, uuid, isVerified, roleId}, "24h");
                         res.status(200).send({
                             success: true,
                             message: "Login Success ✅",
-                            id:id,
-                            uuid:uuid,
+                            id: id,
+                            uuid: uuid,
                             name: name,
                             email: email,
-                            // password: password,
                             isVerified: isVerified,
                             roleId: roleId,
-                            token: token
+                            token: token,
+                            addressId: addressId,
+                            addressLine: addressLine,
+                            postalCode: postalCode,
+                            longitude: longitude,
+                            latitude: latitude,
+                            subDistrict: subDistrict,
+                            province: province,
+                            city: city,
+                            branchId: branchId
                         })
                     } else {
                         return res.status(400).send({
@@ -143,31 +170,59 @@ module.exports = {
             next(error);
         }
     },
-    // keep login as user
+    // keep login as user with address
     keepLogin: async (req, res, next) => {
         try {
             let getUser = await model.user.findAll({
                 where: {
                     uuid: req.decrypt.uuid
                 },
-                include: [{ model: model.role, attributes: ['role']}]
+                include: [
+                    { 
+                        model: model.role, 
+                        attributes: ['role']
+                    },
+                    {
+                        model: model.addresses,
+                        attributes: ['userUuid','addressLine', 'postalCode', 'subDistrict', 'province', 'city', 'longitude', 'latitude', 'defaultAddress', 'branchId']
+
+                    }
+                ]
             });
 
             getUser[0].dataValues.role = getUser[0].dataValues.role.role;
-            let { id, uuid, name, email, password, isVerified, roleId} = getUser[0].dataValues;
+            let { id, uuid, name, email, isVerified, roleId} = getUser[0].dataValues;
+
+            const {
+                addressLine = null,
+                postalCode = null,
+                longitude = null,
+                latitude = null,
+                city = null,
+                province = null,
+                subDistrict = null,
+                branchId = null
+              } = getUser[0].dataValues.address || {};
+
             // GENERATE TOKEN
-            let token = createToken({id, uuid, isVerified, roleId}, "24h");
+            let token = createToken({id, uuid, roleId, isVerified}, "24h");
             return res.status(200).send({
                 success: true,
                 message: "keep login ✅",
-                id:id,
-                uuid:uuid,
+                id: id,
                 name: name,
                 email: email,
-                // password: password,
                 isVerified: isVerified,
                 roleId: roleId,
-                token: token
+                token: token,
+                addressLine: addressLine,
+                postalCode: postalCode,
+                longitude: longitude,
+                latitude: latitude,
+                subDistrict: subDistrict,
+                province: province,
+                city: city,
+                branchId: branchId
             })
         } catch (error) {
             console.log(error);
@@ -353,6 +408,51 @@ module.exports = {
                 })
             }
 
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
+    },
+    // User list for Admin Dashboard
+    userList: async (req, res, next) => {
+        try {
+            const branchId = req.query.branchId
+            let branchFilter = {
+                roleId: 3
+            }
+            if (branchId) {
+                branchFilter.branchId = branchId;
+            }
+
+            const {page = 1, size = 5, name, sortby = 'name', order = 'asc'} = req.query
+
+            let offset = parseInt(page * size);
+            if (name) {
+                offset= 0;
+            }
+
+            let getUser = await model.user.findAndCountAll({
+                where: {
+                    ...branchFilter,
+                    name: { [sequelize.Op.like]: `%${name}%` }
+                },
+                attributes: ['name', 'isVerified', 'branchId', 'isDeleted'],
+                include: [{
+                    model: model.branch,
+                    attributes: ['city']
+                }],
+                order : [[sortby, order]],
+                offset: offset,
+                limit: parseInt(size)
+            })
+            
+            return res.status(200).send({
+                success: true,
+                datanum: getUser.count,
+                data: getUser.rows,
+                limit: parseInt(size),
+                totalPage: Math.ceil(getUser.count / size),
+            })
         } catch (error) {
             console.log(error);
             next(error);

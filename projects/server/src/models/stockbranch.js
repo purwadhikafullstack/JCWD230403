@@ -28,16 +28,15 @@ module.exports = (sequelize, DataTypes) => {
     stock: DataTypes.INTEGER, 
     booking: DataTypes.INTEGER,
     entryDate: DataTypes.DATEONLY,
-    isEnable: {
-      type: DataTypes.BOOLEAN, 
-      defaultValue: true
-    },
     product_id: DataTypes.INTEGER,
     branch_id: DataTypes.INTEGER,
+    isDeleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: 0
+    }
   }, {
     sequelize,
     modelName: 'stockBranch',
   });
-
   return stockBranch;
 };

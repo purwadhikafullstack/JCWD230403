@@ -14,15 +14,15 @@ module.exports = (sequelize, DataTypes) => {
       // branch.belongsTo(models.admin);
       branch.hasMany(models.stockBranch,{
         foreignKey:'branch_id'});
-      branch.hasMany(models.addresses);
+      branch.hasMany(models.addresses, {foreignKey: 'branchId'});
       branch.hasMany(models.cart);
       // branch.hasMany(models.transaction_detail);
       // branch.hasMany(models.transaction);
       branch.hasMany(models.historyStockProduct);
       branch.belongsTo(models.product)
       branch.hasMany(models.user, {foreignKey: "branchId" })
-      branch.belongsTo(models.city, {foreignKey: "city_id"})
-      branch.belongsTo(models.province, {foreignKey: "province_id"})
+      // branch.belongsTo(models.city, {foreignKey: "city_id"})
+      // branch.belongsTo(models.province, {foreignKey: "province_id"})
 
     }
   }
@@ -33,8 +33,8 @@ module.exports = (sequelize, DataTypes) => {
     phone: DataTypes.STRING,
     longitude: DataTypes.STRING,
     lattitude: DataTypes.STRING,
-    // city: DataTypes.STRING,
-    // province: DataTypes.STRING,
+    city: DataTypes.STRING,
+    province: DataTypes.STRING,
     subDistrict: DataTypes.STRING,
     city_id: DataTypes.INTEGER,
     province_id: DataTypes.INTEGER
