@@ -30,10 +30,10 @@ module.exports = (sequelize, DataTypes) => {
       "Order completed",
       "Order is cancelled"
     ),
-    deliveryFee: DataTypes.INTEGER,
+    shippingMethod: DataTypes.STRING,
     amount: DataTypes.INTEGER,
     userId: DataTypes.INTEGER, 
-    branchId: DataTypes.INTEGER, 
+    // branchId: DataTypes.INTEGER, 
     paymentProof: DataTypes.INTEGER
   }, {
     sequelize,

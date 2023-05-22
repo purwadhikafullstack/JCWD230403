@@ -6,7 +6,7 @@ import {
     CardBody,
     CardFooter,
     Button,
-    Text, 
+    Text,
     Modal,
     ModalBody,
     ModalHeader,
@@ -17,14 +17,18 @@ import {
     FormControl,
     useDisclosure,
     ModalCloseButton,
-    Input
+    Input,
+    VStack
 
 } from '@chakra-ui/react'
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { useState } from 'react'
 
 function TransactionDetail() {
     const { isOpen, onOpen, onClose } = useDisclosure()
+    const modalPayment = useDisclosure()
 
     const initialRef = React.useRef(null)
     const finalRef = React.useRef(null)
@@ -36,7 +40,50 @@ function TransactionDetail() {
         navigate('/list')
     }
 
-    // const []
+    const onChangeFile = (val) => {
+        setFileProduct(val.target.files[0]);
+    };
+
+    const [file, setFile] = useState({});
+
+    const btnConfirmPayment = async () => {
+        try {
+            if (file != null) {
+                let formData = new FormData();
+
+                formData.append(
+                    "data",
+                    JSON.stringify({
+                        order: order,
+                    })
+                );
+
+                formData.append("images", file);
+
+                const res = await axios.patch(`http://localhost:8000/api/transaction/payment`, formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+
+                if (res.data.success) {
+                    setFile(null);
+                    onClose();
+                }
+            } else {
+                toast({
+                    title: "Failed to Upload Image",
+                    description: `PLease Ensure that an image is chosen`,
+                    status: "error",
+                    duration: 2000,
+                    isClosable: true,
+                });
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
 
     return (
         <>
@@ -56,26 +103,32 @@ function TransactionDetail() {
                         <Text>Please confirm your payment</Text>
                     </CardBody>
                     <CardFooter>
-                        <Button
-                            borderColor={'#6FA66F'}
-                            mr={'4'}
-                            onClick={toTransactionList}
-                        >View order list
-                        </Button>
-                        <Button
-                            // colorScheme='blue'
-                            bgColor={'#6FA66F'}
-                            _hover={{ boxShadow: "lg", transform: "translateY(5px)" }}
-                            // size="lg"
-                            fontSize="lg"
-                            // rightIcon={<FaArrowRight />}
-                            color={'white'}
-                            rounded={'none'}
-                            variant={"solid"}
-                            onClick={onOpen}
+                        <VStack>
+                            <Button
+                                // colorScheme='blue'
+                                bgColor={'#6FA66F'}
+                                _hover={{ boxShadow: "lg", transform: "translateY(5px)" }}
+                                // size="lg"
+                                fontSize="lg"
+                                // rightIcon={<FaArrowRight />}
+                                color={'white'}
+                                rounded={'none'}
+                                variant={"solid"}
+                                onClick={onOpen}
+                                mb={'2'}
 
-                        >Pay now
-                        </Button>
+                            >Pay now
+                            </Button>
+                            <Button
+                                borderColor={'#6FA66F'}
+                                mr={'4'}
+                                onClick={toTransactionList}
+                                color={'#6FA66F'}
+                                variant={'link'}
+                            // _hover={{tra}}
+                            >View order list
+                            </Button>
+                        </VStack>
 
                     </CardFooter>
                 </Card>
@@ -93,28 +146,48 @@ function TransactionDetail() {
                         <ModalCloseButton />
                         <ModalBody pb={6}>
                             <FormControl>
-                                <input 
-                                type={'file'}
-                                id={'file'}
-                                ref={inputFile}
+                                <input
+                                    type={'file'}
+                                    id={'file'}
+                                    ref={inputFile}
+                                    onChange={onChangeFile}
                                 />
                             </FormControl>
                         </ModalBody>
 
                         <ModalFooter>
-                            <Button 
-                            mr={3}
-                            bgColor={'#6FA66F'}
-                            _hover={{ boxShadow: "lg", transform: "translateY(5px)" }}
-                            // size="lg"
-                            fontSize="lg"
-                            // rightIcon={<FaArrowRight />}
-                            color={'white'}
-                            rounded={'none'}
-                            variant={"solid"}
-                            >
-                                Save
-                            </Button>
+                            {fileProduct != null ? (
+                                <Button
+                                    mr={3}
+                                    bgColor={'#6FA66F'}
+                                    _hover={{ boxShadow: "lg", transform: "translateY(5px)" }}
+                                    // size="lg"
+                                    fontSize="lg"
+                                    // rightIcon={<FaArrowRight />}
+                                    color={'white'}
+                                    rounded={'none'}
+                                    variant={"solid"}
+                                    onClick={btnConfirmPayment}
+                                >
+                                    Save
+                                </Button>
+                            ) : (
+                                <Button
+                                    mr={3}
+                                    bgColor={'#6FA66F'}
+                                    _hover={{ boxShadow: "lg", transform: "translateY(5px)" }}
+                                    // size="lg"
+                                    fontSize="lg"
+                                    // rightIcon={<FaArrowRight />}
+                                    color={'white'}
+                                    rounded={'none'}
+                                    variant={"solid"}
+                                    onClick={btnConfirmPayment}
+                                    isDisabled={true}
+                                >
+                                    Save
+                                </Button>
+                            )}
                             <Button onClick={onClose}>Cancel</Button>
                         </ModalFooter>
                     </ModalContent>

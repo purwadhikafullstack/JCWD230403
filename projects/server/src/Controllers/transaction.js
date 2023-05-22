@@ -96,9 +96,9 @@ module.exports = {
 
                 const updatedStock = stockBranch.stock - product.quantity;
                 console.log(updatedStock)
-                if (updatedStock < 0) {
-                    return res.status(400).send({ message: 'Insufficient stock' });
-                }
+                // if (updatedStock < 0) {
+                //     return res.status(400).send({ message: 'Insufficient stock' });
+                // }
                 await models.stockBranch.update(
                     { stock: updatedStock },
                     { where: { id: stockBranch.id } }
@@ -132,61 +132,80 @@ module.exports = {
         }
     },
 
-    // payment: async (req, res, next) => {
-    //     try {
-    //         if (req.files) {
-    //             console.log("aaaaaaaaaaaaaaaaaaaaa", req.body.data);
+    getCurrentTransaction: async (req, res, next) => {
+        try {
+            const getUser = await models.user.findAll({
+                where: {
+                    uuid: req.decrypt.uuid,
+                    isVerified: req.decrypt.isVerified,
+                    roleId: req.decrypt.roleId
+                }
+            })
+            if (getUser) {
+                // const { id } = req.params
+                const order = await models.transaction_detail.findAll({
+                    where: {
+                        transactionId: req.params.id
+                    }
+                })
+                console.log('ini order detail:', order)
+                return res.status(200).send({
+                    message: 'get curren transaction',
+                    data: order
+                })
+            }
 
-    //             let { order } = JSON.parse(req.body.data);
-    //             console.log("order = ", order);
+        } catch (error) {
+            console.log(error)
+            next(error)
+        }
+    },
 
-    //             const findOrderId = await model.order.findOne({
-    //                 where: {
-    //                     uuid: order,
-    //                 },
-    //             });
-    //             console.log("bbbbbbbbbbbbbbbb", findOrderId);
-    //             const orderId = findOrderId.dataValues.id;
+    payment: async (req, res, next) => {
+        try {
+            if (req.files) {
 
-    //             await model.order.update(
-    //                 {
-    //                     paymentProof: `/PaymentProof/${req.files[0]?.filename}`,
-    //                     statusId: 10,
-    //                 },
-    //                 {
-    //                     where: {
-    //                         id: orderId,
-    //                     },
-    //                 }
-    //             );
+                const findOrderId = await models.transaction.findOne({
+                    where: {
+                        uuid: req.decrypt.uuid
+                    },
+                });
 
-    //             await model.stockMutation.update(
-    //                 {
-    //                     statusId: 10,
-    //                 },
-    //                 {
-    //                     where: {
-    //                         orderId: orderId,
-    //                     },
-    //                 }
-    //             );
+                // console.log('ini findOrderId: ', findOrderId)
 
-    //             if (
-    //                 fs.existsSync(`./src/public${findOrderId.dataValues.paymentProof}`) &&
-    //                 !findOrderId.dataValues.paymentProof.includes("default")
-    //             ) {
-    //                 fs.unlinkSync(`./src/public${findOrderId.dataValues.paymentProof}`);
-    //             }
+                if (!findOrderId) {
+                    return res.status(404).send({
+                      message: 'Transaction not found'
+                    });
+                  }
 
-    //             res.status(200).send({ success: true });
-    //         } else {
-    //             res
-    //                 .status(400)
-    //                 .send({ message: "Please ensure that an image is chosen" });
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //         next(error);
-    //     }
-    // },
+                const orderId = findOrderId.id;
+
+                await models.transaction.update(
+                    {
+                        paymentProof: `/payment/${req.files[0]?.filename}`,
+                        statusId: 'Waiting for confirmation payment'
+                    },
+                    {
+                        where: {
+                            id: orderId,
+                        },
+                    }
+                );
+
+                res.status(200).send({
+                    success: true
+                });
+            } else {
+                res.status(400).send({
+                    message: "Please ensure that an image is chosen"
+                });
+            }
+        } catch (error) {
+            console.log(error);
+            next(error);
+        }
+    },
+
+
 }
