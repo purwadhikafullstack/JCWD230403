@@ -17,10 +17,10 @@ module.exports = {
                     isVerified: req.decrypt.isVerified,
                     roleId: req.decrypt.roleId
                 }
-            })
+            }) 
             // console.log('ini get user:', getUser);
 
-            const { productId, quantity } = req.body
+            const { productId, stockBranchId, quantity } = req.body
 
             if (getUser.length > 0) {
                 const uuid = uuidv4()
@@ -46,8 +46,10 @@ module.exports = {
                     ]
                 })
 
-                // console.log('ini getcart  stock branch id: ', getCart[0].dataValues.product.dataValues.stockBranchId)
-                const stockBranchId = getCart[0].dataValues.product.dataValues.stockBranchId
+                // console.log('ini getcart  stock branch id: ', getCart[0].product.stockBranches[0])
+                
+                // const stockBranchId = getCart[0].product.stockBranches[0].id
+                // console.log('ini stockbranchId nya: ',stockBranchId)
 
                 // 2. jika ada, patch produk tsb untuk di tambahkan quantitynya
                 if (getCart.length !== 0) {
