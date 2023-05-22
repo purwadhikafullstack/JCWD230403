@@ -37,7 +37,7 @@ function Header() {
     const currentUrl = location.pathname;
 
     // --- GET ADDRESS USER --- //
-    const[userAddress, setUserAddress] = useState([])
+    const [userAddress, setUserAddress] = useState([])
     const getUserAddress = async () => {
         try {
             let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/address/useraddress/`, {
@@ -59,7 +59,7 @@ function Header() {
     // --- SELECTED ADDRESS BY USER --- //
     const handleAddressChange = (event) => {
         dispatch(setActiveBranch(event.target.value))
-      };
+    };
 
     return (
         <Flex
@@ -67,7 +67,7 @@ function Header() {
         >
             {
                 token && currentUrl !== "/detail/undefined" ? (
-                    <Box 
+                    <Box
                         pt={'1.5'}
                         px={{ base: '4', sm: '8', md: '20', lg: '20' }}
                     >
@@ -75,36 +75,36 @@ function Header() {
                             gap={'2'}
                             alignItems={'baseline'}
                         >
-                            <Text 
-                                fontSize={{base: 'xs', sm:'sm'}} 
+                            <Text
+                                fontSize={{ base: 'xs', sm: 'sm' }}
                                 color={'gray.500'}
                                 letterSpacing={'tighter'}
                             >
                                 Address:
                             </Text>
                             <Box>
-                            <Select 
-                              size={'xs'} 
-                              variant={'unstyled'}
-                              icon={'none'}
-                              value={branch}
-                              onChange={handleAddressChange}
-                              letterSpacing={'tighter'}
-                            >
-                              {userAddress.map((address) => {
-                                return (
-                                  <option 
-                                    key={address.id}
-                                    value={address.branchId}
-                                  >
-                                    {address.addressLine}, {''}
-                                    {address.subDistrict}, {''}
-                                    {address.province}, {''}
-                                    {address.city}
-                                  </option>
-                                );
-                              })}
-                            </Select>
+                                <Select
+                                    size={'xs'}
+                                    variant={'unstyled'}
+                                    icon={'none'}
+                                    value={branch}
+                                    onChange={handleAddressChange}
+                                    letterSpacing={'tighter'}
+                                >
+                                    {userAddress.map((address) => {
+                                        return (
+                                            <option
+                                                key={address.id}
+                                                value={address.branchId}
+                                            >
+                                                {address.addressLine}, {''}
+                                                {address.subDistrict}, {''}
+                                                {address.province}, {''}
+                                                {address.city}
+                                            </option>
+                                        );
+                                    })}
+                                </Select>
                             </Box>
                         </Flex>
                     </Box>) : null
@@ -121,9 +121,19 @@ function Header() {
                         </Link>
                     </Flex>
                     <InputGroup size={'md'}>
-                        <Input pr={'2.75rem'} placeholder='search' size="sm" type={'search'} rounded={'lg'} backgroundColor={'white'} />
+                        <Input
+                            pr={'2.75rem'}
+                            placeholder='search'
+                            size="sm" type={'search'}
+                            rounded={'lg'}
+                            backgroundColor={'white'}
+                        />
                         <InputRightElement h={'2rem'}>
-                            <Button borderLeftRadius={'0'} h={'2rem'} size={'sm'}>
+                            <Button
+                                borderLeftRadius={'0'}
+                                h={'2rem'}
+                                size={'sm'}
+                            >
                                 <GoSearch size={'sm'} />
                             </Button>
                         </InputRightElement>

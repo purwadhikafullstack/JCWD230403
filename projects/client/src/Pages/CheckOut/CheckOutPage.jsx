@@ -60,6 +60,7 @@ function CheckOutPage() {
     const [branch, setBranch] = useState('')
     const [shippingFee, setShippingFee] = useState(0)
     const [service, setService] = useState('')
+    // const [branch, setBranch] = useState(0)
 
     // delivery method state
     const [method, setMethod] = useState([]);
@@ -84,8 +85,12 @@ function CheckOutPage() {
 
     const getCartChecked = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/transaction/')
-            // console.log('ini response get checked', response.data.data)
+            const response = await axios.get('http://localhost:8000/api/transaction/', {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+            console.log('ini response get checked', response.data.data)
 
             let price = 0
 
@@ -96,6 +101,7 @@ function CheckOutPage() {
             dispatch(itemCart(response.data.data))
             dispatch(getSubTotal(price))
             setCart(response.data.data)
+            // setBranch()
 
             let taxValue = price * 0.1
             setTax(parseInt(taxValue))
@@ -177,7 +183,7 @@ function CheckOutPage() {
         }
     }
     // console.log('ini isinya method: ', method)
-    // console.log('ini seleceted shipping:', selectedShipping)
+    // console.log('ini selected shipping:', selectedShipping)
     // alert(selectedShipping)
 
     const printMethod = () => {
@@ -216,15 +222,25 @@ function CheckOutPage() {
     }
     // proceed to payment
 
-    // const deleteCart = async() => {
-    //     try {
-    //         const response = axios.
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // }
-    const checkOutBtn = () => {
-        navigate('/transaction/detail')
+    const checkOutBtn = async () => {
+        let checkout = {
+            shippingMethod: method?.service,
+            amount: cartSelector.subTotal + selectedShipping + tax,
+            // branchId: 
+        }
+        try {
+            const response = await axios.post(`http://localhost:8000/api/transaction/create`, checkout, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+
+
+            // console.log('ini response dari checkout btn: ', response)
+        } catch (error) {
+            console.log(error)
+        }
+        navigate('/detail')
     }
 
     useEffect(() => {

@@ -159,7 +159,7 @@ module.exports = {
             let currentDate = new Date().toISOString().split('T')[0]
             console.log('ini dari currentDate', currentDate);
 
-            let { sortby, order, page, size, branch_id, longitude, latitude, product_id, stock, category, name } = req.query;
+            let { sortby, order, page, size, branch_id, longitude, latitude, product_id, stock, category} = req.query;
 
             if (!sortby) {
                 sortby = "name";

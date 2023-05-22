@@ -21,9 +21,8 @@ module.exports = (sequelize, DataTypes) => {
       branch.hasMany(models.historystockproduct);
       branch.belongsTo(models.product)
       branch.hasMany(models.user, {foreignKey: "branchId" })
-      // branch.belongsTo(models.city, {foreignKey: "city_id"})
-      // branch.belongsTo(models.province, {foreignKey: "province_id"})
-
+      branch.belongsTo(models.city, {foreignKey: "city_id"})
+      branch.belongsTo(models.province, {foreignKey: "province_id"})
     }
   }
   branch.init({
