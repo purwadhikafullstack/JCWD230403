@@ -60,6 +60,7 @@ function CheckOutPage() {
     const [branch, setBranch] = useState('')
     const [shippingFee, setShippingFee] = useState(0)
     const [service, setService] = useState('')
+    // const [branch, setBranch] = useState(0)
 
     // delivery method state
     const [method, setMethod] = useState([]);
@@ -100,6 +101,7 @@ function CheckOutPage() {
             dispatch(itemCart(response.data.data))
             dispatch(getSubTotal(price))
             setCart(response.data.data)
+            // setBranch()
 
             let taxValue = price * 0.1
             setTax(parseInt(taxValue))
@@ -224,6 +226,7 @@ function CheckOutPage() {
         let checkout = {
             shippingMethod: method?.service,
             amount: cartSelector.subTotal + selectedShipping + tax,
+            // branchId: 
         }
         try {
             const response = await axios.post(`http://localhost:8000/api/transaction/create`, checkout, {
@@ -232,7 +235,8 @@ function CheckOutPage() {
                 }
             })
 
-            console.log('ini response dari checkout btn: ', response)
+
+            // console.log('ini response dari checkout btn: ', response)
         } catch (error) {
             console.log(error)
         }

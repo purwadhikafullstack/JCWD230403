@@ -12,9 +12,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       transaction.belongsTo(models.user, {foreignKey: 'userId'});
-      transaction.belongsTo(models.branch, {foreignKey: 'branchId'});
+      // transaction.belongsTo(models.branch, {foreignKey: 'branchId'});
       transaction.hasOne(models.transaction_detail, {foreignKey: 'transactionId'});
       transaction.hasMany(models.historyStockProduct);
+      transaction.belongsTo(models.status, {foreignKey: 'statusId'})
       // cart.belongsTo(models.stockBranch, {foreignKey: 'stockBranchId'});
 
     }
@@ -22,19 +23,13 @@ module.exports = (sequelize, DataTypes) => {
   transaction.init({
     uuid: DataTypes.STRING,
     // isVoucher: DataTypes.BOOLEAN,
-    status: DataTypes.ENUM(
-      "Waiting for payment",
-      "Please confirm your payment",
-      "On Going",
-      "On delivery",
-      "Order completed",
-      "Order is cancelled"
-    ),
+    statusId: DataTypes.INTEGER,
     shippingMethod: DataTypes.STRING,
     amount: DataTypes.INTEGER,
-    userId: DataTypes.INTEGER, 
+    userId: DataTypes.INTEGER,
     // branchId: DataTypes.INTEGER, 
-    paymentProof: DataTypes.INTEGER
+    paymentProof: DataTypes.INTEGER, 
+    // transaction_detailId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'transaction',
