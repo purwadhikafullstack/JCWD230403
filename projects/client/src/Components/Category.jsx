@@ -46,7 +46,7 @@ function Category(props) {
           }
       
           let edit = await axios.patch(
-            `${process.env.REACT_APP_API_BASE_URL}/category/editcategory/${props.categoryId}`,
+            `${process.env.REACT_APP_API_IMG_URL}/category/editcategory/${props.categoryId}`,
             formData,
             {
               headers: {

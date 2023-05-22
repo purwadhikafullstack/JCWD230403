@@ -97,7 +97,7 @@ function Landing() {
 
     const getCategoryBranch = async () => {
         try {
-            let response = await axios.get(`http://localhost:8000/api/category/categorybranch?branch_id=${branch ? branch : nearestBranch.id}`)
+            let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/category/categorybranch?branch_id=${branch ? branch : nearestBranch.id}`)
             setCategoryBranch(response.data.data);
             console.log("Data from getcategoryBranch :", response.data.data);
         } catch (error) {

@@ -84,7 +84,7 @@ function ProductManagementTwo(props) {
             if (fileProduct != null) {
                 formData.append("images", fileProduct);
             }
-            let update = await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/product/editproducts/${props.uuid}`, formData, {
+            let update = await axios.patch(`${process.env.REACT_APP_API_IMG_URL}/product/editproducts/${props.uuid}`, formData, {
 
                 headers:
                 {

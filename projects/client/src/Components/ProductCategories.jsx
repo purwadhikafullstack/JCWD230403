@@ -25,7 +25,7 @@ const ProductCategories = ({path, category, categoryId, imageCategory}) => {
             mx={{ base: '0', lg: '1' }}
         >
             <Image 
-            src={imageCategory && (imageCategory.includes('http') || imageCategory.includes('https')) ? imageCategory : `${API_URL}${imageCategory}`}
+            src={imageCategory && (imageCategory.includes('http') || imageCategory.includes('https')) ? imageCategory : `${process.env.REACT_APP_API_IMG_URL}${imageCategory}`}
             alt='Category picture'
             borderTopRadius={{ base: 'lg', sm:'lg', md: 'lg', lg: 'lg' }}
             objectFit='cover'

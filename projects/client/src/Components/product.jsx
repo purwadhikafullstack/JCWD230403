@@ -51,7 +51,7 @@ function Products({name, productimage, price, productId, stock, specialPrice}) {
     >
             <Image 
             // src={productimage}
-            src={productimage && (productimage.includes('http') || productimage.includes('https')) ? productimage : `${API_URL}${productimage}`}
+            src={productimage && (productimage.includes('http') || productimage.includes('https')) ? productimage : `${process.env.REACT_APP_API_IMG_URL}${productimage}`}
             alt='Category picture'
             borderTopRadius={{ base: 'lg', sm: 'lg', md: 'lg', lg: 'lg' }}
             objectFit='cover'

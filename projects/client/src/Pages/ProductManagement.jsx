@@ -192,7 +192,7 @@ function ProductManagement(props) {
             if (fileProduct != null) {
                 formData.append("images", fileProduct);
             }
-            let tambah = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/product/addproducts`, formData, {
+            let tambah = await axios.post(`${process.env.REACT_APP_API_IMG_URL}/product/addproducts`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
