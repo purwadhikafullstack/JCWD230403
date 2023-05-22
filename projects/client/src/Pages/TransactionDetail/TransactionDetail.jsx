@@ -18,7 +18,8 @@ import {
     useDisclosure,
     ModalCloseButton,
     Input,
-    VStack
+    VStack, 
+    useToast
 
 } from '@chakra-ui/react'
 import React from 'react'
@@ -27,6 +28,10 @@ import axios from 'axios'
 import { useState } from 'react'
 
 function TransactionDetail() {
+    let token = localStorage.getItem('grocery_login')
+
+    const toast = useToast()
+
     const { isOpen, onOpen, onClose } = useDisclosure()
     const modalPayment = useDisclosure()
 
@@ -41,10 +46,11 @@ function TransactionDetail() {
     }
 
     const onChangeFile = (val) => {
-        setFileProduct(val.target.files[0]);
+        setFile(val.target.files[0]);
     };
 
     const [file, setFile] = useState({});
+    const [order, setOrder]= useState("")
 
     const btnConfirmPayment = async () => {
         try {
@@ -54,11 +60,13 @@ function TransactionDetail() {
                 formData.append(
                     "data",
                     JSON.stringify({
-                        order: order,
+                        paymentProof: `/payment/${req.files[0]?.filename}`,
+                        status: 'Waiting for confirmation payment'
+    
                     })
                 );
 
-                formData.append("images", file);
+                formData.append("image", file);
 
                 const res = await axios.patch(`http://localhost:8000/api/transaction/payment`, formData, {
                     headers: {
@@ -97,7 +105,7 @@ function TransactionDetail() {
                     align='center'
                 >
                     <CardHeader>
-                        <Heading size='md'> Transaction Details</Heading>
+                        <Heading size='md'> Thank you for shopping with us</Heading>
                     </CardHeader>
                     <CardBody>
                         <Text>Please confirm your payment</Text>
@@ -156,7 +164,7 @@ function TransactionDetail() {
                         </ModalBody>
 
                         <ModalFooter>
-                            {fileProduct != null ? (
+                            {file != null ? (
                                 <Button
                                     mr={3}
                                     bgColor={'#6FA66F'}

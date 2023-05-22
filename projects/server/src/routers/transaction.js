@@ -9,7 +9,7 @@ route.post('/create', readToken ,createTransaction)
 // route.get('/detail/:id', readToken, getCurrentTransaction)
 route.patch('/payment', 
 readToken, 
-// uploader('/payment', 'PAY').array('images', 1), 
+uploader('/payment', 'PAY').array('images', 1), 
 payment)
 
 

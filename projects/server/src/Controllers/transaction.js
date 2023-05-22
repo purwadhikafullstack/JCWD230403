@@ -184,7 +184,7 @@ module.exports = {
                 await models.transaction.update(
                     {
                         paymentProof: `/payment/${req.files[0]?.filename}`,
-                        statusId: 'Waiting for confirmation payment'
+                        status: 'Waiting for confirmation payment'
                     },
                     {
                         where: {
