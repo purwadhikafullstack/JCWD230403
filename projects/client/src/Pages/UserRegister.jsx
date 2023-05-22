@@ -11,7 +11,8 @@ import {
     InputRightAddon, 
     Text, 
     Image,
-    useBreakpointValue
+    useBreakpointValue,
+    useToast
 } from '@chakra-ui/react';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import axios from 'axios';
@@ -28,7 +29,8 @@ function UserRegister() {
     const navigate = useNavigate();
     const boxWidth = useBreakpointValue({base:'full', sm:'full', md:'40%', lg:'40%'});
     const borderRadiusA = useBreakpointValue({base:'none', sm:'3xl', md:'3xl', lg:'3xl'});
-    const borderRadiusB = useBreakpointValue({base:'none', sm:'3xl', md:'none', lg:'none'})
+    const borderRadiusB = useBreakpointValue({base:'none', sm:'3xl', md:'none', lg:'none'});
+    const toast = useToast();
 
     const handleVisible = () => {
         if (visible == 'password') {
@@ -41,22 +43,62 @@ function UserRegister() {
     const onBtnRegister = async () => {
         try {
             if (name == '' || email == '' || phone == '' || password == '' || confirmationPassword == '') {
-                return alert('Please fill in all fields')
+                // return alert('Please fill in all fields')
+                return toast({
+                    position: 'top',
+                    title: "Register New User",
+                    description: 'Please complete all required fields',
+                    status: 'warning',
+                    duration: 2000,
+                    isClosable: true
+                });
             }
             if (!checkName(name)){
-                return alert('Please enter a valid name with a minimum length of 100 characters');
+                // return alert('Please enter a valid name with a minimum length of 100 characters');
+                return toast({
+                    position: 'top',
+                    title: "Register New User",
+                    description: 'Please enter a valid name with a minimum length of 100 characters',
+                    status: 'warning',
+                    duration: 2000,
+                    isClosable: true
+                });
             }
             if(!checkEmail(email)){
-                return alert('Please enter a valid email address');
+                // return alert('Please enter a valid email address');
+                return toast({
+                    position: 'top',
+                    title: "Register New User",
+                    description: 'Please enter a valid email address',
+                    status: 'warning',
+                    duration: 2000,
+                    isClosable: true
+                });
             }
             if(!checkPhone(phone)){
-                return alert('Please enter a valid phone number')
+                // return alert('Please enter a valid phone number')
+                return toast({
+                    position: 'top',
+                    title: "Register New User",
+                    description: 'Please enter a valid phone number',
+                    status: 'warning',
+                    duration: 2000,
+                    isClosable: true
+                });
             }
             if(!checkPassword(password)){
-                return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
+                // return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
+                return toast({
+                    position: 'top',
+                    title: "Register New User",
+                    description: 'Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number',
+                    status: 'warning',
+                    duration: 2000,
+                    isClosable: true
+                })
             }
             // console.log(API_URL);
-            let response = await axios.post(`${API_URL}/user/register`, {
+            let response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/user/register`, {
                 name: name,
                 email: email,
                 phone: phone,
@@ -67,16 +109,45 @@ function UserRegister() {
             console.log('Response dari be :', response.data.message);
             
             if (response.data.success) {
-                alert(response.data.message);
+                // alert(response.data.message);
+                toast({
+                    position: 'top',
+                    title: "Register New User",
+                    description: response.data.message,
+                    status: 'success',
+                    duration: 2000,
+                    isClosable: true
+                });
                 navigate('/');
             }
         } catch (error) {
             console.log("Error :", error);
             console.log("Error message :", error.response.data);
-            alert(error.response.data.message);
-            alert(error.response.data.error[3].msg);
-            alert(error.response.data.error[5].msg);
-            alert(error.response.data.error[7].msg);
+            // alert(error.response.data.message);
+            // alert(error.response.data.error[3].msg);
+            // alert(error.response.data.error[5].msg);
+            // alert(error.response.data.error[7].msg);
+            const toastMessages = [
+                { index: 0, title: "Status", duration: 2000 },
+                { index: 3, title: "Status", duration: 2000 },
+                { index: 5, title: "Status", duration: 2000 },
+                { index: 7, title: "Status", duration: 2000 }
+              ];
+            
+              for (const toastMsg of toastMessages) {
+                const errorMsg = error.response.data.error[toastMsg.index]?.msg;
+                if (errorMsg) {
+                  toast({
+                    position: 'top',
+                    title: toastMsg.title,
+                    description: errorMsg,
+                    status: 'error',
+                    duration: toastMsg.duration,
+                    isClosable: true
+                  });
+                  break;
+                }
+              }
         }
     }
 
@@ -98,7 +169,7 @@ function UserRegister() {
                     </FormControl>
                     <FormControl my='2'>
                         <FormLabel color={'white'}>Phone Number</FormLabel>
-                        <Input placeholder='Enter your phone number' backgroundColor={'white'} type='text' onChange={(e) => setPhone(e.target.value)}/>
+                        <Input placeholder='Enter your phone number' backgroundColor={'white'} type='number' onChange={(e) => setPhone(e.target.value)}/>
                     </FormControl>
                     <FormControl my='2'>
                         <FormLabel color={'white'}>Password</FormLabel>

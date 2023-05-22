@@ -20,7 +20,7 @@ function Category(props) {
 
     const btnEdit = async () => {
         try {
-            let edit = await axios.patch(`http://localhost:8000/api/category/editcategory/${props.categoryId}`, {
+            let edit = await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/category/editcategory/${props.categoryId}`, {
                 category: category ? category : props.category
             });
             if (edit.data.success) {
@@ -51,7 +51,7 @@ function Category(props) {
 
     const btnDelete = async () => {
         try {
-          await axios.patch(`http://localhost:8000/api/category/deletecategory/${props.categoryId}`, {})
+          await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/category/deletecategory/${props.categoryId}`, {})
           props.getDataCategory();
           modalDelete.onClose();
           setId();

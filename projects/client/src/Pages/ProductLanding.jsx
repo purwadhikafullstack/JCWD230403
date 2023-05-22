@@ -43,7 +43,7 @@ function ProductLanding(props) {
 
   const getAllStock = async () => {
     try {
-      let response = await axios.post(`http://localhost:8000/api/product/allstock?category=${category}&stock=${stock}&branch_id=${branch ? branch : nearestBranch.id}&product_id=${product_id}&sortby=${sortby}&order=${order}&page=${page}&size=${size}`,
+      let response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/product/allstock?category=${category}&stock=${stock}&branch_id=${branch ? branch : nearestBranch.id}&product_id=${product_id}&sortby=${sortby}&order=${order}&page=${page}&size=${size}`,
         {},);
       console.log("name", name);
       console.log("branch_id", branch_id);
@@ -90,7 +90,7 @@ function ProductLanding(props) {
   const[userAddress, setUserAddress] = useState([])
   const getUserAddress = async () => {
       try {
-          let response = await axios.get(`${API_URL}/address/useraddress/`, {
+          let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/address/useraddress/`, {
               headers: {
                   Authorization: `Bearer ${token}`
               }

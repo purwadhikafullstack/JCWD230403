@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const { createToken } = require('../helper/jwt');
 const {v4 : uuidv4} = require('uuid');
 const transporter = require('../helper/nodemailer');
+const { join } = require("path");
 
 let salt = bcrypt.genSaltSync(10);
 
@@ -28,7 +29,7 @@ module.exports = {
                         uuid, 
                         name, 
                         email, 
-                        // password,
+                        password,
                         phone,
                         isVerified: 0,
                         profileId: null,
@@ -58,7 +59,7 @@ module.exports = {
                             </p>
                             <br>
                             <p>
-                                <a href="http://localhost:3000/verification/${token}">Verify Account</a>
+                                <a href="${process.env.FE_URL}/verification/${token}">Verify Account</a>
                             </p>
                             <br>
                             <p>Best regards,</p>
@@ -303,7 +304,7 @@ module.exports = {
                     </p>
                     <br/>
                     <p>
-                        <a href="http://localhost:3000/reset/${token}">Reset password</a>
+                        <a href="${process.env.FE_URL}/reset/${token}">Reset password</a>
                     </p>
                     <br/>
                     <p>Best regards,</p>

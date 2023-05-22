@@ -187,7 +187,7 @@ module.exports = {
                         }
                     },
                     {
-                        model: model.stockBranch,
+                        model: model.stockbranch,
                         attributes: ["product_id", "branch_id", "stock"],
                         where: {
                             branch_id: {
@@ -293,7 +293,7 @@ module.exports = {
                 },
                 include: [
                     {
-                        model: model.stockBranch,
+                        model: model.stockbranch,
                         // where: {
                         //     stock: stock
                         // }
@@ -373,9 +373,9 @@ module.exports = {
                 } else if (sortby === 'category') {
                     return [model.categories, 'category', order];
                 } else if (sortby === 'stock') {
-                    return [model.stockBranch, 'stock', order];
+                    return [model.stockbranch, 'stock', order];
                 } else if (sortby === 'branchname') {
-                    return [{ model: model.stockBranch, include: [model.branch] }, model.branch, 'name', order]
+                    return [{ model: model.stockbranch, include: [model.branch] }, model.branch, 'name', order]
                 }
             };
 
@@ -391,7 +391,7 @@ module.exports = {
                         category: { [sequelize.Op.like]: `%${category}%` }
                     },
                     {
-                        model: model.stockBranch,
+                        model: model.stockbranch,
                         attributes: ['product_id', 'branch_id', 'stock'],
                         where: {
                             branch_id: { [sequelize.Op.like]: `%${branch_id}%` },
@@ -464,7 +464,7 @@ module.exports = {
                         }
                     },
                     {
-                        model: model.stockBranch,
+                        model: model.stockbranch,
                         attributes: ["product_id", "branch_id", "stock"],
                         where: {
                             branch_id: {
@@ -534,7 +534,7 @@ module.exports = {
                 console.log("ini hasil tambah :", tambah);
 
                 const product_id = tambah.id;
-                const newStock = await model.stockBranch.create({
+                const newStock = await model.stockbranch.create({
                     stock,
                     branch_id,
                     product_id,
@@ -586,7 +586,7 @@ module.exports = {
                 );
                 console.log(`deleteProduct`, deleteProduct);
 
-                let deleteStock = await model.stockBranch.update(
+                let deleteStock = await model.stockbranch.update(
                     { isDeleted: 1 },
                     {
                         where: {
@@ -611,7 +611,7 @@ module.exports = {
                 );
                 console.log(`deleteProduct`, deleteProduct);
 
-                let deleteStock = await model.stockBranch.update(
+                let deleteStock = await model.stockbranch.update(
                     { isDeleted: 0 },
                     {
                         where: {
@@ -689,7 +689,7 @@ module.exports = {
             });
 
             if (stock) {
-                const updateStock = await model.stockBranch.update(
+                const updateStock = await model.stockbranch.update(
                     {
                         stock,
                         branch_id
@@ -757,7 +757,7 @@ module.exports = {
         },
         include: [
           {
-            model: model.stockBranch,
+            model: model.stockbranch,
             attributes: ["branch_id"],
             where: {
                 branch_id: {

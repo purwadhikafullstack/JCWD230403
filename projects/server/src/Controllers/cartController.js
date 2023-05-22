@@ -35,7 +35,7 @@ module.exports = {
                             model: models.product,
                             include: [
                                 {
-                                    model: models.stockBranch,
+                                    model: models.stockbranch,
                                     atritbuttes: ["product_id", "stock", "branch_id"],
                                     // where: {
                                     //     product_id: { [Op.like]: `%${product_id}%` }
@@ -349,7 +349,7 @@ module.exports = {
                         // atritbuttes: ["id", "name", "stockBranchId"],
                         include: [
                             {
-                                model: models.stockBranch
+                                model: models.stockbranch
                                 // atritbuttes: ["stock"]
                             }
                         ]
@@ -359,7 +359,7 @@ module.exports = {
 
             // console.log('ini dari findProduct addQty: ', findProduct[0].dataValues.product.dataValues.stockBranches[0].stock)
 
-            const stock = findProduct[0].dataValues.product.dataValues.stockBranches[0].stock
+            const stock = findProduct[0].dataValues.product.dataValues.stockbranches[0].stock
 
             if (findProduct[0].quantity + 1 > stock) {
                 return res.status(400).send({
@@ -421,7 +421,7 @@ module.exports = {
                 include: [
                     {
                         model: models.product,
-                        include: [{ model: models.stockBranch }],
+                        include: [{ model: models.stockbranch }],
                     },
                 ],
             })
@@ -445,7 +445,7 @@ module.exports = {
                     {
                         model: models.product,
                         include: [{
-                            model: models.stockBranch
+                            model: models.stockbranch
                         }]
                     }
                 ]

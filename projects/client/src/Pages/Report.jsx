@@ -47,7 +47,7 @@ function Report() {
         try {
             let token = localStorage.getItem('grocery_login');
 
-            let response = await axios.get(`http://localhost:8000/api/product/allhistorystock?page=${page}&size=${size}&sortby=${sortby}&order=${order}&name=${name}&branch_id=${selectedBranch}`, {
+            let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/product/allhistorystock?page=${page}&size=${size}&sortby=${sortby}&order=${order}&name=${name}&branch_id=${selectedBranch}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

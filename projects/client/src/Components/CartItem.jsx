@@ -65,7 +65,7 @@ function CartItem({ productName, price, productImg, quantity, category, cartId, 
             
             // console.log('ini dari response getcartbyid', response.data.data[0].product.stockBranches[0].stock)
 
-            const stock = response.data.data[0].product.stockBranches[0].stock
+            const stock = response.data.data[0].product.stockbranches[0].stock
 
             setProductStock(stock)
 

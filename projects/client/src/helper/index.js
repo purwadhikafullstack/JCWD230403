@@ -1,4 +1,4 @@
-export const API_URL = 'http://localhost:8000/api';
+export const API_URL = 'http://localhost:2343/api';
 
 export const checkEmail = (email) => {
     let domain = /\.(com|id|co.id|org|gov|ac.id|my.id|xyz|tv)/;

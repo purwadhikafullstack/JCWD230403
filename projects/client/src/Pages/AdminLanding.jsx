@@ -73,7 +73,7 @@ function AdminLanding() {
 
 const getBranchList = async () => {
   try {
-    const response = await axios.get(`${API_URL}/branch/branchlist`, {
+    const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/branch/branchlist`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -120,7 +120,7 @@ React.useEffect(() => {
    const [adminBranch, setAdminBranch] = useState([]);
    const getAdminBranch = async () => {
      try {
-       let response = await axios.get(`${API_URL}/admin/adminbranchlist?branchId=${branchId}&page=${adminPage}&size=${adminSize}&sortby=${adminSort}&order=${adminOrder}&name=${adminFilter}`, {
+       let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/admin/adminbranchlist?branchId=${branchId}&page=${adminPage}&size=${adminSize}&sortby=${adminSort}&order=${adminOrder}&name=${adminFilter}`, {
          headers: {
            Authorization: `Bearer ${token}`
          }
@@ -196,7 +196,7 @@ React.useEffect(() => {
   const [userBranch, setUserBranch] = useState([]);
   const getUserBranch = async () => {
     try {
-      let response = await axios.get(`${API_URL}/user/userbranchlist?branchId=${branchId}&page=${userPage}&size=${userSize}&sortby=${userSort}&order=${userOrder}&name=${userFilter}`, {
+      let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/user/userbranchlist?branchId=${branchId}&page=${userPage}&size=${userSize}&sortby=${userSort}&order=${userOrder}&name=${userFilter}`, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -290,7 +290,7 @@ React.useEffect(() => {
   const [productBranch, setProductBranch] = useState([]);
   const getProductBranch = async () => {
     try {
-      let response = await axios.get(`${API_URL}/product/productlist?branch_id=${branch_id}&page=${productPage}&size=${productSize}&sortby=${productSort}&order=${productOrder}&name=${productName}&category=${productCategory}&stock=${productStock}&branchname=${productBranchName}`, {
+      let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/product/productlist?branch_id=${branch_id}&page=${productPage}&size=${productSize}&sortby=${productSort}&order=${productOrder}&name=${productName}&category=${productCategory}&stock=${productStock}&branchname=${productBranchName}`, {
 
       });
       setProductBranch(response.data.data);
@@ -313,7 +313,7 @@ React.useEffect(() => {
           <Td>{val.name}</Td>
           <Td>{val.category?.category}</Td>
           <Td textAlign={'center'} >{val.price}</Td>
-          <Td textAlign={'center'} >{val.stockBranches[0]?.stock}</Td>
+          <Td textAlign={'center'} >{val.stockbranches[0]?.stock}</Td>
         </Tr>
       )
     })

@@ -8,7 +8,8 @@ import {
     InputGroup, 
     InputRightAddon, 
     Text,
-    useBreakpointValue
+    useBreakpointValue,
+    useToast
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
@@ -23,6 +24,7 @@ function ChangePassword() {
     const [confirmNewPassword, setConfirmNewPassword] = React.useState('');
     const boxWidth = useBreakpointValue({base:'full', sm:'full', md:'40%', lg:'40%'});
     const borderRadius = useBreakpointValue({base:'none', sm:'xl', md:'2xl', lg:'2xl'});
+    const toast = useToast();
 
     const handleVisible = () => {
         if (visible == 'password') {
@@ -35,19 +37,51 @@ function ChangePassword() {
     const onBtnChange = async () => {
         try {
             if(oldPassword == '' || newPassword == '' || confirmNewPassword == ''){
-                return alert('Please fill in all fields');
+                // return alert('Please fill in all fields');
+                return toast({
+                    position: 'top',
+                    title: 'Change password',
+                    description: 'Please fill in all fields.',
+                    status: 'warning',
+                    duration: 2000,
+                    isClosable: true
+                });
             }
             if(!checkPassword(oldPassword)){
-                return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
+                // return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
+                return toast({
+                    position: 'top',
+                    title: 'Change password',
+                    description: 'Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number',
+                    status: 'warning',
+                    duration: 2000,
+                    isClosable: true
+                });
             }
             if(!checkPassword(newPassword)){
-                return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
+                // return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
+                return toast({
+                    position: 'top',
+                    title: 'Change password',
+                    description: 'Please enter New Password at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number',
+                    status: 'warning',
+                    duration: 2000,
+                    isClosable: true
+                });
             }
             if(!checkPassword(confirmNewPassword)){
-                return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
+                // return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
+                return toast({
+                    position: 'top',
+                    title: 'Change password',
+                    description: 'Please enter Confirmation New Password at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number',
+                    status: 'warning',
+                    duration: 2000,
+                    isClosable: true
+                });
             }
             let token = localStorage.getItem('grocery_login');
-            let response = await axios.patch(`${API_URL}/user/change`, {
+            let response = await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/user/change`, {
                 oldPassword: oldPassword,
                 newPassword: newPassword,
                 confirmNewPassword: confirmNewPassword
@@ -56,11 +90,27 @@ function ChangePassword() {
                     Authorization: `Bearer ${token}`
                 }
             })
-            alert(response.data.message);
+            // alert(response.data.message);
+            toast({
+                position: 'bottom',
+                title: 'Change password',
+                description: response.data.message,
+                status: 'success',
+                duration: 2000,
+                isClosable: true
+            });
             navigate('/');
         } catch (error) {
             console.log(error);
-            alert(error.response.data.message);
+            // alert(error.response.data.message);
+            return toast({
+                position: 'top',
+                title: 'Change password',
+                description: error.response.data.message,
+                status: 'warning',
+                duration: 2000,
+                isClosable: true
+            });
         }
     }
 

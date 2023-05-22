@@ -31,7 +31,7 @@ function CategoryManagement() {
         try {
             let token = localStorage.getItem('grocery_login');
             
-            let response = await axios.get(`http://localhost:8000/api/category/allcategory?page=${page}&size=${size}&sortby=${sortby}&order=${order}`, {
+            let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/category/allcategory?page=${page}&size=${size}&sortby=${sortby}&order=${order}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -46,7 +46,7 @@ function CategoryManagement() {
 
     const btnAddCategory = async () => {
         try {
-            await axios.post(`http://localhost:8000/api/category/addcategory`, {
+            await axios.post(`${process.env.REACT_APP_API_BASE_URL}/category/addcategory`, {
                 category: category
             });
             modalCategory.onClose();

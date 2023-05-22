@@ -9,6 +9,7 @@ import {
     InputRightAddon, 
     Text,
     useBreakpointValue,
+    useToast
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { API_URL } from '../helper';
@@ -19,17 +20,34 @@ function ForgotPassword() {
     const [email, setEmail] = React.useState('');
     const boxWidth = useBreakpointValue({base:'full', sm:'full', md:'40%', lg:'40%'});
     const borderRadius = useBreakpointValue({base:'none', sm:'xl', md:'2xl', lg:'2xl'});
+    const toast = useToast();
 
     const onBtnForgot = async () => {
         try {
             if (email == '') {
-                alert("Please enter your email")
+                // alert("Please enter your email")
+                return toast({
+                    position: 'top',
+                    title: 'Forgot Password',
+                    description: 'Please enter a valid email address',
+                    status: 'warning',
+                    duration: 2000,
+                    isClosable: true
+                })
             } else {
-                let response = await axios.post(`${API_URL}/user/forgot`, {
+                let response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/user/forgot`, {
                     email: email
                 });
                 if (response.data.success) {
-                    alert(response.data.message);
+                    // alert(response.data.message);
+                    toast({
+                        position: 'bottom',
+                        title: 'Forgot Password',
+                        description: response.data.message,
+                        status: 'info',
+                        duration: 2000,
+                        isClosable: true
+                    })
                     navigate('/login');
                 }
             }

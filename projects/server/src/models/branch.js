@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       // branch.belongsTo(models.admin);
-      branch.hasMany(models.stockBranch,{
+      branch.hasMany(models.stockbranch,{
         foreignKey:'branch_id'});
       branch.hasMany(models.addresses, {foreignKey: 'branchId'});
       branch.hasMany(models.cart);

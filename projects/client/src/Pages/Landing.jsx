@@ -42,7 +42,7 @@ function Landing() {
 
     const getAllStock = async () => {
         try {
-            let response = await axios.post(`http://localhost:8000/api/product/allstock?category=${category}&stock=${stock}&branch_id=${branch ? branch : nearestBranch.id}&product_id=${product_id}&sortby=${sortby}&order=${order}&page=${page}&size=${size}`,
+            let response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/product/allstock?category=${category}&stock=${stock}&branch_id=${branch ? branch : nearestBranch.id}&product_id=${product_id}&sortby=${sortby}&order=${order}&page=${page}&size=${size}`,
                 {},);
             console.log("name", name);
             // console.log("branch_id", branch_id);

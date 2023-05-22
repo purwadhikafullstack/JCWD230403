@@ -67,7 +67,7 @@ function Navbar() {
 
     const getBranch = async () => {
         try {
-            let response = await axios.get(`${API_URL}/branch/branchlist?id=${branch ? branch : nearestBranch.id}`, {
+            let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/branch/branchlist?id=${branch ? branch : nearestBranch.id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
