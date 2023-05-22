@@ -46,7 +46,7 @@ function Category(props) {
           }
       
           let edit = await axios.patch(
-            `http://localhost:8000/api/category/editcategory/${props.categoryId}`,
+            `${process.env.REACT_APP_API_BASE_URL}/category/editcategory/${props.categoryId}`,
             formData,
             {
               headers: {
@@ -87,7 +87,7 @@ function Category(props) {
         try {
             let token = localStorage.getItem('grocery_login');
 
-            let deleteCategory = await axios.patch(`http://localhost:8000/api/category/deletecategory/${props.categoryId}`, null, {
+            let deleteCategory = await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/category/deletecategory/${props.categoryId}`, null, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

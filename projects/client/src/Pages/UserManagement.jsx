@@ -58,7 +58,7 @@ function UserManagement() {
     const [adminList, setAdminList] = useState([]);
     const getAdminList = async () => {
         try {
-            let response = await axios.get(`${API_URL}/admin/adminlist?page=${page}&size=${size}&sortby=${sortby}&order=${order}&name=${filterName}`, {
+            let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/admin/adminlist?page=${page}&size=${size}&sortby=${sortby}&order=${order}&name=${filterName}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -365,7 +365,7 @@ function UserManagement() {
             }
             // console.log("roleId before set: ", roleId);
             // console.log("branchId before set: ", branchId);
-            let response = await axios.post(`${API_URL}/admin/adminregister`, {
+            let response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/admin/adminregister`, {
                 name: name,
                 email: email,
                 phone: phone,
@@ -484,7 +484,7 @@ function UserManagement() {
                     isClosable: true
                 })
             }
-            let response = await axios.patch(`${API_URL}/admin/adminedit/${uuid}`, {
+            let response = await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/admin/adminedit/${uuid}`, {
                 name: name,
                 email: email,
                 phone: phone,
@@ -547,7 +547,7 @@ function UserManagement() {
     }
     const onBtnReset = async () => {
         try {
-            let response = await axios.patch(`${API_URL}/admin/adminreset/${uuid}`, {
+            let response = await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/admin/adminreset/${uuid}`, {
                 password: password,
                 confirmationPassword: confirmationPassword
             }, {
@@ -592,7 +592,7 @@ function UserManagement() {
     ///// DELETE ADMIN /////
     const onBtnDelete = async (uuid, isDeleted) => {
         try {
-            let response = await axios.patch(`${API_URL}/admin/admindelete/${uuid}`, {
+            let response = await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/admin/admindelete/${uuid}`, {
                 isDeleted: isDeleted
             },
             {

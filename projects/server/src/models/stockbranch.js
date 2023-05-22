@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class stockBranch extends Model {
+  class stockbranch extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -12,19 +12,19 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       // stockBranch.belongsTo(models.admin);
-      stockBranch.belongsTo(models.branch, {
+      stockbranch.belongsTo(models.branch, {
         foreignKey:'branch_id'});
-      stockBranch.belongsTo(models.product, {
+      stockbranch.belongsTo(models.product, {
         foreignKey:'product_id'});
-      stockBranch.hasMany(models.product, {
+      stockbranch.hasMany(models.product, {
         foreignKey:'stockBranchId'});
-      stockBranch.hasMany(models.historyStockProduct);
-      stockBranch.hasMany(models.cart, {
+      stockbranch.hasMany(models.historystockproduct);
+      stockbranch.hasMany(models.cart, {
         foreignKey: 'stockBranchId' 
       });
     } 
   } 
-  stockBranch.init({
+  stockbranch.init({
     stock: DataTypes.INTEGER, 
     booking: DataTypes.INTEGER,
     entryDate: DataTypes.DATEONLY,
@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'stockBranch',
+    modelName: 'stockbranch',
   });
-  return stockBranch;
+  return stockbranch;
 };

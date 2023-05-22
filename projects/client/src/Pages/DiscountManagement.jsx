@@ -62,7 +62,7 @@ function DiscountManagement() {
     const [discountBranch, setDiscountBranch] = useState([]);
     const getDiscountBranch = async () => {
         try {
-            let response = await axios.get(`${API_URL}/discount/discountlist?branch_id=${branch_id}&page=${discountPage}&size=${discountSize}&sortby=${discountSort}&order=${discountOrder}&nameDiscount=${nameDiscount}`, {
+            let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/discount/discountlist?branch_id=${branch_id}&page=${discountPage}&size=${discountSize}&sortby=${discountSort}&order=${discountOrder}&nameDiscount=${nameDiscount}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -80,9 +80,9 @@ function DiscountManagement() {
     const printDiscountBranch = () => {
         return discountBranch
         .map((val,idx) => {
-            const stockBranch = selectedBranchId ? val.product.stockBranches.find((sb) => sb.branch_id === selectedBranchId) : null;
-            const stock = stockBranch ? stockBranch.stock : 'out of stock';
-            const productId = stockBranch ? stockBranch.product_id : null;
+            const stockbranch = selectedBranchId ? val.product.stockbranches.find((sb) => sb.branch_id === selectedBranchId) : null;
+            const stock = stockbranch ? stockbranch.stock : 'out of stock';
+            const productId = stockbranch ? stockbranch.product_id : null;
             if(isMobile) {
                 return (
                     <Accordion 
@@ -359,7 +359,7 @@ function DiscountManagement() {
                     isClosable: true
                 })
             }
-            let response = await axios.post(`${API_URL}/discount/discountmanual/`, {
+            let response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/discount/discountmanual/`, {
                 nameDiscount: createNameDiscount,
                 specialPrice: createSpecialPrice,
                 activeDate: createActiveDate,
@@ -406,7 +406,7 @@ function DiscountManagement() {
 
     const getProducts = async () => {
         try {
-            let response = await axios.get(`${API_URL}/product/productlist?branch_id=${branch_id}&page&size=100&sortby&order&name&category&stock&branchname`, {
+            let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/product/productlist?branch_id=${branch_id}&page&size=100&sortby&order&name&category&stock&branchname`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -418,7 +418,7 @@ function DiscountManagement() {
     }
 
     const getProductPrice = (selectedProductId) => {
-        const selectedProduct = products.find(product => product.stockBranches[0].product_id === parseInt(selectedProductId))
+        const selectedProduct = products.find(product => product.stockbranches[0].product_id === parseInt(selectedProductId))
         if (selectedProduct) {
             console.log('Data from getProductPricd => selectedProduct:', selectedProduct);
             console.log('Data from getProductPricd => selectedProduct:', selectedProduct.price);
@@ -442,7 +442,7 @@ function DiscountManagement() {
         console.log('Data id in onBtnDelete :', id);
         console.log('data isDeleted in onBtnDelete :', isDeleted);
         try {
-            let response = await axios.patch(`${API_URL}/discount/discountmanualdelete/${id}`, {
+            let response = await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/discount/discountmanualdelete/${id}`, {
                 isDeleted: isDeleted
             }, {
                 headers: {
@@ -518,7 +518,7 @@ function DiscountManagement() {
                     isClosable: true
                 })
             }
-            let response = await axios.patch(`${API_URL}/discount/discountmanualedit/${id}`, {
+            let response = await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/discount/discountmanualedit/${id}`, {
                 nameDiscount: createNameDiscount,
                 specialPrice: createSpecialPrice,
                 activeDate: createActiveDate,
@@ -681,7 +681,7 @@ function DiscountManagement() {
                                   {products.map((product) => (
                                     <option
                                         key={product.id}
-                                        value={product.stockBranches[0].product_id}
+                                        value={product.stockbranches[0].product_id}
                                     >
                                         {product?.name}
                                     </option>
@@ -816,7 +816,7 @@ function DiscountManagement() {
                                   {products.map((product) => (
                                     <option
                                         key={product.id}
-                                        value={product.stockBranches[0].product_id}
+                                        value={product.stockbranches[0].product_id}
                                     >
                                         {product?.name}
                                     </option>

@@ -78,7 +78,7 @@ function ProductManagement(props) {
         try {
             let token = localStorage.getItem('grocery_login');
 
-            let response = await axios.get(`http://localhost:8000/api/product/allproducts?page=${page}&size=${size}&sortby=${sortby}&order=${order}&branch_id=${branch_id}&name=${filterName}&category=${filterCategory}`, {
+            let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/product/allproducts?page=${page}&size=${size}&sortby=${sortby}&order=${order}&branch_id=${branch_id}&name=${filterName}&category=${filterCategory}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -94,7 +94,7 @@ function ProductManagement(props) {
         try {
             let token = localStorage.getItem('grocery_login');
 
-            let res = await axios.get(`http://localhost:8000/api/category/allcategory`, {
+            let res = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/category/allcategory`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -125,7 +125,7 @@ function ProductManagement(props) {
                     isDeleted={val.isDeleted}
                     getDataProduct={getDataProduct}
                     keeplogin={props.keepLogin}
-                    stock={val.stockBranches[0]?.stock}
+                    stock={val.stockbranches[0]?.stock}
                     branch_id={val.branch_id}
                 />
             );
@@ -192,7 +192,7 @@ function ProductManagement(props) {
             if (fileProduct != null) {
                 formData.append("images", fileProduct);
             }
-            let tambah = await axios.post(`http://localhost:8000/api/product/addproducts`, formData, {
+            let tambah = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/product/addproducts`, formData, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

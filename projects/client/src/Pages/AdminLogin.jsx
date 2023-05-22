@@ -76,7 +76,7 @@ function AdminLogin() {
                     isClosable: true
                 })
             }
-            let response = await axios.post(`${API_URL}/admin/auth`, {
+            let response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/admin/auth`, {
                 email: email,
                 password: password
             });

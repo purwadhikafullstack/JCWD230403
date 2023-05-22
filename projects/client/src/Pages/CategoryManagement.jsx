@@ -34,8 +34,7 @@ function CategoryManagement() {
     const getDataCategory = async () => {
         try {
             let token = localStorage.getItem('grocery_login');
-
-            let response = await axios.get(`http://localhost:8000/api/category/allcategory?page=${page}&size=${size}&sortby=${sortby}&order=${order}`, {
+            let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/category/allcategory?page=${page}&size=${size}&sortby=${sortby}&order=${order}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -57,7 +56,7 @@ function CategoryManagement() {
             formData.append('images', fileCategory); // Change 'file' to 'images'
     
             let addCategory = await axios.post(
-                `http://localhost:8000/api/category/addcategory`,
+                `${process.env.REACT_APP_API_BASE_URL}/category/addcategory`,
                 formData,
                 {
                     headers: {

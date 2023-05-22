@@ -14,10 +14,9 @@ module.exports = (sequelize, DataTypes) => {
       transaction.belongsTo(models.user, {foreignKey: 'userId'});
       // transaction.belongsTo(models.branch, {foreignKey: 'branchId'});
       transaction.hasOne(models.transaction_detail, {foreignKey: 'transactionId'});
-      transaction.hasMany(models.historyStockProduct);
+      transaction.hasMany(models.historystockproduct);
       transaction.belongsTo(models.status, {foreignKey: 'statusId'})
       // cart.belongsTo(models.stockBranch, {foreignKey: 'stockBranchId'});
-
     }
   }
   transaction.init({

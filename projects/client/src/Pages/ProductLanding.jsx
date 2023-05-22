@@ -48,8 +48,7 @@ function ProductLanding(props) {
 
   const getAllStock = async () => {
     try {
-      let token = localStorage.getItem('grocery_login');
-      let response = await axios.post(`http://localhost:8000/api/product//allstock?sortby=${sortby}&order=${order}&page=${page}&size=${size}&branch_id=${nearestBranch?.id}&product_id=${product_id}&stock=${stock}&category=${category}&name=${name}`,
+      let response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/product/allstock?category=${category}&stock=${stock}&branch_id=${branch ? branch : nearestBranch.id}&product_id=${product_id}&sortby=${sortby}&order=${order}&page=${page}&size=${size}`,
         {},);
       console.log("name", name);
       console.log("branch_id", branch_id);
@@ -95,17 +94,17 @@ function ProductLanding(props) {
   // --- GET ADDRESS USER --- //
   const [userAddress, setUserAddress] = useState([])
   const getUserAddress = async () => {
-    try {
-      let response = await axios.get(`${API_URL}/address/useraddress/`, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      setUserAddress(response.data.data)
-      console.log('Data from user address in header :', response.data.data);
-    } catch (error) {
-      console.log(error);
-    }
+      try {
+          let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/address/useraddress/`, {
+              headers: {
+                  Authorization: `Bearer ${token}`
+              }
+          });
+          setUserAddress(response.data.data)
+          console.log('Data from user address in header :', response.data.data);
+      } catch (error) {
+          console.log(error);
+      }
   }
 
   React.useEffect(() => {

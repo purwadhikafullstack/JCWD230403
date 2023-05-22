@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class historyStockProduct extends Model {
+  class historystockproduct extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -14,11 +14,11 @@ module.exports = (sequelize, DataTypes) => {
       // historyStockProduct.belongsTo(stockBranch);
       // historyStockProduct.belongsTo(branch);
       // historyStockProduct.belongsTo(transaction);
-      historyStockProduct.belongsTo(models.product, {
+      historystockproduct.belongsTo(models.product, {
         foreignKey:'product_id'});
     }
   }
-  historyStockProduct.init({
+  historystockproduct.init({
     product_id: DataTypes.INTEGER,
     before: DataTypes.INTEGER,
     after: DataTypes.INTEGER,
@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     date: DataTypes.DATEONLY
   }, {
     sequelize,
-    modelName: 'historyStockProduct',
+    modelName: 'historystockproduct',
   });
-  return historyStockProduct;
+  return historystockproduct;
 };

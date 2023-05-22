@@ -40,7 +40,7 @@ function Header() {
     const [userAddress, setUserAddress] = useState([])
     const getUserAddress = async () => {
         try {
-            let response = await axios.get(`${API_URL}/address/useraddress/`, {
+            let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/address/useraddress/`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

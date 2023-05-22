@@ -80,7 +80,7 @@ function ProductDetailUser() {
             // console.log("ini data dari response.data.id", response.data.data[0].id);
             // setProductImg(response.data.data[0].image)
             // console.log('ini gambar dari response: ', response.data.data[0].image)
-            setProductStock(response.data.data[0].stockBranches[0].stock)
+            setProductStock(response.data.data[0].stockbranches[0].stock)
             // console.log('ini stock jmlh stock nya: ', response.data.data[0].stockBranches[0].stock)
 
             // const stockProduct = response.data.data[0].stockBranches[0].map((val) => {

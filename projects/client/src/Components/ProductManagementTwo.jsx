@@ -84,7 +84,7 @@ function ProductManagementTwo(props) {
             if (fileProduct != null) {
                 formData.append("images", fileProduct);
             }
-            let update = await axios.patch(`http://localhost:8000/api/product/editproducts/${props.uuid}`, formData, {
+            let update = await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/product/editproducts/${props.uuid}`, formData, {
 
                 headers:
                 {
@@ -113,7 +113,7 @@ function ProductManagementTwo(props) {
         try {
             let token = localStorage.getItem('grocery_login');
 
-            let deleteProduct = await axios.delete(`http://localhost:8000/api/product/deleteproducts/${props.uuid}`,
+            let deleteProduct = await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/product/deleteproducts/${props.uuid}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
