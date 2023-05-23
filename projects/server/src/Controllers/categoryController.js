@@ -265,7 +265,7 @@ module.exports = {
                         attributes: ['id', 'name', 'category_id'],
                         include : [
                             {
-                                model: model.stockBranch,
+                                model: model.stockbranch,
                                 attributes: ['branch_id', 'product_id'],
                                 where: {
                                     branch_id: { [sequelize.Op.like]: `%${branch_id}%` }
