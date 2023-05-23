@@ -36,35 +36,3 @@
     transform: rotate(360deg);
   }
 }
-
-.active-icon {
-  color: white !important;
-}
-
-.sidebar-items {
-  color: white;
-  font-size: large;
-}
-
-@media only screen and (max-width: 767px) {
-  .sidebar-items {
-    margin-bottom: 0 !important;
-  }
-}
-
-.sidebar-items p {
-  margin-left: 1em;
-  margin-bottom: 8px;
-}
-
-.sidebar-items:hover p{
-  color: black;
-}
-
-.sidebar-items:hover svg{
-  color: white;
-}
-
-.sidebar-items:not(:last-child) {
-  margin-bottom: 14px;
-}
