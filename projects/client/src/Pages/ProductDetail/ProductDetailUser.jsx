@@ -71,7 +71,7 @@ function ProductDetailUser() {
     // fetch product data
     const getProduct = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/product/detail/${params.id}`)
+            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/product/detail/${params.id}`)
             console.log('ini hasil dari get response detail', response);
 
             setProducts(response.data.data[0])
@@ -123,7 +123,7 @@ function ProductDetailUser() {
                     stockBranchId: products?.stockBranchId,
                     quantity: qty,
                 }
-                const response = await axios.post("http://localhost:8000/api/cart/add", addToCart, {
+                const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/cart/add`, addToCart, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -155,22 +155,22 @@ function ProductDetailUser() {
     }
 
     // update qty of existed product in cart
-    const updateAddProduct = async () => {
-        try {
-            let updateQty = {
-                quantity
-            }
+    // const updateAddProduct = async () => {
+    //     try {
+    //         let updateQty = {
+    //             quantity
+    //         }
 
-            await axios.patch(`http://localhost:8000/api/cart/addexisting/${productId}`, updateQty)
-            toast({
-                title: "added",
-                status: "success",
-                duration: 1000
-            })
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    //         await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/cart/addexisting/${productId}`, updateQty)
+    //         toast({
+    //             title: "added",
+    //             status: "success",
+    //             duration: 1000
+    //         })
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // }
 
     // rupiah converter function 
     const rupiah = (value) => {
