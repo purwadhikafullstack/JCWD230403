@@ -135,13 +135,53 @@ function Landing() {
         }
     };
 
+    //// --- HANDLE PRODUCT TO DISPLAY ON SMALL SCREEN --- ////
+    React.useEffect(() => {
+        const handleResize = () => {
+          const screenWidth = window.innerWidth;
+          if (screenWidth >= 1200) {
+            setSize(6);
+          } else if (screenWidth >= 768) {
+            setSize(6);
+          } else if (screenWidth >= 480) {
+            setSize(4);
+          } else {
+            setSize(2);
+          }
+        };
+        handleResize(); // Call the handler initially
+        window.addEventListener('resize', handleResize); // Add event listener for resize
+      
+        return () => {
+          window.removeEventListener('resize', handleResize); // Clean up the event listener
+        };
+      }, []);
+
     return (<div>
         <Header/>
         <Promo />
         {/* --- PRODUCT CATEGORY --- */}
-        <Box py={8} mt={8} px={8} backgroundColor="whitesmoke">
+        <Box 
+            py={8} 
+            mt={8} 
+            px={10} 
+            backgroundColor="whitesmoke"
+        >
           <Heading fontSize="xl">Categories</Heading>
           <Flex
+            justifyContent='space-between'
+            mt={4}
+            alignItems="center"
+          >
+            {/* Left navigation button */}
+            <IconButton
+                icon={<AiOutlineDoubleLeft />}
+                onClick={scrollLeft}
+                aria-label="Scroll Left"
+                size="sm"
+                variant="ghost"
+            />
+            <Flex
               ref={sliderRef}
               overflowX="scroll"
               flexWrap="nowrap"
@@ -159,24 +199,15 @@ function Landing() {
             >
               {printCategoryBranch()}
             </Flex>
-            <Flex justifyContent="center" mt={4}>
-              {/* Left navigation button */}
-              <IconButton
-                icon={<AiOutlineDoubleLeft />}
-                onClick={scrollLeft}
-                aria-label="Scroll Left"
-                size="sm"
-                variant="ghost"
-              />
-              {/* Right navigation button */}
-              <IconButton
-                icon={<AiOutlineDoubleRight />}
-                onClick={scrollRight}
-                aria-label="Scroll Right"
-                size="sm"
-                variant="ghost"
-              />
-            </Flex>
+            {/* Right navigation button */}
+            <IconButton
+              icon={<AiOutlineDoubleRight />}
+              onClick={scrollRight}
+              aria-label="Scroll Right"
+              size="sm"
+              variant="ghost"
+            />
+          </Flex>
         </Box>
         <>
             {/* INI PRODUCT */}
@@ -186,11 +217,15 @@ function Landing() {
                 <Box 
                     paddingTop='4' 
                     pb='8'
+                    display={'flex'}
+                    flexDir={'column'}
+                    justifyContent='start' 
+                    alignItem='start'
                 >
                     <Flex 
                         p={{ base: '4', lg: '2' }}
-                        mx={'16'}
-                        mb={'2'}
+                        mx={{base: '-4', sm:'2', md:'4'}}
+                        mb={'1'}
                     >
                         <Menu>
                             <MenuButton
@@ -236,7 +271,16 @@ function Landing() {
                             <Location nearestBranch={nearestBranch} setNearestBranch={setNearestBranch} />
                         </GridItem>
                     </Flex>
-                    <Flex minHeight="100vh" maxW='8xs' flexWrap='wrap' justifyContent='space-evenly' alignItem='start'>
+                    <Flex 
+                        minHeight="85vh" 
+                        maxW='8xs' 
+                        flexWrap='wrap' 
+                        justifyContent='space-between' 
+                        alignItem='start'
+                        flexDir={'column'}
+                        mx={{base: '6'}}
+                        marginBottom={'auto'}
+                    >
                         <SimpleGrid columns={[1, 2, 3]} spacing={8}  >
                             {printAllStock()}
                         </SimpleGrid>
