@@ -30,10 +30,10 @@ const ProductCategories = ({path, category, categoryId, imageCategory}) => {
             bgColor='white' 
             borderRadius={{ base: 'lg', sm:'lg', md: 'lg', lg: 'lg' }}
             my={{ base: '2', sm:'2', md: '4', lg: '4' }}
-            mx={{ base: '0', sm:'0', md:'1', lg: '1' }}
+            mx={{ base: '0', sm:'0', md:'2', lg: '2' }}
         >
             <Box
-                w={{base: '60vw', sm:'25vw', md:'25vw', lg: '25vw'}}
+                w={{base: '60vw', sm:'30vw', md:'30vw', lg: '20vw'}}
                 h={'auto'}
             >
                 <Flex
@@ -46,7 +46,7 @@ const ProductCategories = ({path, category, categoryId, imageCategory}) => {
                     borderTopRadius={{ base: 'lg', sm:'lg', md: 'lg', lg: 'lg' }}
                     // objectFit='cover'
                     // w='full'
-                    // h={{ base: 'auto', sm: "auto", md: 'auto' }}
+                    h={{ base: '150px', sm: "auto", md: 'auto' }}
                     />
                     <CardBody>
                         <Stack 
