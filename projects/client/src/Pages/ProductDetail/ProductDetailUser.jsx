@@ -41,7 +41,7 @@ import { addProductToCart } from '../../Reducers/cartSlice';
 import CarouselProduct from '../../Components/CarouselProduct';
 import Header from '../../Components/Header'
 function ProductDetailUser() {
-
+    let token = localStorage.getItem('grocery_login');
     // state function
     const [products, setProducts] = useState([]);
     const [productId, setProductId] = useState([]);
@@ -80,7 +80,7 @@ function ProductDetailUser() {
             // console.log("ini data dari response.data.id", response.data.data[0].id);
             // setProductImg(response.data.data[0].image)
             // console.log('ini gambar dari response: ', response.data.data[0].image)
-            setProductStock(response.data.data[0].stockBranches[0].stock)
+            setProductStock(response.data.data[0].stockbranches[0].stock)
             // console.log('ini stock jmlh stock nya: ', response.data.data[0].stockBranches[0].stock)
 
             // const stockProduct = response.data.data[0].stockBranches[0].map((val) => {
@@ -120,6 +120,7 @@ function ProductDetailUser() {
             } else {
                 let addToCart = {
                     productId: products?.id,
+                    stockBranchId: products?.stockBranchId,
                     quantity: qty,
                 }
                 const response = await axios.post("http://localhost:8000/api/cart/add", addToCart, {

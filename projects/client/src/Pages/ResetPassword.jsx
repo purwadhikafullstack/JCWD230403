@@ -9,6 +9,7 @@ import {
     InputRightAddon, 
     Text,
     useBreakpointValue,
+    useToast
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
@@ -23,6 +24,7 @@ function ResetPassword() {
     const [confirmationPassword, setConfirmationPassword] = React.useState('');
     const boxWidth = useBreakpointValue({base:'full', sm:'full', md:'40%', lg:'40%'});
     const borderRadius = useBreakpointValue({base:'none', sm:'xl', md:'2xl', lg:'2xl'});
+    const toast = useToast();
 
     const handleVisible = () => {
         if (visible == 'password') {
@@ -35,15 +37,39 @@ function ResetPassword() {
     const onBtnReset = async () => {
         try {
             if(password == '' || confirmationPassword == ''){
-                return alert('Please fill in all fields');
+                // return alert('Please fill in all fields');
+                return toast({
+                    position: 'top',
+                    title: 'Reset Password',
+                    description: 'Please fill in both password and confirmation password fields.',
+                    status: 'warning',
+                    duration: 2000,
+                    isClosable: true
+                });
             }
             if(!checkPassword(password)){
-                return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
+                // return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
+                return toast({
+                    position: 'top',
+                    title: 'Reset Password',
+                    description: 'Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number',
+                    status: 'warning',
+                    duration: 2000,
+                    isClosable: true
+                });
             }
             if(!checkPassword(confirmationPassword)){
-                return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
+                // return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
+                return toast({
+                    position: 'top',
+                    title: 'Reset Password',
+                    description: 'Please enter confirmation password at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number',
+                    status: 'warning',
+                    duration: 2000,
+                    isClosable: true
+                });
             }
-            let response = await axios.patch(`${API_URL}/user/new-password`, {
+            let response = await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/user/new-password`, {
                 password: password,
                 confirmationPassword: confirmationPassword
             }, {
@@ -52,14 +78,41 @@ function ResetPassword() {
                 }
             });
             if (response.data.success) {
-                alert(response.data.message);
+                // alert(response.data.message);
+                toast({
+                    position: 'bottom',
+                    title: 'Reset Password',
+                    description: response.data.message,
+                    status: 'info',
+                    duration: 2000,
+                    isClosable: true
+                });
                 navigate('/login');
             }
         } catch (error) {
             console.log(error);
-            alert(error.response.data.error[1].msg);
-            alert(error.response.data.error[3].msg);
-            alert(error.response.data.error[5].msg);
+            // alert(error.response.data.error[1].msg);
+            // alert(error.response.data.error[3].msg);
+            // alert(error.response.data.error[5].msg);
+            const toastMessages = [
+                { index: 1, title: "Status", duration: 2000 },
+                { index: 3, title: "Status", duration: 2000 },
+                { index: 5, title: "Status", duration: 2000 }
+              ];
+          
+              for (const toastMsg of toastMessages) {
+                const errorMsg = error.response.data.error[toastMsg.index]?.msg;
+                if (errorMsg) {
+                  toast({
+                    position: 'top',
+                    title: toastMsg.title,
+                    description: errorMsg,
+                    status: 'error',
+                    duration: toastMsg.duration,
+                    isClosable: true
+                  });
+                }
+              }
         }
     }
 

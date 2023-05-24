@@ -12,13 +12,14 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       // products.hasOne(models.price);
-      product.hasMany(models.stockBranch, {
+      product.hasMany(models.stockbranch, {
         foreignKey:'product_id'});
-      product.belongsTo(models.stockBranch, {foreignKey: 'stockBranchId'})
+      product.hasMany(models.historystockproduct, {
+        foreignKey:'product_id'});
+      product.belongsTo(models.stockbranch, {foreignKey: 'stockBranchId'})
       product.hasMany(models.transaction_detail);
       product.hasMany(models.cart, {foreignKey: 'productId'});
       product.belongsTo(models.categories, {foreignKey: 'category_id'})
-      product.belongsTo(models.discount, {foreignKey: 'productId'})
       product.hasOne(models.discount, { foreignKey: 'productId' });
     }
   } 
@@ -28,7 +29,12 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.INTEGER,
     image: DataTypes.STRING,
     description: DataTypes.STRING,
+    category_id: DataTypes.INTEGER,
     stockBranchId: DataTypes.INTEGER,
+    isDeleted: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: 0
+    },
   }, {
     sequelize,
     modelName: 'product',

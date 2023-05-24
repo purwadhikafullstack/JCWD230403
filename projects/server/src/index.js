@@ -3,8 +3,9 @@ const express = require("express");
 const cors = require("cors");
 const { join } = require("path");
 const bearerToken = require('express-bearer-token');
+require('dotenv').config({path:join(__dirname,'../.env')});
 
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 2343;
 const app = express();
 // app.use(
 //   cors({
@@ -17,6 +18,9 @@ const app = express();
 app.use(cors());
 app.use(bearerToken());
 app.use(express.json());
+app.use(express.static("src/public"));
+
+app.use("/api", express.static(__dirname + "/public"));
 
 //#region API ROUTES
 const userRouter = require('./routers/userRouter');

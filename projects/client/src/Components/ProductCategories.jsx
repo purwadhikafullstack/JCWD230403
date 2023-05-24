@@ -1,14 +1,14 @@
 import React from 'react';
 import { Card, CardBody, Stack, Image, Text } from '@chakra-ui/react';
 import { useNavigate } from "react-router-dom";
+import { API_URL } from "../helper";
 
 
 
-const ProductCategories = ({path}) => {
+const ProductCategories = ({path, category, categoryId, imageCategory}) => {
     const navigate = useNavigate();
-
     const handleClick = () => {
-        navigate(path);
+        navigate(`/product?category=${category}`);
     }
 
 
@@ -25,7 +25,7 @@ const ProductCategories = ({path}) => {
             mx={{ base: '0', lg: '1' }}
         >
             <Image 
-            src='https://images.unsplash.com/photo-1598278242809-6c21ee17aef1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80' 
+            src={imageCategory && (imageCategory.includes('http') || imageCategory.includes('https')) ? imageCategory : `${process.env.REACT_APP_API_IMG_URL}${imageCategory}`}
             alt='Category picture'
             borderTopRadius={{ base: 'lg', sm:'lg', md: 'lg', lg: 'lg' }}
             objectFit='cover'
@@ -42,7 +42,8 @@ const ProductCategories = ({path}) => {
                         fontSize={{base:'sm', sm:'md', md:'lg'}} 
                         fontWeight={'semibold'}
                     >
-                        Vegetables
+                        {/* Vegetables */}
+                        {category}
                     </Text>
                 </Stack>
             </CardBody>

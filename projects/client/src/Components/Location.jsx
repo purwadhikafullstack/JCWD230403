@@ -43,7 +43,7 @@ function Location(props) {
 
         }
 
-        axios.get(`http://localhost:8000/api/product/allbranch`).then((response) => {
+        axios.get(`${process.env.REACT_APP_API_BASE_URL}/product/allbranch`).then((response) => {
             setBranches(response.data);
         });
     }, []);

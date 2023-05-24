@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const { createToken } = require('../helper/jwt');
 const {v4 : uuidv4} = require('uuid');
 const transporter = require('../helper/nodemailer');
+const { join } = require("path");
 
 let salt = bcrypt.genSaltSync(10);
 
@@ -28,7 +29,7 @@ module.exports = {
                         uuid, 
                         name, 
                         email, 
-                        // password,
+                        password,
                         phone,
                         isVerified: 0,
                         profileId: null,
@@ -58,7 +59,7 @@ module.exports = {
                             </p>
                             <br>
                             <p>
-                                <a href="http://localhost:3000/verification/${token}">Verify Account</a>
+                                <a href="${process.env.FE_URL}/verification/${token}">Verify Account</a>
                             </p>
                             <br>
                             <p>Best regards,</p>
@@ -90,59 +91,6 @@ module.exports = {
             next(error);
         }
     },
-    // // login as a user
-    // login: async (req, res, next) => {
-    //     try {
-    //         let getUser = await model.user.findAll({
-    //             where: {
-    //                 email: req.body.email},
-    //         })
-            
-    //         // check email
-    //         if (getUser.length > 0) {
-    //             // check roleId
-    //             if (getUser[0].dataValues.roleId === 3) {
-    //                 // check password
-    //                 let check = bcrypt.compareSync(req.body.password, getUser[0].dataValues.password);
-    //                 if (check) {
-    //                     let {id, uuid, name, email, password, isVerified, roleId} = getUser[0].dataValues;
-    //                     // GENERATE TOKEN
-    //                     let token = createToken({id, uuid, isVerified, roleId}, "24h");
-    //                     res.status(200).send({
-    //                         success: true,
-    //                         message: "Login Success ✅",
-    //                         id: id,
-    //                         uuid: uuid,
-    //                         name: name,
-    //                         email: email,
-    //                         // password: password,
-    //                         isVerified: isVerified,
-    //                         roleId: roleId,
-    //                         token: token
-    //                     })
-    //                 } else {
-    //                     return res.status(400).send({
-    //                         success: false,
-    //                         message: "Login failed: password is wrong ❌"
-    //                         });
-    //                 }
-    //             } else {
-    //                 return res.status(400).send({
-    //                     success: false,
-    //                     message: "You're not an user ❌"
-    //                   });
-    //             }
-    //         } else {
-    //             return res.status(400).send({
-    //                 success: false,
-    //                 message: "Email not found ❌"
-    //               });
-    //         }
-    //     } catch (error) {
-    //         console.log(error);
-    //         next(error);
-    //     }
-    // },
     // login as a user with address
     login: async (req, res, next) => {
         try {
@@ -166,9 +114,18 @@ module.exports = {
                     let check = bcrypt.compareSync(req.body.password, getUser[0].dataValues.password);
                     if (check) {
                         let {id, uuid, name, email, isVerified, roleId, addressId} = getUser[0].dataValues;
-                        // const addresses = getUser[0].dataValues.address; // Get addresses
-                        let {  addressLine, postalCode,longitude, latitude, city, province, subDistrict,branchId } = getUser[0].dataValues.address;
-                        // console.log('ini data address :', addresses);
+
+                        const {
+                            addressLine = null,
+                            postalCode = null,
+                            longitude = null,
+                            latitude = null,
+                            city = null,
+                            province = null,
+                            subDistrict = null,
+                            branchId = null
+                          } = getUser[0].dataValues.address || {};
+
                         // GENERATE TOKEN
                         let token = createToken({id, uuid, isVerified, roleId}, "24h");
                         res.status(200).send({
@@ -182,7 +139,6 @@ module.exports = {
                             roleId: roleId,
                             token: token,
                             addressId: addressId,
-                            // addresses: addresses
                             addressLine: addressLine,
                             postalCode: postalCode,
                             longitude: longitude,
@@ -215,37 +171,6 @@ module.exports = {
             next(error);
         }
     },
-    // // keep login as user
-    // keepLogin: async (req, res, next) => {
-    //     try {
-    //         let getUser = await model.user.findAll({
-    //             where: {
-    //                 uuid: req.decrypt.uuid
-    //             },
-    //             include: [{ model: model.role, attributes: ['role']}]
-    //         });
-
-    //         getUser[0].dataValues.role = getUser[0].dataValues.role.role;
-    //         let { id, uuid, name, email, password, isVerified, roleId} = getUser[0].dataValues;
-    //         // GENERATE TOKEN
-    //         let token = createToken({id, uuid, roleId, isVerified}, "24h");
-    //         return res.status(200).send({
-    //             success: true,
-    //             message: "keep login ✅",
-    //             id: id,
-    //             uuid: uuid,
-    //             name: name,
-    //             email: email,
-    //             // password: password,
-    //             isVerified: isVerified,
-    //             roleId: roleId,
-    //             token: token
-    //         })
-    //     } catch (error) {
-    //         console.log(error);
-    //         next(error);
-    //     }
-    // },
     // keep login as user with address
     keepLogin: async (req, res, next) => {
         try {
@@ -268,9 +193,18 @@ module.exports = {
 
             getUser[0].dataValues.role = getUser[0].dataValues.role.role;
             let { id, uuid, name, email, isVerified, roleId} = getUser[0].dataValues;
-            // const addresses = getUser[0].dataValues.address; // Get addresses
-            let {  addressLine, postalCode,longitude, latitude, city, province, subDistrict,branchId } = getUser[0].dataValues.address;
-            // console.log('ini data address :', addresses);
+
+            const {
+                addressLine = null,
+                postalCode = null,
+                longitude = null,
+                latitude = null,
+                city = null,
+                province = null,
+                subDistrict = null,
+                branchId = null
+              } = getUser[0].dataValues.address || {};
+
             // GENERATE TOKEN
             let token = createToken({id, uuid, roleId, isVerified}, "24h");
             return res.status(200).send({
@@ -282,7 +216,6 @@ module.exports = {
                 isVerified: isVerified,
                 roleId: roleId,
                 token: token,
-                // address: addresses,
                 addressLine: addressLine,
                 postalCode: postalCode,
                 longitude: longitude,
@@ -371,7 +304,7 @@ module.exports = {
                     </p>
                     <br/>
                     <p>
-                        <a href="http://localhost:3000/reset/${token}">Reset password</a>
+                        <a href="${process.env.FE_URL}/reset/${token}">Reset password</a>
                     </p>
                     <br/>
                     <p>Best regards,</p>

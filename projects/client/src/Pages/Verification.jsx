@@ -4,6 +4,7 @@ import {
     Button, 
     Stack, 
     Text,
+    useToast
 } from '@chakra-ui/react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -12,19 +13,36 @@ import { API_URL } from '../helper';
 function Verification() {
     const params = useParams();
     const navigate = useNavigate();
+    const toast = useToast();
 
     const onBtonVerify = async () => {
         try {
-            let response = await axios.patch(`${API_URL}/user/verify`, {}, {
+            let response = await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/user/verify`, {}, {
                 headers: {
                     Authorization: `Bearer ${params.token}`
                 }
             });
-            alert(response.data.message);
+            // alert(response.data.message);
+            toast({
+                position: 'bottom',
+                title: 'Verification',
+                description: response.data.message,
+                status: 'success',
+                duration: 2000,
+                isClosable: true
+            })
             navigate('/login');
         } catch (error) {
             console.log(error);
-            alert(error.response.data.message);
+            // alert(error.response.data.message);
+            toast({
+                position: 'top',
+                title: 'Verification',
+                description: error.response.data.message,
+                status: 'warning',
+                duration: 2000,
+                isClosable: true
+            });
             navigate('/login');
         }
     }

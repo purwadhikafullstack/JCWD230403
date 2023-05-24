@@ -17,10 +17,10 @@ module.exports = {
                     isVerified: req.decrypt.isVerified,
                     roleId: req.decrypt.roleId
                 }
-            })
+            }) 
             // console.log('ini get user:', getUser);
 
-            const { productId, quantity } = req.body
+            const { productId, stockBranchId, quantity } = req.body
 
             if (getUser.length > 0) {
                 const uuid = uuidv4()
@@ -35,7 +35,7 @@ module.exports = {
                             model: models.product,
                             include: [
                                 {
-                                    model: models.stockBranch,
+                                    model: models.stockbranch,
                                     atritbuttes: ["product_id", "stock", "branch_id"],
                                     // where: {
                                     //     product_id: { [Op.like]: `%${product_id}%` }
@@ -46,8 +46,10 @@ module.exports = {
                     ]
                 })
 
-                // console.log('ini getcart  stock branch id: ', getCart[0].dataValues.product.dataValues.stockBranchId)
-                const stockBranchId = getCart[0].dataValues.product.dataValues.stockBranchId
+                // console.log('ini getcart  stock branch id: ', getCart[0].product.stockBranches[0])
+                
+                // const stockBranchId = getCart[0].product.stockBranches[0].id
+                // console.log('ini stockbranchId nya: ',stockBranchId)
 
                 // 2. jika ada, patch produk tsb untuk di tambahkan quantitynya
                 if (getCart.length !== 0) {
@@ -349,7 +351,7 @@ module.exports = {
                         // atritbuttes: ["id", "name", "stockBranchId"],
                         include: [
                             {
-                                model: models.stockBranch
+                                model: models.stockbranch
                                 // atritbuttes: ["stock"]
                             }
                         ]
@@ -359,7 +361,7 @@ module.exports = {
 
             // console.log('ini dari findProduct addQty: ', findProduct[0].dataValues.product.dataValues.stockBranches[0].stock)
 
-            const stock = findProduct[0].dataValues.product.dataValues.stockBranches[0].stock
+            const stock = findProduct[0].dataValues.product.dataValues.stockbranches[0].stock
 
             if (findProduct[0].quantity + 1 > stock) {
                 return res.status(400).send({
@@ -421,7 +423,7 @@ module.exports = {
                 include: [
                     {
                         model: models.product,
-                        include: [{ model: models.stockBranch }],
+                        include: [{ model: models.stockbranch }],
                     },
                 ],
             })
@@ -445,7 +447,7 @@ module.exports = {
                     {
                         model: models.product,
                         include: [{
-                            model: models.stockBranch
+                            model: models.stockbranch
                         }]
                     }
                 ]
