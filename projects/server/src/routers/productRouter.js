@@ -1,4 +1,4 @@
-const { productController } = require('../Controllers');
+const { productController } = require('../control');
 const express = require('express');
 const route = express.Router();
 const uploader = require("../helper/uploader");

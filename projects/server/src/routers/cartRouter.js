@@ -1,7 +1,7 @@
 const express = require('express');
 const route = express.Router();
 const {readToken} = require('../helper/jwt');
-const {addToCart, getAllCartItem, getCartById, deleteProduct, deleteAllProduct, checkProduct, checkAllProduct, totalPrice, addQty, decreaseQty, addExistingProduct, getCartProductById} = require('../Controllers/cartController')
+const {addToCart, getAllCartItem, getCartById, deleteProduct, deleteAllProduct, checkProduct, checkAllProduct, totalPrice, addQty, decreaseQty, addExistingProduct, getCartProductById} = require('../control/cartController')
 
 route.post('/add', readToken, addToCart);
 route.get('/me', readToken, getAllCartItem)

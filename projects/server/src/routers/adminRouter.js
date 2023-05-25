@@ -1,7 +1,7 @@
 const express = require('express');
 const route = express.Router();
 const jwt = require('jsonwebtoken');
-const { login, keeplogin, adminRegister, adminList, adminEdit, adminDelete, adminReset, adminBranchList } = require('../Controllers/adminController');
+const { login, keeplogin, adminRegister, adminList, adminEdit, adminDelete, adminReset, adminBranchList } = require('../control/adminController');
 const {readToken} = require('../helper/jwt');
 const {checkUser} = require('../helper/validator');
 

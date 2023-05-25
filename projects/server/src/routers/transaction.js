@@ -1,6 +1,6 @@
 const express = require('express');
 const route = express.Router();
-const { getChecked, createTransaction, payment, getTransactionDetails, getAllUserTransaction, customerOrder, oneOrder, myOrder, getDetail, getList, getOrderList } = require('../Controllers/transaction');
+const { getChecked, createTransaction, payment, getTransactionDetails, getAllUserTransaction, customerOrder, oneOrder, myOrder, getDetail, getList, getOrderList } = require('../control/transaction');
 const { readToken } = require('../helper/jwt');
 const uploader = require('../helper/uploader');
 
