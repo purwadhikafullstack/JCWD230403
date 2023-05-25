@@ -18,6 +18,7 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import axios from 'axios';
 import { API_URL, checkName, checkEmail, checkPhone, checkPassword } from '../helper';
 import { useNavigate } from 'react-router-dom';
+import userregister from '../Asset/userregister.png';
 
 function UserRegister() {
     const [visible, setVisible] = React.useState('password');
@@ -155,7 +156,7 @@ function UserRegister() {
         <Flex minH={'100vh'} justify={'center'} mt='5' mb='4'>
             <Flex mx="auto" mt='0px' maxH='2xl' maxWidth={'6xl'}>
                 <Box w="60%" display={{base:'none', sm:'none', md:'flex', lg:'flex'}}>
-                    <Image borderLeftRadius='2xl' w='full' h="full" src='https://images.unsplash.com/photo-1601599561096-f87c95fff1e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=464&q=80' alt='Sign up picture' />
+                    <Image borderLeftRadius='2xl' w='full' h="full" src={userregister} alt='Sign up picture' />
                 </Box>
                 <Box px='8' py='4' bgGradient='linear(to-b, green.500, green.400)' borderRadius={borderRadiusB} borderRightRadius={borderRadiusA} w={boxWidth}>
                     <Text  fontSize='4xl' fontWeight='bold' color={'white'}>Welcome to Grocey Shop</Text>
