@@ -203,7 +203,7 @@ module.exports = {
                         include: [
                             {
                                 model: model.branch,
-                                attributes: ['name']
+                                attributes: ['city']
                             },
                         ]
                     },

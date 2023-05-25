@@ -46,7 +46,7 @@ const ProductCategories = ({path, category, categoryId, imageCategory}) => {
                     borderTopRadius={{ base: 'lg', sm:'lg', md: 'lg', lg: 'lg' }}
                     // objectFit='cover'
                     // w='full'
-                    h={{ base: '150px', sm: "auto", md: 'auto' }}
+                    h={{ base: '150px', sm: "160px", md: '170px', lg: '170px'}}
                     />
                     <CardBody>
                         <Stack 
