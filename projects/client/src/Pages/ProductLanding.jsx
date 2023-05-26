@@ -77,6 +77,8 @@ function ProductLanding(props) {
             productimage={val.image}
             price={val.price}
             specialPrice={val.discount?.specialPrice}
+            productId={val.id} 
+            stock={stock}
           />
         </div>
       )
