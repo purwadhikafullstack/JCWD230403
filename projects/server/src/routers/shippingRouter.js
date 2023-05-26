@@ -1,6 +1,6 @@
 const express = require('express');
 const route = express.Router();
-const {getAddressDistance, getProvince, getCity, insertProvince, insertCity} = require('../Controllers/shippingController')
+const {getAddressDistance, getProvince, getCity, insertProvince, insertCity} = require('../control/shippingController')
 
 route.get('/', getAddressDistance)
 route.get('/province', getProvince)
