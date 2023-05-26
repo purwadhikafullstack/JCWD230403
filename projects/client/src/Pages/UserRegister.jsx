@@ -113,8 +113,9 @@ function UserRegister() {
                 // alert(response.data.message);
                 toast({
                     position: 'top',
-                    title: "Register New User",
-                    description: response.data.message,
+                    // title: "Register New User",
+                    title: response.data.message,
+                    // description: response.data.message,
                     status: 'success',
                     duration: 2000,
                     isClosable: true
@@ -123,8 +124,17 @@ function UserRegister() {
             }
         } catch (error) {
             console.log("Error :", error);
-            console.log("Error message :", error.response.data);
+            // console.log("Error message :", error.message);
             // alert(error.response.data.message);
+            toast({
+                position: 'top',
+                // title: "Register New User",
+                title: error.response.data.message,
+                // description: response.data.message,
+                status: 'error',
+                duration: 2000,
+                isClosable: true
+            });
             // alert(error.response.data.error[3].msg);
             // alert(error.response.data.error[5].msg);
             // alert(error.response.data.error[7].msg);

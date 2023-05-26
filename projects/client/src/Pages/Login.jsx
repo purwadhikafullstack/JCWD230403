@@ -88,7 +88,7 @@ function Login() {
                 return toast({
                     position: 'top',
                     title: 'Login',
-                    description: 'Account not found ❌',
+                    description: 'Account not found',
                     status: 'warning',
                     duration: 2000,
                     isClosable: true
@@ -98,7 +98,7 @@ function Login() {
                 toast({
                     position: 'bottom',
                     title: 'Login',
-                    description: 'Login success ✅',
+                    description: 'Login success',
                     status: 'success',
                     duration: 2000,
                     isClosable: true
