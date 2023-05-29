@@ -168,8 +168,8 @@ module.exports = {
               // If there are new image files, update the imageCategory field
               imageCategory = `/imgCategory/${req.files[0].filename}`;
       
-              if (fs.existsSync(`./src/public${cekCategory.imageCategory}`) && !cekCategory.imageCategory.includes('default')) {
-                fs.unlinkSync(`./src/public${cekCategory.imageCategory}`);
+              if (fs.existsSync(join(__dirname,`../public${cekCategory.imageCategory}`)) && !cekCategory.imageCategory.includes('default')) {
+                fs.unlinkSync(join(__dirname,`../public${cekCategory.imageCategory}`));
               }
             }
       

@@ -178,7 +178,9 @@ module.exports = {
             let offset = parseInt(page) * parseInt(size)
 
             let get = await model.product.findAndCountAll({
-
+                where: {
+                    isDeleted: false
+                },
                 include: [
                     {
                         model: model.categories, attributes: ["category"],
@@ -636,8 +638,11 @@ module.exports = {
         try {
             const { name, price, description, category, image, stock, branch_id, before, after } = JSON.parse(req.body.data);
 
-            const parsedPrice = parseFloat(price);
-            const formattedPrice = formatCurrency(parsedPrice);
+            // const parsedPrice = parseFloat(price);
+            // const formattedPrice = formatCurrency(parsedPrice);
+
+            const formattedPrice = formatCurrency(price);
+            const parsedPrice = parseFloat(formattedPrice);
 
             const get = await model.product.findAll({
                 where: { uuid: req.params.uuid },
@@ -654,9 +659,12 @@ module.exports = {
             if (name) {
                 updateData.name = name;
             }
-            if (price) {
+            // if (price) {
+            //     updateData.price = parsedPrice;
+            // }
+            if (parsedPrice) {
                 updateData.price = parsedPrice;
-            }
+            }      
             if (description) {
                 updateData.description = description;
             }
@@ -675,8 +683,8 @@ module.exports = {
 
             console.log("ini Edit : ", edit);
 
-            if (fs.existsSync(`./src/public${get[0].dataValues.image}`) && !get[0].dataValues.image.includes('default')) {
-                fs.unlinkSync(`./src/public${get[0].dataValues.image}`);
+            if (fs.existsSync(join(__dirname,`../public${get[0].dataValues.image}`)) && !get[0].dataValues.image.includes('default')) {
+                fs.unlinkSync(join(__dirname,`../public${get[0].dataValues.image}`));
             }
 
             console.log("req.files gambar  : ", req.files);

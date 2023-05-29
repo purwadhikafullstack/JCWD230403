@@ -186,20 +186,23 @@ function CategoryManagement() {
                                 onClose={modalCategory.onClose}
                             >
                                 <ModalOverlay />
-                                <ModalContent bgColor="green.500" color={"#EEEEEE"}>
-                                    <ModalHeader color="white">
+                                <ModalContent bgColor="white" color={"black"}>
+                                    <ModalHeader color="black">
                                         Add New Category
                                     </ModalHeader>
                                     <ModalCloseButton />
                                     <ModalBody pb={6}>
                                         <FormControl>
-                                            <FormLabel color={"#EEEEEE"}>
+                                            <FormLabel color={"black"}>
                                                 Category Name
                                             </FormLabel>
                                             <Input
                                                 ref={initialRef}
                                                 placeholder="Enter new category name"
                                                 _hover={""}
+                                                borderColor="black"
+                                                borderWidth="1px"
+                                                borderRadius="md"
                                                 bgColor="#white"
                                                 color="green.500"
                                                 variant={"link"}
@@ -209,12 +212,17 @@ function CategoryManagement() {
 
                                         <Box flex={"1"} mt={"2"}>
                                             <FormControl>
-                                                <FormLabel color={"white"}>
+                                                <FormLabel color={"black"}>
                                                     Category Image
                                                 </FormLabel>
                                                 <Button
-                                                    bgColor="white"
-                                                    color="green.500"
+                                                    // bgColor="white"
+                                                    // color="black"
+                                                    bgColor="green.500"
+                                                    color="white"
+                                                    // borderColor="black"
+                                                    borderWidth="1px"
+                                                    borderRadius="md"
                                                     rounded={"md"}
                                                     h={"10"}
                                                     _hover={""}
