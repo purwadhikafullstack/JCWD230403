@@ -68,7 +68,7 @@ function TransactionDetail() {
 
                 formData.append("image", file);
 
-                const response = await axios.patch(`http://localhost:8000/api/transaction/payment`, formData, {
+                const response = await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/transaction/payment`, formData, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

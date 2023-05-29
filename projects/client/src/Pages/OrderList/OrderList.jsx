@@ -51,7 +51,7 @@ function OrderList() {
 
     const getOrderList = async () => {
         try {
-          const response = await axios.get('http://localhost:8000/api/transaction/list', {
+          const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/transaction/list`, {
             params: { status, page },
           });
 

@@ -113,7 +113,7 @@ module.exports = {
                     // check password
                     let check = bcrypt.compareSync(req.body.password, getUser[0].dataValues.password);
                     if (check) {
-                        let {id, uuid, name, email, isVerified, roleId, addressId} = getUser[0].dataValues;
+                        let {uuid, name, email, isVerified, roleId, addressId} = getUser[0].dataValues;
 
                         const {
                             addressLine = null,
@@ -127,11 +127,10 @@ module.exports = {
                           } = getUser[0].dataValues.address || {};
 
                         // GENERATE TOKEN
-                        let token = createToken({id, uuid, isVerified, roleId}, "24h");
+                        let token = createToken({uuid, isVerified, roleId}, "24h");
                         res.status(200).send({
                             success: true,
                             message: "Login Success",
-                            id: id,
                             uuid: uuid,
                             name: name,
                             email: email,
@@ -206,11 +205,10 @@ module.exports = {
               } = getUser[0].dataValues.address || {};
 
             // GENERATE TOKEN
-            let token = createToken({id, uuid, roleId, isVerified}, "24h");
+            let token = createToken({uuid, roleId, isVerified}, "24h");
             return res.status(200).send({
                 success: true,
                 message: "keep login",
-                id: id,
                 name: name,
                 email: email,
                 isVerified: isVerified,

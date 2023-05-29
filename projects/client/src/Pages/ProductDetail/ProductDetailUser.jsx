@@ -41,7 +41,10 @@ import { addProductToCart } from '../../Reducers/cartSlice';
 import CarouselProduct from '../../Components/CarouselProduct';
 import Header from '../../Components/Header'
 function ProductDetailUser() {
-    let token = localStorage.getItem('grocery_login');
+
+    // Token
+    let token = localStorage.getItem('grocery_login')
+
     // state function
     const [products, setProducts] = useState([]);
     const [productId, setProductId] = useState([]);
@@ -53,7 +56,7 @@ function ProductDetailUser() {
     const authSelector = useSelector((state) => state.authUserReducer)
     const cartSelector = useSelector((state) => state.cartSlice)
 
-    console.log("ini isi cart yang di add to cart dari redux: ", cartSelector)
+    // console.log("ini isi cart yang di add to cart dari redux: ", cartSelector)
 
     const dispatch = useDispatch()
 
@@ -71,7 +74,7 @@ function ProductDetailUser() {
     // fetch product data
     const getProduct = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/product/detail/${params.id}`)
+            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/product/detail/${params.id}`)
             console.log('ini hasil dari get response detail', response);
 
             setProducts(response.data.data[0])
@@ -80,7 +83,7 @@ function ProductDetailUser() {
             // console.log("ini data dari response.data.id", response.data.data[0].id);
             // setProductImg(response.data.data[0].image)
             // console.log('ini gambar dari response: ', response.data.data[0].image)
-            setProductStock(response.data.data[0].stockbranches[0].stock)
+            setProductStock(response.data.data[0].stockBranches[0].stock)
             // console.log('ini stock jmlh stock nya: ', response.data.data[0].stockBranches[0].stock)
 
             // const stockProduct = response.data.data[0].stockBranches[0].map((val) => {
@@ -123,7 +126,7 @@ function ProductDetailUser() {
                     stockBranchId: products?.stockBranchId,
                     quantity: qty,
                 }
-                const response = await axios.post("http://localhost:8000/api/cart/add", addToCart, {
+                const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/cart/add`, addToCart, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -161,7 +164,7 @@ function ProductDetailUser() {
                 quantity
             }
 
-            await axios.patch(`http://localhost:8000/api/cart/addexisting/${productId}`, updateQty)
+            await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/cart/addexisting/${productId}`, updateQty)
             toast({
                 title: "added",
                 status: "success",
@@ -476,6 +479,5 @@ function ProductDetailUser() {
         </>
     );
 }
-
 
 export default ProductDetailUser;

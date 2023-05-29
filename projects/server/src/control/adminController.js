@@ -80,7 +80,7 @@ module.exports = {
             });
 
             getAdmin[0].dataValues.role = getAdmin[0].dataValues.role.role;
-            let { id, uuid, name, email, password, roleId, branchId} = getAdmin[0].dataValues;
+            let { uuid, name, email, roleId, branchId} = getAdmin[0].dataValues;
             // GENERATE TOKEN
             let token = createToken({uuid, roleId}, "24h");
             return res.status(200).send({
@@ -88,7 +88,6 @@ module.exports = {
                 message: "Keep login Success",
                 name: name,
                 email: email,
-                // password: password,
                 roleId: roleId,
                 branchId: branchId,
                 token: token
@@ -211,13 +210,13 @@ module.exports = {
                 } else {
                     return res.status(400).send({
                         success: false,
-                        message: "The passwords do not match. Please try again." 
+                        message: "The passwords do not match. Please try again" 
                     });
                 }
             } else {
                 return res.status(400).send({
                     success: false,
-                    message: "Email exist, Please enter a different email address."
+                    message: "Email exist, Please enter a different email address"
                 });
             }
         } catch (error) {
@@ -344,25 +343,25 @@ module.exports = {
                         } else {
                             return res.status(400).send({
                                 success: false,
-                                message: "Password and confirmation password do not match. Please try again."
+                                message: "Password and confirmation password do not match. Please try again"
                             })
                         }
                     } else {
                         return res.status(400).send({
                             success: false,
-                            message: "Please fill in all fields."
+                            message: "Please fill in all fields"
                           });
                     }
                 } else {
                     return res.status(400).send({
                         success: false,
-                        message: "The account is not associated with an admin database. Please try again."
+                        message: "The account is not associated with an admin database. Please try again"
                     });
                 }
             } else {
                 return res.status(400).send({
                     success: false,
-                    message: "Account not found."
+                    message: "Account not found"
                 });
             }
         } catch (error) {

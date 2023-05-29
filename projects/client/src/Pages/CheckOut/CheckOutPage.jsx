@@ -85,7 +85,7 @@ function CheckOutPage() {
 
     const getCartChecked = async () => {
         try {
-            const response = await axios.get('http://localhost:8000/api/transaction/', {
+            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/transaction/`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -166,7 +166,7 @@ function CheckOutPage() {
     // shipping function
     const shippingMethod = async () => {
         try {
-            const response = await axios.get(`http://localhost:8000/api/shipping/`, {
+            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/shipping/`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -229,7 +229,7 @@ function CheckOutPage() {
             // branchId: 
         }
         try {
-            const response = await axios.post(`http://localhost:8000/api/transaction/create`, checkout, {
+            const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/transaction/create`, checkout, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

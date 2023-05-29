@@ -62,7 +62,7 @@ function CartPage() {
     // fetch cart item 
     const getCartItems = async () => {
         try {
-            const response = await axios.get("http://localhost:8000/api/cart/me", {
+            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/cart/me`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -96,7 +96,7 @@ function CartPage() {
     // checked all product
     const checkAllProduct = async () => {
         try {
-            const response = await axios.patch("http://localhost:8000/api/cart/checkAll", {
+            const response = await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/cart/checkAll`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -122,7 +122,7 @@ function CartPage() {
     // total function
     const finalPrice = async () => {
         try {
-            const response = await axios.get("http://localhost:8000/api/cart/price/total", {
+            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/cart/price/total`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -198,7 +198,7 @@ function CartPage() {
     // delete product
     const deleteProduct = async (id) => {
         try {
-            await axios.delete(`http://localhost:8000/api/cart/${id}`)
+            await axios.delete(`${process.env.REACT_APP_API_BASE_URL}/cart/${id}`)
 
             getCartItems()
 
