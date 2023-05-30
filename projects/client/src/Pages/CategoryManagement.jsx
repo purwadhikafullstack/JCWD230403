@@ -39,7 +39,6 @@ function CategoryManagement() {
                     Authorization: `Bearer ${token}`
                 }
             });
-            console.log("ini hasil get all category", response.data.data)
             setDataAllCategory(response.data.data)
             setTotalData(response.data.datanum);
         } catch (error) {
@@ -50,11 +49,11 @@ function CategoryManagement() {
     const btnAddCategory = async () => {
         try {
             let token = localStorage.getItem('grocery_login');
-    
+
             const formData = new FormData();
             formData.append('data', JSON.stringify({ category: category }));
-            formData.append('images', fileCategory); // Change 'file' to 'images'
-    
+            formData.append('images', fileCategory);
+
             let addCategory = await axios.post(
                 `${process.env.REACT_APP_API_BASE_URL}/category/addcategory`,
                 formData,
@@ -65,8 +64,6 @@ function CategoryManagement() {
                     }
                 }
             );
-    
-            console.log(`res add category`, addCategory);
             modalCategory.onClose();
             getDataCategory();
             setFileCategory(null);
@@ -88,8 +85,8 @@ function CategoryManagement() {
                 isClosable: true,
             });
         }
-    };    
-    
+    };
+
 
     const printCategoryData = () => {
         return dataAllCategory.map((val, idx) => {
@@ -186,20 +183,23 @@ function CategoryManagement() {
                                 onClose={modalCategory.onClose}
                             >
                                 <ModalOverlay />
-                                <ModalContent bgColor="green.500" color={"#EEEEEE"}>
-                                    <ModalHeader color="white">
+                                <ModalContent bgColor="white" color={"black"}>
+                                    <ModalHeader color="black">
                                         Add New Category
                                     </ModalHeader>
                                     <ModalCloseButton />
                                     <ModalBody pb={6}>
                                         <FormControl>
-                                            <FormLabel color={"#EEEEEE"}>
+                                            <FormLabel color={"black"}>
                                                 Category Name
                                             </FormLabel>
                                             <Input
                                                 ref={initialRef}
                                                 placeholder="Enter new category name"
                                                 _hover={""}
+                                                borderColor="black"
+                                                borderWidth="1px"
+                                                borderRadius="md"
                                                 bgColor="#white"
                                                 color="green.500"
                                                 variant={"link"}
@@ -209,12 +209,14 @@ function CategoryManagement() {
 
                                         <Box flex={"1"} mt={"2"}>
                                             <FormControl>
-                                                <FormLabel color={"white"}>
+                                                <FormLabel color={"black"}>
                                                     Category Image
                                                 </FormLabel>
                                                 <Button
-                                                    bgColor="white"
-                                                    color="green.500"
+                                                    bgColor="green.500"
+                                                    color="white"
+                                                    borderWidth="1px"
+                                                    borderRadius="md"
                                                     rounded={"md"}
                                                     h={"10"}
                                                     _hover={""}
@@ -279,7 +281,6 @@ function CategoryManagement() {
                                 <Thead>
                                     <Tr>
                                         <Th w='10%'>No</Th>
-                                        {/* <Th w='10%'>ID</Th> */}
                                         <Th w='10%'>Category</Th>
                                         <Th w='60%'>Image</Th>
                                         <Th></Th>

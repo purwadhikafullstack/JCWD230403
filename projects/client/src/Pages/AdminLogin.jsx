@@ -43,9 +43,7 @@ function AdminLogin() {
 
     const onBtnLogin = async () => {
         try {
-            // console.log('adminLogin called');
             if (email == '' || password == '') {
-                // alert('Please fill in all form')
                 return toast({
                     position: 'top',
                     title: 'Login',
@@ -56,7 +54,6 @@ function AdminLogin() {
                 })
             }
             if (!checkEmail(email)) {
-                // return alert('Please enter a valid email address');
                 return toast({
                     position: 'top',
                     title: 'Login',
@@ -67,7 +64,6 @@ function AdminLogin() {
                 })
             }
             if (!checkPassword(password)) {
-                // return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
                 return toast({
                     position: 'top',
                     title: 'Login',
@@ -82,21 +78,19 @@ function AdminLogin() {
                 password: password
             });
             if (response.data.length == 0) {
-                // alert('Account not found ❌')
                 return toast({
                     position: 'top',
                     title: 'Login',
-                    description: 'Account not found ❌',
+                    description: 'Account not found',
                     status: 'warning',
                     duration: 2000,
                     isClosable: true
                 })
             } else {
-                // alert('Login success ✅');
                 toast({
                     position: 'bottom',
                     title: 'Login',
-                    description: 'Login success ✅',
+                    description: 'Login success',
                     status: 'success',
                     duration: 2000,
                     isClosable: true
@@ -107,7 +101,6 @@ function AdminLogin() {
             }
         } catch (error) {
             console.log(error);
-            // alert(error.response.data.message);
             toast({
                 position: 'top',
                 title: 'Login',

@@ -7,6 +7,7 @@ import {
     Image, Box, Flex, Switch
 } from '@chakra-ui/react';
 import { HiDocumentAdd } from "react-icons/hi";
+import { FaRegEdit } from 'react-icons/fa';
 import { API_URL } from "../helper";
 
 
@@ -24,64 +25,61 @@ function Category(props) {
     const modalCategory = useDisclosure();
     const [imageCategory, setImageCategory] = useState('');
 
-
-    console.log("ini image category :", imageCategory )
-
     const onChangeFile = (event) => {
         modalCategory.onOpen();
         setFileCategory(event.target.files[0]);
         setImageCategory(URL.createObjectURL(event.target.files[0]));
-      };
+    };
 
 
     const btnEdit = async () => {
         try {
-          let token = localStorage.getItem('grocery_login');
-      
-          const formData = new FormData();
-          formData.append('data', JSON.stringify({ category: category ? category : props.category }));
-      
-          if (fileCategory !== null) {
-            formData.append('images', fileCategory);
-          }
-      
-          let edit = await axios.patch(
-            `${process.env.REACT_APP_API_IMG_URL}/category/editcategory/${props.categoryId}`,
-            formData,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'multipart/form-data',
-              },
+            let token = localStorage.getItem('grocery_login');
+
+            const formData = new FormData();
+            formData.append('data', JSON.stringify({ category: category ? category : props.category }));
+
+            if (fileCategory !== null) {
+                formData.append('images', fileCategory);
             }
-          );
-      
-          if (edit.data.success) {
-            setFileCategory(null);
-            toast({
-              position: 'bottom',
-              title: `Edit Success`,
-              status: 'success',
-              duration: 2000,
-              isClosable: true,
-            });
-            props.getDataCategory();
-            modalEdit.onClose();
-            setId();
-          }
+
+            let edit = await axios.patch(
+                `${process.env.REACT_APP_API_IMG_URL}/category/editcategory/${props.categoryId}`,
+                formData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }
+            );
+
+            if (edit.data.success) {
+                setFileCategory(null);
+                toast({
+                    position: 'bottom',
+                    title: `Edit Success`,
+                    status: 'success',
+                    duration: 2000,
+                    isClosable: true,
+                });
+                props.getDataCategory();
+                modalEdit.onClose();
+                setId();
+            }
         } catch (error) {
-          console.log(error);
-          toast({
-            position: 'top',
-            title: `${error.response.data.message}`,
-            description: "Please Choose Another Category Name",
-            status: 'error',
-            duration: 2000,
-            isClosable: true,
-          });
+            console.log(error);
+            toast({
+                position: 'top',
+                title: `${error.response.data.message}`,
+                description: "Please Choose Another Category Name",
+                status: 'error',
+                duration: 2000,
+                isClosable: true,
+            });
         }
-      };
-      
+    };
+
 
     const btnDelete = async () => {
         try {
@@ -92,12 +90,8 @@ function Category(props) {
                     Authorization: `Bearer ${token}`
                 }
             });
-
-            console.log(`res delete category`, deleteCategory);
-
             props.getDataCategory();
             modalDelete.onClose();
-            // setId();
             toast({
                 position: 'bottom',
                 title: `Delete Success`,
@@ -119,7 +113,7 @@ function Category(props) {
     };
 
 
-    console.log(props.id)
+
 
     return (
         <Tbody>
@@ -135,8 +129,11 @@ function Category(props) {
                 <Td>
                     {/* BUTTON EDIT */}
                     <Button
-                        bgColor="green.500"
-                        color="white"
+                        // bgColor="green.500"
+                        // color="white"
+                        colorScheme='blue'
+                        variant='ghost'
+                        leftIcon={<FaRegEdit />}
                         onClick={modalEdit.onOpen}
                         mr='4'
                         _hover={""}
@@ -151,37 +148,51 @@ function Category(props) {
                         onClose={modalEdit.onClose}
                     >
                         <ModalOverlay />
-                        <ModalContent bgColor="green.500" color={"#EEEEEE"}>
-                            <ModalHeader color="#white">
-                                Edit Existing Category
+                        <ModalContent bgColor="white" color={"black"}>
+                            <ModalHeader color="#black">
+                                Edit Category
                             </ModalHeader>
                             <ModalCloseButton />
                             <ModalBody pb={6}>
 
                                 <FormControl mt={4}>
-                                    <FormLabel color={"#EEEEEE"}>
+                                    <FormLabel color={"#black"}>
                                         Category
                                     </FormLabel>
                                     <Input
                                         ref={initialRef}
                                         placeholder="Enter new category name"
                                         _hover={""}
+                                        borderColor="black"
+                                        borderWidth="1px"
+                                        borderRadius="md"
                                         bgColor="#white"
-                                        color="green.500"
+                                        color="black"
                                         variant={"link"}
                                         onChange={(e) => setCategory(e.target.value)}
                                         defaultValue={props.category}
                                     />
                                 </FormControl>
 
-                                <Box flex={"1"} px="4">
+                                <Box
+                                    flex={"1"}
+                                    // px="4"
+                                    mt={"2"}
+                                >
                                     <FormControl>
                                         <FormLabel color={"black"}>
                                             Category Image
                                         </FormLabel>
                                         <Button
+                                            // bgColor="green.500"
+                                            // color="black"
+                                            // bgColor="white"
+                                            // color="green.500"
                                             bgColor="green.500"
-                                            color="black"
+                                            color="white"
+                                            // borderColor="black"
+                                            borderWidth="1px"
+                                            borderRadius="md"
                                             rounded={"md"}
                                             h={"10"}
                                             _hover={""}
@@ -192,7 +203,7 @@ function Category(props) {
                                             }
                                         >
                                             <HiDocumentAdd
-                                                color="black"
+                                                color="white"
                                                 size={"md"}
                                             />
                                             Add a File

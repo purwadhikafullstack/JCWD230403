@@ -1,6 +1,7 @@
 const sequelize = require('sequelize');
 const model = require ('../models');
 const fs = require("fs");
+const { join } = require('path');
 
 
 module.exports = {
@@ -165,11 +166,10 @@ module.exports = {
             let imageCategory = cekCategory.imageCategory;
       
             if (req.files && req.files.length > 0 && req.files[0]) {
-              // If there are new image files, update the imageCategory field
               imageCategory = `/imgCategory/${req.files[0].filename}`;
       
-              if (fs.existsSync(`./src/public${cekCategory.imageCategory}`) && !cekCategory.imageCategory.includes('default')) {
-                fs.unlinkSync(`./src/public${cekCategory.imageCategory}`);
+              if (fs.existsSync(join(__dirname,`../public${cekCategory.imageCategory}`)) && !cekCategory.imageCategory.includes('default')) {
+                fs.unlinkSync(join(__dirname,`../public${cekCategory.imageCategory}`));
               }
             }
       
@@ -258,6 +258,9 @@ module.exports = {
             } = req.query
 
             let getCategory = await model.categories.findAll({
+                where: {
+                    isDeleted: false
+                },
                 attributes: ['id', 'category', 'imageCategory'],
                 include: [
                     {

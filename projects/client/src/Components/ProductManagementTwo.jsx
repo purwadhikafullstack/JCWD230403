@@ -51,10 +51,7 @@ function ProductManagementTwo(props) {
         setFileProduct(event.target.files[0]);
     };
 
-    console.log("props image", props.image);
-
     const printSelectOption = () => {
-        console.log(props.dataAllCategory);
         return props.dataAllCategory.map((val, idx) => {
             return <option style={{ backgroundColor: "white", color: "black" }} value={val.id}>{val.category}</option>;
         });
@@ -119,10 +116,8 @@ function ProductManagementTwo(props) {
                         Authorization: `Bearer ${token}`
                     },
                 });
-            console.log(`res delete product`, deleteProduct);
             props.getDataProduct();
             modalDelete.onClose();
-
         } catch (error) {
             console.log(error)
         }
@@ -141,7 +136,17 @@ function ProductManagementTwo(props) {
                     />
                 </Td>
                 <Td>{props.price}</Td>
-                <Td>{props.description}</Td>
+                <Td
+                    maxWidth="200px"
+                    maxH="100px"
+                    overflowX="scroll"
+                    css={{
+                        '&::-webkit-scrollbar': {
+                            display: 'none'
+                        }
+                    }}
+                >
+                    {props.description}</Td>
                 <Td>{props.category}</Td>
                 <Td>{props.stock}</Td>
                 <Td>
@@ -294,7 +299,7 @@ function ProductManagementTwo(props) {
                                         </FormLabel>
                                         <Button
                                             bgColor="green.500"
-                                            color="black"
+                                            color="white"
                                             rounded={"md"}
                                             h={"10"}
                                             _hover={""}
@@ -305,7 +310,7 @@ function ProductManagementTwo(props) {
                                             }
                                         >
                                             <HiDocumentAdd
-                                                color="black"
+                                                color="#EEEEEE"
                                                 size={"md"}
                                             />
                                             Add a File
@@ -336,8 +341,8 @@ function ProductManagementTwo(props) {
 
                             <ModalFooter>
                                 <Button
-                                    bgColor="green.500"
-                                    color="white"
+                                    bgColor="green"
+                                    color="#EEEEEE"
                                     _hover=""
                                     mr={3}
                                     type="button"
@@ -346,8 +351,8 @@ function ProductManagementTwo(props) {
                                     Save
                                 </Button>
                                 <Button
-                                    bgColor="green"
-                                    color="white"
+                                    bgColor="#EEEEEE"
+                                    color="green.500"
                                     _hover=""
                                     onClick={modalEdit.onClose}
                                 >

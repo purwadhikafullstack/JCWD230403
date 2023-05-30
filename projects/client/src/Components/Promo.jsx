@@ -22,10 +22,8 @@ function Promo() {
   };
 
   useEffect(() => {
-    // Auto slide transition every 5 seconds
     const interval = setInterval(goToNextSlide, 15000);
 
-    // Clean up the interval on component unmount
     return () => {
       clearInterval(interval);
     };

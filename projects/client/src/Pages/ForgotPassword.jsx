@@ -25,7 +25,6 @@ function ForgotPassword() {
     const onBtnForgot = async () => {
         try {
             if (email == '') {
-                // alert("Please enter your email")
                 return toast({
                     position: 'top',
                     title: 'Forgot Password',
@@ -39,7 +38,6 @@ function ForgotPassword() {
                     email: email
                 });
                 if (response.data.success) {
-                    // alert(response.data.message);
                     toast({
                         position: 'bottom',
                         title: 'Forgot Password',
@@ -53,6 +51,15 @@ function ForgotPassword() {
             }
         } catch (error) {
             console.log(error);
+            console.log('ini error dari forget password :', error.response.data);
+            console.log('ini error dari forget password message :', error.response.data.message);
+            toast({
+                position: 'bottom',
+                title: error.response.data.message,
+                status: 'error',
+                duration: 2000,
+                isClosable: true
+            })
         }
     }
 

@@ -69,20 +69,20 @@ module.exports = {
                     await ormTransaction.commit();
                     return res.status(200).send({
                         success: true,
-                        message: "Register Success ✅",
+                        message: "Register Success",
                         data: regis,
                         token: token
                     });
                 } else {
                     res.status(400).send({
                         success: false,
-                        message: "The passwords and confirmation password do not match. Please try again. ❌"
+                        message: "The passwords and confirmation password do not match. Please try again."
                     })
                 }
             } else {
                 res.status(400).send({
                     success: false,
-                    message: "Email exist, Please enter a different email address. ❌"
+                    message: "Email exist, Please enter a different email address."
                 })
             }
         } catch (error) {
@@ -113,7 +113,7 @@ module.exports = {
                     // check password
                     let check = bcrypt.compareSync(req.body.password, getUser[0].dataValues.password);
                     if (check) {
-                        let {id, uuid, name, email, isVerified, roleId, addressId} = getUser[0].dataValues;
+                        let {uuid, name, email, isVerified, roleId, addressId} = getUser[0].dataValues;
 
                         const {
                             addressLine = null,
@@ -127,11 +127,10 @@ module.exports = {
                           } = getUser[0].dataValues.address || {};
 
                         // GENERATE TOKEN
-                        let token = createToken({id, uuid, isVerified, roleId}, "24h");
+                        let token = createToken({uuid, isVerified, roleId}, "24h");
                         res.status(200).send({
                             success: true,
-                            message: "Login Success ✅",
-                            id: id,
+                            message: "Login Success",
                             uuid: uuid,
                             name: name,
                             email: email,
@@ -151,19 +150,19 @@ module.exports = {
                     } else {
                         return res.status(400).send({
                             success: false,
-                            message: "Login failed: password is wrong ❌"
+                            message: "Login failed: password is wrong"
                             });
                     }
                 } else {
                     return res.status(400).send({
                         success: false,
-                        message: "You're not an user ❌"
+                        message: "You're not an user"
                       });
                 }
             } else {
                 return res.status(400).send({
                     success: false,
-                    message: "Email not found ❌"
+                    message: "Email not found"
                   });
             }
         } catch (error) {
@@ -206,11 +205,10 @@ module.exports = {
               } = getUser[0].dataValues.address || {};
 
             // GENERATE TOKEN
-            let token = createToken({id, uuid, roleId, isVerified}, "24h");
+            let token = createToken({uuid, roleId, isVerified}, "24h");
             return res.status(200).send({
                 success: true,
-                message: "keep login ✅",
-                id: id,
+                message: "keep login",
                 name: name,
                 email: email,
                 isVerified: isVerified,
@@ -243,7 +241,7 @@ module.exports = {
             if (checkUser) {
                 res.status(409).send({
                     success: false,
-                    message: "Your account has already been verified ❌"
+                    message: "Your account has already been verified"
                 })
             } else {
                 await model.user.update({
@@ -253,7 +251,7 @@ module.exports = {
                     }})
                 res.status(200).send({
                     success: true,
-                    message: "Account successfully verified ✅"
+                    message: "Account successfully verified"
                 })
             }
             
@@ -270,14 +268,14 @@ module.exports = {
                     email: req.body.email
                 }
             });
-            const name = checkUser[0].dataValues.name;
             // console.log(name);
             if(checkUser.length == 0){
                 return res.status(404).send({
                     success: false,
-                    message: "Email not found ❌"
+                    message: "Email not found"
                 })
             }
+            const name = checkUser[0].dataValues.name;
             // Generate token
             let token = createToken({
                 uuid: checkUser[0].dataValues.uuid,
@@ -326,7 +324,7 @@ module.exports = {
             if(req.body.password !== req.body.confirmationPassword){
                 return res.status(400).send({
                     success: false,
-                    message: "Password and confirmation password do not match ❌"
+                    message: "Password and confirmation password do not match"
                 })
             }
             newPassword = bcrypt.hashSync(req.body.password, salt);
@@ -338,7 +336,7 @@ module.exports = {
             })
             return res.status(200).send({
                 success: true,
-                message: "Password changed ✅"
+                message: "Password changed"
             })
         } catch (error) {
             console.log(error);
@@ -382,7 +380,7 @@ module.exports = {
                             );
                             return res.status(200).send({
                                 success: true,
-                                message: "Change password success ✅"
+                                message: "Change password success"
                             })
                         } else {
                             return res.status(400).send({
@@ -405,7 +403,7 @@ module.exports = {
             } else {
                 return res.status(400).send({
                     success: false,
-                    message: "Old password not found ❌"
+                    message: "Old password not found"
                 })
             }
 
