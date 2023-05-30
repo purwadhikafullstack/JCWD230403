@@ -45,9 +45,7 @@ function Login() {
 
     const onBtnLogin = async () => {
         try {
-            console.log('userLogin called');
             if (email == '' || password == '' ) {
-                // alert('Please fill in all fields');
                 return toast({
                     position: 'top',
                     title: 'Login',
@@ -58,7 +56,6 @@ function Login() {
                 });
             }
             if (!checkEmail(email)) {
-                // return alert('Please enter a valid email address');
                 return toast({
                     position: 'top',
                     title: 'Login',
@@ -69,7 +66,6 @@ function Login() {
                 });
             } 
             if (!checkPassword(password)) {
-                // return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
                 return toast({
                     position: 'top',
                     title: 'Login',
@@ -84,35 +80,30 @@ function Login() {
                 password: password
             });
             if (response.data.length == 0) {
-                // alert('Account not found ❌')
                 return toast({
                     position: 'top',
                     title: 'Login',
-                    description: 'Account not found ❌',
+                    description: 'Account not found',
                     status: 'warning',
                     duration: 2000,
                     isClosable: true
                 });
             } else {
-                // alert('Login success ✅');
                 toast({
                     position: 'bottom',
                     title: 'Login',
-                    description: 'Login success ✅',
+                    description: 'Login success',
                     status: 'success',
                     duration: 2000,
                     isClosable: true
                 });
-                // Menyimpan data ke localstorage browser untuk keepLogin
                 localStorage.setItem('grocery_login', response.data.token);
-                // Menyimpan response.data ke reducer
                 dispatch(loginActionUser(response.data))
                 navigate('/', {replace: true})
             }
             
         } catch (error) {
             console.log(error);
-            // alert(error.response.data.message);
             toast({
                 position: 'top',
                 title: 'Login',
@@ -121,8 +112,6 @@ function Login() {
                 duration: 2000,
                 isClosable: true
             });
-            // alert(error.response.data.error[1].msg);
-            // alert(error.response.data.error[3].msg);
             const toastMessages = [
               { index: 0, title: "Status", duration: 2000 },
               { index: 1, title: "Status", duration: 2000 },

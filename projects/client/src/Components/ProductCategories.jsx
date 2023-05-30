@@ -11,14 +11,11 @@ import {
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../helper";
 
-
-
 const ProductCategories = ({path, category, categoryId, imageCategory}) => {
     const navigate = useNavigate();
     const handleClick = () => {
         navigate(`/product?category=${category}`);
     }
-
 
     return ( 
         <Card 
@@ -26,7 +23,6 @@ const ProductCategories = ({path, category, categoryId, imageCategory}) => {
             cursor="pointer" 
             maxW={'auto'} 
             variant={'outline'} 
-            // minW={{ base: '40%', sm: '40%', md: '30%', lg: '32%' }} 
             bgColor='white' 
             borderRadius={{ base: 'lg', sm:'lg', md: 'lg', lg: 'lg' }}
             my={{ base: '2', sm:'2', md: '4', lg: '4' }}
@@ -44,8 +40,6 @@ const ProductCategories = ({path, category, categoryId, imageCategory}) => {
                     src={imageCategory && (imageCategory.includes('http') || imageCategory.includes('https')) ? imageCategory : `${process.env.REACT_APP_API_IMG_URL}${imageCategory}`}
                     alt='Category picture'
                     borderTopRadius={{ base: 'lg', sm:'lg', md: 'lg', lg: 'lg' }}
-                    // objectFit='cover'
-                    // w='full'
                     h={{ base: '150px', sm: "160px", md: '170px', lg: '170px'}}
                     />
                     <CardBody>
@@ -58,7 +52,6 @@ const ProductCategories = ({path, category, categoryId, imageCategory}) => {
                                 fontSize={{base:'sm', sm:'md', md:'lg'}} 
                                 fontWeight={'semibold'}
                             >
-                                {/* Vegetables */}
                                 {category}
                             </Text>
                         </Stack>

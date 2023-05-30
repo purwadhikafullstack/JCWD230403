@@ -28,11 +28,8 @@ function Location(props) {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 function (position) {
-                    console.log(position)
                     setLatitude(position.coords.latitude);
                     setLongitude(position.coords.longitude);
-                    //   console.log("mendapatkan latitude :", latitude);
-                    //   console.log("mendapatkan latitude :", longitude);
                 },
                 function (error) {
                     console.error("Error getting geolocation:", error);
@@ -64,12 +61,9 @@ function Location(props) {
                 nearestBranch = { ...branch, distance: minDistance };
             }
         });
-        console.log('ini data dari findNearestBranch dari location :', nearestBranch)
-        console.log(`The nearest location branch is ${nearestBranch?.name}, ${(minDistance / 1000).toFixed(2)} km away.`)
         props.setNearestBranch(nearestBranch);
     }
-    // console.log('branch', branches)
-    // console.log('branch', props.setNearestBranch)
+    
     return (
         <div>
             {/* <h1>Latitude: {latitude}</h1>

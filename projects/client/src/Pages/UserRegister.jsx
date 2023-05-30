@@ -44,7 +44,6 @@ function UserRegister() {
     const onBtnRegister = async () => {
         try {
             if (name == '' || email == '' || phone == '' || password == '' || confirmationPassword == '') {
-                // return alert('Please fill in all fields')
                 return toast({
                     position: 'top',
                     title: "Register New User",
@@ -55,7 +54,6 @@ function UserRegister() {
                 });
             }
             if (!checkName(name)){
-                // return alert('Please enter a valid name with a minimum length of 100 characters');
                 return toast({
                     position: 'top',
                     title: "Register New User",
@@ -66,7 +64,6 @@ function UserRegister() {
                 });
             }
             if(!checkEmail(email)){
-                // return alert('Please enter a valid email address');
                 return toast({
                     position: 'top',
                     title: "Register New User",
@@ -77,7 +74,6 @@ function UserRegister() {
                 });
             }
             if(!checkPhone(phone)){
-                // return alert('Please enter a valid phone number')
                 return toast({
                     position: 'top',
                     title: "Register New User",
@@ -88,7 +84,6 @@ function UserRegister() {
                 });
             }
             if(!checkPassword(password)){
-                // return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
                 return toast({
                     position: 'top',
                     title: "Register New User",
@@ -98,7 +93,6 @@ function UserRegister() {
                     isClosable: true
                 })
             }
-            // console.log(API_URL);
             let response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/user/register`, {
                 name: name,
                 email: email,
@@ -106,15 +100,11 @@ function UserRegister() {
                 password: password,
                 confirmationPassword: confirmationPassword
             });
-            console.log('Response :', response.body);
-            console.log('Response dari be :', response.data.message);
             
             if (response.data.success) {
-                // alert(response.data.message);
                 toast({
                     position: 'top',
-                    title: "Register New User",
-                    description: response.data.message,
+                    title: response.data.message,
                     status: 'success',
                     duration: 2000,
                     isClosable: true
@@ -122,12 +112,14 @@ function UserRegister() {
                 navigate('/');
             }
         } catch (error) {
-            console.log("Error :", error);
-            console.log("Error message :", error.response.data);
-            // alert(error.response.data.message);
-            // alert(error.response.data.error[3].msg);
-            // alert(error.response.data.error[5].msg);
-            // alert(error.response.data.error[7].msg);
+            console.log(error);
+            toast({
+                position: 'top',
+                title: error.response.data.message,
+                status: 'error',
+                duration: 2000,
+                isClosable: true
+            });
             const toastMessages = [
                 { index: 0, title: "Status", duration: 2000 },
                 { index: 3, title: "Status", duration: 2000 },

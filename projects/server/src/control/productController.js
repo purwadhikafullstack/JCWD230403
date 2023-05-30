@@ -2,6 +2,8 @@ const sequelize = require('sequelize');
 const model = require('../models');
 const fs = require("fs");
 const { v4: uuidv4 } = require('uuid');
+const { join } = require('path');
+
 
 // Fungsi untuk memformat harga menjadi format mata uang Rupiah
 function formatCurrency(price) {
@@ -64,92 +66,6 @@ module.exports = {
             next(error)
         }
     },
-    // allStock: async (req, res, next) => {
-    //     try {
-    //         let { sortby, order, page, size, branch_id, longitude, latitude, product_id, stock, category, name } = req.query;
-
-    //         if (!sortby) {
-    //             sortby = "name";
-    //         }
-    //         if (!order) {
-    //             order = "ASC";
-    //         }
-    //         if (!page) {
-    //             page = 0;
-    //         }
-    //         if (!size) {
-    //             size = 6;
-    //         }
-
-
-    //         let offset = parseInt(page) * parseInt(size)
-
-    //         let get = await model.product.findAndCountAll({
-    //             where: {
-    //                 isDeleted: false
-    //             },
-    //             include: [
-    //                 {
-    //                     model: model.categories, attributes: ["category"],
-    //                     where: {
-    //                         category: { [sequelize.Op.like]: `%${category}%` }
-    //                     }
-    //                 },
-    //                 {
-    //                     model: model.stockBranch,
-    //                     attributes: ["product_id", "branch_id", "stock"],
-    //                     where: {
-    //                         branch_id: {
-    //                             [sequelize.Op.like]: `%${branch_id}%`,
-    //                         },
-    //                         product_id: {
-    //                             [sequelize.Op.like]: `%${product_id}%`,
-    //                         },
-    //                         stock: {
-    //                             [sequelize.Op.like]: `%${stock}%`,
-    //                         }
-    //                     },
-    //                     include: [
-    //                         {
-    //                             model: model.branch,
-    //                             attributes: ['name']
-    //                         },
-    //                         // get[0].datavalue.name = get[0].dataValues.branch.name
-    //                     ]
-    //                 },
-    //             ],
-    //             attributes: ["name", "price", "image"],
-    //             order: [[sortby, order]],
-    //             limit: parseInt(size),
-    //             offset: offset
-    //         })
-
-    //         // console.log("Data dari get :", get[0].dataValues);
-    //         // console.log("Data dari get :", get[0].dataValues.price);
-    //         // console.log("Data dari get category :", get[0].dataValues.category.dataValues.category);
-    //         // console.log("Data dari get branch :", get[0].dataValues.stockBranches[0].dataValues.branch.dataValues.name);
-
-
-    //         // res.status(200).send(get);
-
-
-    //         if (get.rows.length === 0) {
-    //             return res.status(404).send({
-    //                 message: 'No data found'
-    //             });
-    //         }
-    //         return res.status(200).send({
-    //             data: get.rows,
-    //             offset: offset,
-    //             limit: parseInt(size),
-    //             totalPages: Math.ceil(get.count / size),
-    //             datanum: get.count,
-    //         })
-    //     } catch (error) {
-    //         console.log(error);
-    //         next(error);
-    //     }
-    // },
     allStock: async (req, res, next) => {
         try {
             const date = new Date();
@@ -178,7 +94,9 @@ module.exports = {
             let offset = parseInt(page) * parseInt(size)
 
             let get = await model.product.findAndCountAll({
-
+                where: {
+                    isDeleted: false
+                },
                 include: [
                     {
                         model: model.categories, attributes: ["category"],
@@ -574,7 +492,6 @@ module.exports = {
                     uuid: req.params.uuid
                 },
             });
-            // console.log(findProduct);
             if (findProduct[0].dataValues.isDeleted == false) {
                 let deleteProduct = await model.product.update(
                     { isDeleted: 1 },
@@ -636,8 +553,8 @@ module.exports = {
         try {
             const { name, price, description, category, image, stock, branch_id, before, after } = JSON.parse(req.body.data);
 
-            const parsedPrice = parseFloat(price);
-            const formattedPrice = formatCurrency(parsedPrice);
+            const formattedPrice = formatCurrency(price);
+            const parsedPrice = parseFloat(formattedPrice);
 
             const get = await model.product.findAll({
                 where: { uuid: req.params.uuid },
@@ -654,9 +571,9 @@ module.exports = {
             if (name) {
                 updateData.name = name;
             }
-            if (price) {
+            if (parsedPrice) {
                 updateData.price = parsedPrice;
-            }
+            }      
             if (description) {
                 updateData.description = description;
             }
@@ -675,8 +592,8 @@ module.exports = {
 
             console.log("ini Edit : ", edit);
 
-            if (fs.existsSync(`./src/public${get[0].dataValues.image}`) && !get[0].dataValues.image.includes('default')) {
-                fs.unlinkSync(`./src/public${get[0].dataValues.image}`);
+            if (fs.existsSync(join(__dirname,`../public${get[0].dataValues.image}`)) && !get[0].dataValues.image.includes('default')) {
+                fs.unlinkSync(join(__dirname,`../public${get[0].dataValues.image}`));
             }
 
             console.log("req.files gambar  : ", req.files);

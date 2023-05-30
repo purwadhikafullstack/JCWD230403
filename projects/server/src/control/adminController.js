@@ -31,7 +31,7 @@ module.exports = {
 
                             return res.status(200).send({
                               success: true,
-                              message: "Login Success ✅",
+                              message: "Login Success",
                               name: name,
                               email: email,
                               roleId: roleId,
@@ -42,13 +42,13 @@ module.exports = {
                         } else {
                             return res.status(400).send({
                                 success: false,
-                                message: "Login failed: password is wrong ❌"
+                                message: "Login failed: password is wrong"
                               });
                         }
                     } else {
                         return res.status(400).send({
                             success: false,
-                            message: "You're not an admin ❌"
+                            message: "You're not an admin"
                           });
                     }
                 } else {
@@ -60,7 +60,7 @@ module.exports = {
             } else {
                 return res.status(400).send({
                     success: false,
-                    message: "Email not found ❌"
+                    message: "Email not found"
                 })
             }
         } catch (error) {
@@ -80,15 +80,14 @@ module.exports = {
             });
 
             getAdmin[0].dataValues.role = getAdmin[0].dataValues.role.role;
-            let { id, uuid, name, email, password, roleId, branchId} = getAdmin[0].dataValues;
+            let { uuid, name, email, roleId, branchId} = getAdmin[0].dataValues;
             // GENERATE TOKEN
             let token = createToken({uuid, roleId}, "24h");
             return res.status(200).send({
                 success: true,
-                message: "Keep login Success ✅",
+                message: "Keep login Success",
                 name: name,
                 email: email,
-                // password: password,
                 roleId: roleId,
                 branchId: branchId,
                 token: token
@@ -205,19 +204,19 @@ module.exports = {
                     await ormTransaction.commit();
                     return res.status(200).send({
                         success: true,
-                        message: "Create new admin Success ✅",
+                        message: "Create new admin Success",
                         data: regis
                     });
                 } else {
                     return res.status(400).send({
                         success: false,
-                        message: "The passwords do not match. Please try again. ❌" 
+                        message: "The passwords do not match. Please try again" 
                     });
                 }
             } else {
                 return res.status(400).send({
                     success: false,
-                    message: "Email exist, Please enter a different email address. ❌"
+                    message: "Email exist, Please enter a different email address"
                 });
             }
         } catch (error) {
@@ -261,13 +260,13 @@ module.exports = {
 
                 res.status(200).send({
                     success: true,
-                    message: "Admin changed success ✅",
+                    message: "Admin changed success",
                     data: adminEdit
                 })
             } else {
                 res.status(400).send({
                     success: false,
-                    message: "Email already exists. Admin change canceled ❌"
+                    message: "Email already exists. Admin change canceled"
                 })
             }
 
@@ -295,7 +294,7 @@ module.exports = {
                 // console.log("Admin status inactive to reactive :", adminDelete);
                 res.status(200).send({
                     success: true,
-                    message: "This account is now inactive ❌"
+                    message: "This account is now inactive"
                 })
             } else {
                 let admindelete = await model.user.update({isDeleted: 0}, {
@@ -306,7 +305,7 @@ module.exports = {
                 // console.log("Admin status active to inactive :", admindelete);
                 res.status(200).send({
                     success: true,
-                    message: "This account is now active ✅"
+                    message: "This account is now active"
                 })
             }
 
@@ -339,30 +338,30 @@ module.exports = {
                             })
                             return res.status(200).send({
                                 success: true,
-                                message: "Password reset successful! ✅"
+                                message: "Password reset successful!"
                             })   
                         } else {
                             return res.status(400).send({
                                 success: false,
-                                message: "Password and confirmation password do not match. Please try again. ❌"
+                                message: "Password and confirmation password do not match. Please try again"
                             })
                         }
                     } else {
                         return res.status(400).send({
                             success: false,
-                            message: "Please fill in all fields. ❌"
+                            message: "Please fill in all fields"
                           });
                     }
                 } else {
                     return res.status(400).send({
                         success: false,
-                        message: "The account is not associated with an admin database. Please try again. ❌"
+                        message: "The account is not associated with an admin database. Please try again"
                     });
                 }
             } else {
                 return res.status(400).send({
                     success: false,
-                    message: "Account not found. ❌"
+                    message: "Account not found"
                 });
             }
         } catch (error) {

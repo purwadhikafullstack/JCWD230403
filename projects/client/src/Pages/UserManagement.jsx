@@ -64,9 +64,7 @@ function UserManagement() {
                 }
             })
             setAdminList(response.data.data)
-            console.log("Data dari setAdmin", response.data.data);
             setTotalData(response.data.datanum);
-            console.log('Ini Jumlah Admin :', response.data.datanum);
         } catch (error) {
             console.log(error);
         }
@@ -363,8 +361,6 @@ function UserManagement() {
                     isClosable: true
                 })
             }
-            // console.log("roleId before set: ", roleId);
-            // console.log("branchId before set: ", branchId);
             let response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/admin/adminregister`, {
                 name: name,
                 email: email,
@@ -378,9 +374,6 @@ function UserManagement() {
                     Authorization: `Bearer ${token}`
                 }
             })
-            console.log("Data dari response register :", response);
-            console.log("roleId after set: ", roleId);
-            console.log("branchId after set: ", branchId);
 
             if(response.data.success) {
                 toast({
@@ -495,7 +488,6 @@ function UserManagement() {
                     Authorization: `Bearer ${token}`
                 }
             })
-            console.log("ini Data dari response edit :", response);
 
             if (response.data.success) {
                 toast({
@@ -807,7 +799,6 @@ function UserManagement() {
                             <Button
                                 colorScheme='green' 
                                 mr={3}
-                                // onClick={onBtnEdit}
                                 onClick={onBtnEdit}
                             >
                                 Save
@@ -913,7 +904,6 @@ function UserManagement() {
                                         onClick={() => handleSort('name')}
                                     >
                                         <Flex
-                                            // justifyContent={'center'} 
                                             alignItems={'center'}
                                         >
                                             Name

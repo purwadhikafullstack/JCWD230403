@@ -289,7 +289,6 @@ function DiscountManagement() {
         discountSort,
         discountOrder,
         nameDiscount,
-        // product_id,
         branch_id]);
 
     ////////// SORTING BY NAME DISCOUNT //////////
@@ -325,12 +324,6 @@ function DiscountManagement() {
     const [createActiveDate, setCreateActiveDate] = useState('');
     const [createEndDate, setCreateEndDate] = useState('');
     const [createProductName, setCreateProductName] = useState('');
-
-    console.log("from createNameDiscount :", createNameDiscount);
-    console.log("from createProductName :", createProductName);
-    console.log("from createSpecialPrice :", createSpecialPrice);
-    console.log("from createActiveDate :", createActiveDate);
-    console.log("from createEndDate :", createEndDate);
 
     const onBtnCreateDiscount = async () => {
         try {
@@ -401,9 +394,6 @@ function DiscountManagement() {
     const [selectedProductPrice, setSelectedProductPrice] = useState('');
     const [selectedProductId, setSelectedProductId] = useState(null);
 
-    console.log("This is Product Id that selected :", selectedProductId);
-    console.log("This is Price from selected Product :", selectedProductPrice);
-
     const getProducts = async () => {
         try {
             let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/product/productlist?branch_id=${branch_id}&page&size=100&sortby&order&name&category&stock&branchname`, {
@@ -420,11 +410,8 @@ function DiscountManagement() {
     const getProductPrice = (selectedProductId) => {
         const selectedProduct = products.find(product => product.stockbranches[0].product_id === parseInt(selectedProductId))
         if (selectedProduct) {
-            console.log('Data from getProductPricd => selectedProduct:', selectedProduct);
-            console.log('Data from getProductPricd => selectedProduct:', selectedProduct.price);
             return setSelectedProductPrice(selectedProduct.price);
         } else {
-            console.log('Product not found');
             setSelectedProductPrice('');
         }
     }
@@ -439,8 +426,6 @@ function DiscountManagement() {
 
     //////////--- DISCOUNT MANUAL DELETE ---//////////
     const onBtnDelete = async (id, isDeleted) => {
-        console.log('Data id in onBtnDelete :', id);
-        console.log('data isDeleted in onBtnDelete :', isDeleted);
         try {
             let response = await axios.patch(`${process.env.REACT_APP_API_BASE_URL}/discount/discountmanualdelete/${id}`, {
                 isDeleted: isDeleted
@@ -529,7 +514,6 @@ function DiscountManagement() {
                     Authorization: `Bearer ${token}`
                 }
             })
-            console.log("ini Data dari respone edit :", response);
 
             if(response.data.success) {
                 toast({
@@ -540,7 +524,6 @@ function DiscountManagement() {
                     duration: 2000,
                     isClosable: true
                 })
-                // onCloseEdit();
                 handleCloseModalEdit();
                 getDiscountBranch();
             } else {
@@ -562,13 +545,12 @@ function DiscountManagement() {
     const [pricePercent, setPricePercent] = useState('');
 
     const handlePercentChange = (e) => {
-        // setPricePercent(e.target.value);
         let value = parseInt(e.target.value);
 
         if (isNaN(value) || value < 0) {
-            value = 0; // Set the value to 0 if it is not a valid number or less than 0
+            value = 0;
           } else if (value > 100) {
-            value = 100; // Set the value to 100 if it exceeds 100
+            value = 100;
           }
     
         setPricePercent(value);
@@ -577,7 +559,6 @@ function DiscountManagement() {
       const handleFinalPrice = () => {
         if (pricePercent) {
           const calculatedPrice = selectedProductPrice - (selectedProductPrice * pricePercent / 100);
-          console.log("price after discount :", calculatedPrice);
           setCreateSpecialPrice(calculatedPrice.toFixed(0));
         } else {
           setCreateSpecialPrice(selectedProductPrice);
@@ -675,7 +656,6 @@ function DiscountManagement() {
                                     onChange={(e) => {
                                         setCreateProductName(e.target.value);
                                         setSelectedProductId(e.target.value);
-                                        console.log('Selected product ID from select option:', e.target.value);
                                       }}
                                 >
                                   {products.map((product) => (
@@ -868,7 +848,6 @@ function DiscountManagement() {
                             </Button>
                             <Button 
                                 colorScheme='red'
-                                // onClick={onCloseEdit}
                                 onClick={handleCloseModalEdit}
                             >
                                 Cancel
