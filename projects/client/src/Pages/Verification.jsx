@@ -22,7 +22,6 @@ function Verification() {
                     Authorization: `Bearer ${params.token}`
                 }
             });
-            // alert(response.data.message);
             toast({
                 position: 'bottom',
                 title: 'Verification',
@@ -34,7 +33,6 @@ function Verification() {
             navigate('/login');
         } catch (error) {
             console.log(error);
-            // alert(error.response.data.message);
             toast({
                 position: 'top',
                 title: 'Verification',

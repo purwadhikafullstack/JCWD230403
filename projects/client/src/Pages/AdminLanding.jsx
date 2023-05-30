@@ -43,22 +43,11 @@ function AdminLanding() {
   const [branchId, setBranchId] = useState(branch);
   const [selectBranch, setSelectBranch] = useState(branchId)
 
-  console.log('Ini Branch yang sedang di pilih :', selectBranch);
-
   React.useEffect(() => {
     setBranchId(selectBranch);
   }, [selectBranch])
 
-  // const branches = {
-  //   1: 'Jakarta',
-  //   2: 'Bandung',
-  //   3: 'Bogor',
-  //   4: 'Bali',
-  //   5: 'Surabaya'
-  // }
-
   const branchName = () => {
-    // return branches[branchId] || '';
     if (selectBranch) {
       return branches[branchId]
     } else {
@@ -68,8 +57,6 @@ function AdminLanding() {
 
   ////////// GET BRANCH LIST //////////
   const [branchList, setBranchList] = useState([]);
-
-  console.log("Data from branchList :", branchList);
 
 const getBranchList = async () => {
   try {
@@ -85,26 +72,11 @@ const getBranchList = async () => {
 };
 
 const branchData = branchList.map(branch => ({ id: branch.id, city: branch.city }));
-console.log("Branch Data:", branchData);
 
 const branches = branchList.reduce((acc, branch) => {
   acc[branch.id] = branch.city;
   return acc;
 }, {});
-
-console.log("Branches:", branches);
-// const getBranchList = async () => {
-//   try {
-//     const response = await axios.get(`${API_URL}/branch/branchlist?id=${''}`, {
-//       headers: {
-//         Authorization: `Bearer ${token}`
-//       }
-//     });
-//     setBranchList(response.data);
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 
 React.useEffect(() => {
   getBranchList();
@@ -125,23 +97,17 @@ React.useEffect(() => {
            Authorization: `Bearer ${token}`
          }
        })
-      //  console.log("ini data dari adminBranchList :", response);
-      //  console.log("type dari response data :", typeof response.data);
        setAdminBranch(response.data.data)
-       console.log("data dari set admin branch :", response.data.data);
        setAdminTotalData(response.data.datanum)
-       console.log("Ini Jumlah Admin :", response.data.datanum);
      } catch (error) {
        console.log(error);
      }
    }
-  //  console.log("Ini Hasil Response Jumlah Admin :", adminTotalData);
  
    const printAdminBranch = () => {
      return adminBranch.map((val, idx) => {
        return (
          <Tr key={idx}>
-           {/* <Td>{idx + 1}</Td> */}
            <Td 
              w={'40%'}
            >
@@ -150,9 +116,7 @@ React.useEffect(() => {
            <Td>{val.branch?.city}</Td>
            <Td>
              <Box
-               // bg={val.isDeleted ? 'red.500' : 'green.500'}
                color={val.isDeleted ? 'red.500' : 'green.500'}
-               // p={'1'}
                py={'1'}
                borderRadius={'md'}
                textAlign={'center'}
@@ -203,12 +167,10 @@ React.useEffect(() => {
       })
       setUserBranch(response.data.data)
       setUserTotalData(response.data.datanum)
-      console.log('Ini Jumlah User :', response.data.datanum);
     } catch (error) {
       console.log(error);
     }
   }
-  // console.log('Ini hasil Response Jumlah User :', userTotalData);
 
   const printUserBranch = () => {
     return userBranch.map((val, idx) => {
@@ -295,13 +257,10 @@ React.useEffect(() => {
       });
       setProductBranch(response.data.data);
       setProductTotalData(response.data.datanum);
-      // console.log("ini Jumlah Product :", response.data.datanum);
     } catch (error) {
       console.log(error);
     }
   }
-
-  // console.log('Ini Hasil Response Jumlah Product :', productTotalData);
 
   const printProductBranch = () => {
     return productBranch
@@ -318,8 +277,6 @@ React.useEffect(() => {
       )
     })
   }
-
-  // console.log('Ini data dari printProductBranch :', productBranch)
 
   const productPaginate = pageNumber => {
     setProductPage(pageNumber);
@@ -370,12 +327,10 @@ React.useEffect(() => {
     return ( 
       <Flex
         w={{base: '100%', sm: '100%', md:'90%', lg: '85%'}}
-        // backgroundColor={'blue.100'}
         flexDir={{base:'column', sm:'column', md:'row'}}
       >
         <Flex
           w={{base: '100vw', sm: '100vw', md:'60vw', lg: '55vw'}}
-          // backgroundColor={'yellow.100'}
           flexDir={'column'}
           overflow={'auto'}
           minH={'100%'}
@@ -397,20 +352,6 @@ React.useEffect(() => {
               roleId === 1 ? 
               (
                 <Box>
-                  {/* <Select 
-                    placeholder='All Branches' 
-                    size='xs' 
-                    variant='flushed'
-                    onChange={(element) => setSelectBranch(element.target.value)}
-                    value={selectBranch}
-                  >
-                    <option value='1'>Jakarta</option>
-                    <option value='2'>Bandung</option>
-                    <option value='3'>Bogor</option>
-                    <option value='4'>Bali</option>
-                    <option value='5'>Surabaya</option>
-                  </Select> */}
-
                 <Select 
                   placeholder='All Branches' 
                   size='xs' 
@@ -590,7 +531,6 @@ React.useEffect(() => {
                   ml={{base: '0', sm: '0', md:'2', lg: '2'}}
                 >
                     <Flex 
-                      // display={'inline-flex'}
                       fontWeight={'bold'}
                     >
                       {branchName()}
@@ -611,7 +551,6 @@ React.useEffect(() => {
             </Flex>
             {/* ///////// TABLE OF BRANCH PRODUCT LIST ///////// */}
             <Flex
-              // backgroundColor={'skyblue'}
               h={'15rem'}
               flexDir={'column'}
               justifyContent={'space-between'}
@@ -735,7 +674,6 @@ React.useEffect(() => {
             <Box 
               h={{base: '45vh', sm: '45vh', md:'50%', lg: '50%'}}
               w={{base: '100vw', sm: '100vw',md:'30vw', lg: '30vw'}}
-              // backgroundColor={'lightcoral'}
               textAlign={'start'}
               p={'2%'}
               pt={'2.5%'}
@@ -838,7 +776,6 @@ React.useEffect(() => {
             <Box
               h={{base: '45vh', sm: '45vh', md:'50%', lg: '50%'}}
               w={{base: '100vw', sm: '100vw',md:'30vw'}}
-              // backgroundColor={'skyblue'}
               textAlign={'start'}
               p={'2%'}
               pt={'2.5%'}

@@ -20,18 +20,6 @@ import { CiDiscount1 } from 'react-icons/ci';
 
 function Products({name, productimage, price, productId, stock, specialPrice}) {
     const navigate = useNavigate();
-    // const params = useParams();
-    // const [product, setProduct] = useState([]);
-
-    // const getDetailProduct = async () => {
-    //     try {
-    //         let response = await axios.get(`${API_URL}/product/detail/${params.id}`)
-    //         console.log("ini data dari response getDetailProduct", response)
-    //         setProduct(response.data);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
 
   return (
 
@@ -42,21 +30,14 @@ function Products({name, productimage, price, productId, stock, specialPrice}) {
         minW={{ base: '40%', sm: '40%', md: '30%', lg: '32%' }} 
         bgColor='white' 
         borderRadius={{ base: 'lg', sm: 'lg', md: 'lg', lg: 'lg' }} 
-        // my={{ base: '2', md: '4' }} 
-        // mx={{ base: '0', lg: '2' }}
-        // gap={'0.5'}
-        // onClick={() => navigate(`/detail/:id`)}
-        // onClick={() => navigate(`/detail/${params.id}`)}
         onClick={() => navigate(`/detail/${productId}`)}
     >
             <Image 
-            // src={productimage}
             src={productimage && (productimage.includes('http') || productimage.includes('https')) ? productimage : `${process.env.REACT_APP_API_IMG_URL}${productimage}`}
             alt='Category picture'
             borderTopRadius={{ base: 'lg', sm: 'lg', md: 'lg', lg: 'lg' }}
             objectFit='cover'
             w='full'
-            // h={200}
             maxH={200}
             />
             <CardBody>

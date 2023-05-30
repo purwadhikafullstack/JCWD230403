@@ -43,8 +43,6 @@ function Navbar() {
 
     const branch = useSelector((state) => state.authUserReducer.branchId);
 
-    console.log('data branchId user in Navbar :', branch);
-
     const logoutBtn = () => {
         localStorage.removeItem('grocery_login');
         dispatch(logoutActionAdmin());
@@ -56,14 +54,7 @@ function Navbar() {
     const [branchUser, setBranchUser] = useState([]);
     const [nearestBranch, setNearestBranch] = React.useState({
         id: 1
-        // id: branch
     });
-
-    console.log("this nearestBranch in navbar :", nearestBranch);
-    console.log("this nearestBranch city in navbar :", nearestBranch.city);
-
-    // console.log("Data from branchUser number:", branchId);
-    console.log("Data from branchUser navbar:", branchUser[0]?.city);
 
     const getBranch = async () => {
         try {
@@ -73,9 +64,6 @@ function Navbar() {
                 }
             })
             setBranchUser(response.data);
-            console.log("Data from branchUser navbar:", response.data);
-            console.log("Data from branchUser index 0 city navbar:", response.data[0]);
-            console.log("Data from branchUser city navbar:", response.data[0]?.city);
         } catch (error) {
             console.log(error);
         }
@@ -88,7 +76,6 @@ function Navbar() {
     return ( 
     <Container maxW={'full'} px={{base:'2', sm:'6', md:'25px', lg:'28px'}} bgGradient='linear(to-b, green.500, green.400)'>
         <Flex py={'2'} alignItems={'end'} justifyContent={'space-between'}>
-            {/* <Link textDecoration={'none'} _hover={{ textDecoration: "none" }} fontSize={{base:'lg', md:'xl', lg:'3xl'}} fontWeight='semibold' color={'white'} onClick={() => navigate(roleId == 1 || roleId == 2 ? '/admin' : '/')}>FreshFinds</Link> */}
             <Box fontSize={{base:'2xl', md:'3xl', lg:'4xl'}} p='1' color='white' onClick={() => navigate(roleId == 1 || roleId == 2 ? '/admin' : '/')}>
                 {
                   roleId == 1 || roleId == 2 ? 
@@ -101,66 +88,13 @@ function Navbar() {
                   <AiFillHome/>
                 }
             </Box>
-            {/* {
-                name ? 
-                (roleId == 3 ?
-                <Flex alignItems={'Center'} gap={{base:'1', sm:'1', md:'5', lg:'5'}} justifyContent='space-between' width={{md:'md', lg:'6xl'}} px={{base:'1', sm:'2', md:'10', lg:'10'}}>
-                    <InputGroup size={'md'}>
-                        <Input pr={'2.75rem'}  placeholder='search' size="sm" type={'search'} rounded={'lg'} backgroundColor={'white'}/>
-                        <InputRightElement h={'2rem'}>
-                            <Button borderLeftRadius={'0'} h={'2rem'} size={'sm'}>
-                                <GoSearch size={'sm'}/>
-                            </Button>
-                        </InputRightElement>
-                    </InputGroup>
-                    <Link variant={'outline'} backgroundColor={'transparent'} border={'none'} color={'white'} fontSize={{base:'xl', md:'xl', lg:'2xl'}} p='1' mx='0'>
-                        <BsCart2/>
-                    </Link>
-                </Flex>
-                :
-                null)
-                :
-                <Flex alignItems={'Center'} gap={{base:'1', sm:'1', md:'5', lg:'5'}} justifyContent='space-between' width={{md:'md', lg:'2xl'}} pl={{base:'2',lg:'16'}}>
-                    <InputGroup size={'md'}>
-                        <Input pr={'2.75rem'}  placeholder='search' size="sm" type={'search'} rounded={'lg'} backgroundColor={'white'}/>
-                        <InputRightElement h={'2rem'}>
-                            <Button borderLeftRadius={'0'} h={'2rem'} size={'sm'}>
-                                <GoSearch size={'sm'}/>
-                            </Button>
-                        </InputRightElement>
-                    </InputGroup>
-                    <Link variant={'outline'} backgroundColor={'transparent'} border={'none'} color={'white'} fontSize={{base:'xl', md:'xl', lg:'2xl'}} p='1' mx='3'>
-                        <BsCart2/>
-                    </Link>
-                </Flex>
-            } */}
             <Flex
                 flexDir={'column'}
                 alignItems={'end'}
             >
-                {/* {
-                    roleId === 3 ? 
-                    (
-                        <>
-                            <Text marginBottom={'-1.5'} color={'white'} fontSize={'xs'}><Flex display={'inline-flex'} fontWeight={'bold'}><Icon as={ImLocation} /></Flex> Location <Flex pr={'1'} display={'inline-flex'} fontWeight={'bold'}>{branchUser[0]?.city}</Flex></Text>
-                            <Location nearestBranch={nearestBranch} setNearestBranch={setNearestBranch} />
-                        </>
-                    )
-                    :
-                    null
-                } */}
                 {
                   roleId === 3 ? (
                     <>
-                      {/* <Text marginBottom={'-1.5'} color={'white'} fontSize={'xs'}>
-                        <Flex display={'inline-flex'} fontWeight={'bold'}>
-                          <Icon as={ImLocation} />
-                        </Flex>
-                        Location
-                        <Flex pr={'1'} display={'inline-flex'} fontWeight={'bold'}>
-                          {branchUser[0]?.city}
-                        </Flex>
-                      </Text> */}
                       <Text marginBottom={'-1.5'} color={'white'} fontSize={'xs'}><Flex display={'inline-flex'} fontWeight={'bold'}><Icon as={ImLocation} /></Flex> Location <Flex pr={'1'} display={'inline-flex'} fontWeight={'bold'}>{branchUser[0]?.city}</Flex></Text>
                       <Location nearestBranch={nearestBranch} setNearestBranch={setNearestBranch} />
                     </>

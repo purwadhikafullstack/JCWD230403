@@ -112,7 +112,6 @@ function ProductManagement(props) {
                 <ProductManagementTwo
                     idx={idx + 1}
                     name={val.name}
-                    // image={val.image}
                     image={val.image && (val.image.includes('http') || val.image.includes('https')) ? val.image : `${API_URL}${val.image}`}
                     price={val.price}
                     description={val.description}
@@ -228,8 +227,6 @@ function ProductManagement(props) {
             minH='100vh'
 
         >
-            {/* <Text>Product Management Page</Text> */}
-
             <Flex maxW={"2xl"} minH={"100vh"} bgColor="white">
                 <Box justifyItems={"center"} flex={"1"}>
                     <Box display={"flex"} >

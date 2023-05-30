@@ -25,7 +25,6 @@ function ForgotPassword() {
     const onBtnForgot = async () => {
         try {
             if (email == '') {
-                // alert("Please enter your email")
                 return toast({
                     position: 'top',
                     title: 'Forgot Password',
@@ -39,7 +38,6 @@ function ForgotPassword() {
                     email: email
                 });
                 if (response.data.success) {
-                    // alert(response.data.message);
                     toast({
                         position: 'bottom',
                         title: 'Forgot Password',

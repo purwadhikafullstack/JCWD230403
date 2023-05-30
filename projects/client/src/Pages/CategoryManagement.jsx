@@ -52,7 +52,7 @@ function CategoryManagement() {
 
             const formData = new FormData();
             formData.append('data', JSON.stringify({ category: category }));
-            formData.append('images', fileCategory); // Change 'file' to 'images'
+            formData.append('images', fileCategory);
 
             let addCategory = await axios.post(
                 `${process.env.REACT_APP_API_BASE_URL}/category/addcategory`,
@@ -213,11 +213,8 @@ function CategoryManagement() {
                                                     Category Image
                                                 </FormLabel>
                                                 <Button
-                                                    // bgColor="white"
-                                                    // color="black"
                                                     bgColor="green.500"
                                                     color="white"
-                                                    // borderColor="black"
                                                     borderWidth="1px"
                                                     borderRadius="md"
                                                     rounded={"md"}
@@ -284,7 +281,6 @@ function CategoryManagement() {
                                 <Thead>
                                     <Tr>
                                         <Th w='10%'>No</Th>
-                                        {/* <Th w='10%'>ID</Th> */}
                                         <Th w='10%'>Category</Th>
                                         <Th w='60%'>Image</Th>
                                         <Th></Th>

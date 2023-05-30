@@ -27,7 +27,6 @@ function Landing() {
     const [totalData, setTotalData] = React.useState(0);
     const [longitude, setLongitude] = React.useState(0);
     const [lattitude, setLattitude] = React.useState(0);
-    // const [branch_id, setBranch_Id] = React.useState(branch);
     const [price, setPrice] = React.useState("");
     const [image, setImage] = React.useState("");
     const [sortby, setSortby] = React.useState("name");
@@ -45,13 +44,10 @@ function Landing() {
 
             let response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/product/allstock?category=${category}&stock=${stock}&branch_id=${branch ? branch : nearestBranch.id}&product_id=${product_id}&sortby=${sortby}&order=${order}&page=${page}&size=${size}`,
                 {},);
-            console.log("name", name);
-            // console.log("branch_id", branch_id);
-            console.log("ini response.data dari getAllStock :", response.data.data);
             setShowStock(response.data.data);
             setTotalData(response.data.datanum);
         } catch (error) {
-            console.log("dari getAllStock :", error);
+            console.log(error);
         }
     };
 
@@ -62,9 +58,7 @@ function Landing() {
 
     // Print list of products
     const printAllStock = () => {
-        console.log("ini isi showStock :", showStock);
         let print = showStock.map((val, idx) => {
-            console.log("ini val :", val);
             return(
                 <div>
                     <Product 
@@ -86,20 +80,15 @@ function Landing() {
         setPage(pageNumbers);
     };
 
-    console.log(`The nearest branch is km away.`, nearestBranch);
-
     //// --- CATEGORY BRANCH --- ////
 
     const [categoryBranch, setCategoryBranch] = useState([]);
     const [imageCategory, setImageCategory] = React.useState("");
 
-    console.log("Data from Category Branch :", categoryBranch)
-
     const getCategoryBranch = async () => {
         try {
             let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/category/categorybranch?branch_id=${branch ? branch : nearestBranch.id}`)
             setCategoryBranch(response.data.data);
-            console.log("Data from getcategoryBranch :", response.data.data);
         } catch (error) {
             console.log(error);
         }

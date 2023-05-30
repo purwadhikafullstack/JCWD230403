@@ -166,7 +166,6 @@ module.exports = {
             let imageCategory = cekCategory.imageCategory;
       
             if (req.files && req.files.length > 0 && req.files[0]) {
-              // If there are new image files, update the imageCategory field
               imageCategory = `/imgCategory/${req.files[0].filename}`;
       
               if (fs.existsSync(join(__dirname,`../public${cekCategory.imageCategory}`)) && !cekCategory.imageCategory.includes('default')) {

@@ -46,7 +46,6 @@ function Header() {
                 }
             });
             setUserAddress(response.data.data)
-            console.log('Data from user address in header :', response.data.data);
         } catch (error) {
             console.log(error);
         }

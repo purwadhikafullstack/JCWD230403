@@ -72,7 +72,6 @@ function Sidebar() {
                 </Link>
                 <Link 
                   _hover={{textDecoration:'none'}} 
-                  // display={{base:'flex', sm:'flex', md:'none', lg:'flex'}}
                   display={{base:'none', sm:'none', md:'none', lg:'flex'}}
                 >
                   <Text 
@@ -103,7 +102,6 @@ function Sidebar() {
                     </Link>
                     <Link 
                       _hover={{textDecoration:'none'}} 
-                      // display={{base:'flex', sm:'flex', md:'none', lg:'flex'}}
                       display={{base:'none', sm:'none', md:'none', lg:'flex'}}
                     >
                       <Text 
@@ -136,7 +134,6 @@ function Sidebar() {
                     </Link>
                     <Link 
                       _hover={{textDecoration:'none'}} 
-                      // display={{base:'flex', sm:'flex', md:'none', lg:'flex'}}
                       display={{base:'none', sm:'none', md:'none', lg:'flex'}}
                     >
                       <Text 
@@ -163,7 +160,6 @@ function Sidebar() {
                     </Link>
                     <Link 
                       _hover={{textDecoration:'none'}} 
-                      // display={{base:'flex', sm:'flex', md:'none', lg:'flex'}}
                       display={{base:'none', sm:'none', md:'none', lg:'flex'}}
                     >
                       <Text 
@@ -191,7 +187,6 @@ function Sidebar() {
                     </Link>
                     <Link 
                       _hover={{textDecoration:'none'}} 
-                      // display={{base:'flex', sm:'flex', md:'none', lg:'flex'}}
                       display={{base:'none', sm:'none', md:'none', lg:'flex'}}
                     >
                       <Text 
@@ -219,7 +214,6 @@ function Sidebar() {
                     </Link>
                     <Link 
                       _hover={{textDecoration:'none'}} 
-                      // display={{base:'flex', sm:'flex', md:'none', lg:'flex'}}
                       display={{base:'none', sm:'none', md:'none', lg:'flex'}}
                     >
                       <Text 
@@ -249,7 +243,6 @@ function Sidebar() {
                 </Link>
                 <Link 
                   _hover={{textDecoration:'none'}} 
-                  // display={{base:'flex', sm:'flex', md:'none', lg:'flex'}}
                   display={{base:'none', sm:'none', md:'none', lg:'flex'}}
                 >
                   <Text 

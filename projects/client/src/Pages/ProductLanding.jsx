@@ -50,13 +50,10 @@ function ProductLanding(props) {
     try {
       let response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/product/allstock?category=${category}&stock=${stock}&branch_id=${branch ? branch : nearestBranch.id}&product_id=${product_id}&sortby=${sortby}&order=${order}&page=${page}&size=${size}`,
         {},);
-      console.log("name", name);
-      console.log("branch_id", branch_id);
-      console.log("ini response.data dari getAllStock :", response.data.data);
       setShowStock(response.data.data);
       setTotalData(response.data.datanum);
     } catch (error) {
-      console.log("dari getAllStock :", error);
+      console.log(error);
     }
   };
 
@@ -67,9 +64,7 @@ function ProductLanding(props) {
 
   // Print list of products
   const printAllStock = () => {
-    console.log("ini isi showStock :", showStock);
     let print = showStock.map((val, idx) => {
-      console.log("ini val :", val);
       return (
         <div>
           <Product
@@ -91,8 +86,6 @@ function ProductLanding(props) {
     setPage(pageNumbers);
   };
 
-  console.log(`The nearest branch is km away.`, nearestBranch);
-
   // --- GET ADDRESS USER --- //
   const [userAddress, setUserAddress] = useState([])
   const getUserAddress = async () => {
@@ -103,7 +96,6 @@ function ProductLanding(props) {
               }
           });
           setUserAddress(response.data.data)
-          console.log('Data from user address in header :', response.data.data);
       } catch (error) {
           console.log(error);
       }
@@ -218,7 +210,6 @@ function ProductLanding(props) {
             </Flex>
             <Flex>
               <GridItem>
-                {/* <Heading size={"sm"} fontWeight="semibold">Location</Heading> */}
                 <Text onChange={(e) => setBranch_Id(e.target.value)} mt={"10px"}>
                 </Text>
                 <Location nearestBranch={nearestBranch} setNearestBranch={setNearestBranch} />

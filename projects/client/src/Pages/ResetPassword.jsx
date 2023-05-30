@@ -37,7 +37,6 @@ function ResetPassword() {
     const onBtnReset = async () => {
         try {
             if(password == '' || confirmationPassword == ''){
-                // return alert('Please fill in all fields');
                 return toast({
                     position: 'top',
                     title: 'Reset Password',
@@ -48,7 +47,6 @@ function ResetPassword() {
                 });
             }
             if(!checkPassword(password)){
-                // return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
                 return toast({
                     position: 'top',
                     title: 'Reset Password',
@@ -59,7 +57,6 @@ function ResetPassword() {
                 });
             }
             if(!checkPassword(confirmationPassword)){
-                // return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
                 return toast({
                     position: 'top',
                     title: 'Reset Password',
@@ -78,7 +75,6 @@ function ResetPassword() {
                 }
             });
             if (response.data.success) {
-                // alert(response.data.message);
                 toast({
                     position: 'bottom',
                     title: 'Reset Password',
@@ -98,9 +94,6 @@ function ResetPassword() {
                 duration: 2000,
                 isClosable: true
             })
-            // alert(error.response.data.error[1].msg);
-            // alert(error.response.data.error[3].msg);
-            // alert(error.response.data.error[5].msg);
             const toastMessages = [
                 { index: 1, title: "Status", duration: 2000 },
                 { index: 3, title: "Status", duration: 2000 },

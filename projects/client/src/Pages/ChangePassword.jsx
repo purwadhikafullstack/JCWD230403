@@ -37,7 +37,6 @@ function ChangePassword() {
     const onBtnChange = async () => {
         try {
             if(oldPassword == '' || newPassword == '' || confirmNewPassword == ''){
-                // return alert('Please fill in all fields');
                 return toast({
                     position: 'top',
                     title: 'Change password',
@@ -48,7 +47,6 @@ function ChangePassword() {
                 });
             }
             if(!checkPassword(oldPassword)){
-                // return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
                 return toast({
                     position: 'top',
                     title: 'Change password',
@@ -59,7 +57,6 @@ function ChangePassword() {
                 });
             }
             if(!checkPassword(newPassword)){
-                // return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
                 return toast({
                     position: 'top',
                     title: 'Change password',
@@ -70,7 +67,6 @@ function ChangePassword() {
                 });
             }
             if(!checkPassword(confirmNewPassword)){
-                // return alert('Please enter a password that is at least 6 characters long and contains at least one uppercase letter, one lowercase letter, and one number');
                 return toast({
                     position: 'top',
                     title: 'Change password',
@@ -90,7 +86,6 @@ function ChangePassword() {
                     Authorization: `Bearer ${token}`
                 }
             })
-            // alert(response.data.message);
             toast({
                 position: 'bottom',
                 title: 'Change password',
@@ -102,7 +97,6 @@ function ChangePassword() {
             navigate('/');
         } catch (error) {
             console.log(error);
-            // alert(error.response.data.message);
             return toast({
                 position: 'top',
                 title: 'Change password',
