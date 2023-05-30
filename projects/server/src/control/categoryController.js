@@ -1,6 +1,7 @@
 const sequelize = require('sequelize');
 const model = require ('../models');
 const fs = require("fs");
+const { join } = require('path');
 
 
 module.exports = {
@@ -258,6 +259,9 @@ module.exports = {
             } = req.query
 
             let getCategory = await model.categories.findAll({
+                where: {
+                    isDeleted: false
+                },
                 attributes: ['id', 'category', 'imageCategory'],
                 include: [
                     {

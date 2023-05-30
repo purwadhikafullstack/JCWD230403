@@ -101,7 +101,6 @@ function ProductManagement(props) {
             });
             setDataAllCategory(res.data.data);
             setDataAllCategory2(res.data.data);
-            // console.log("get all category", getDataCategory)
         } catch (error) {
             console.log(error)
         }
@@ -227,12 +226,13 @@ function ProductManagement(props) {
             flexDir='column'
             overflow='auto'
             minH='100vh'
+
         >
             {/* <Text>Product Management Page</Text> */}
 
             <Flex maxW={"2xl"} minH={"100vh"} bgColor="white">
                 <Box justifyItems={"center"} flex={"1"}>
-                    <Box display={"flex"}>
+                    <Box display={"flex"} >
                         <>
                             <Heading size={"md"} fontStyle="inherit" mt={"5"} ml={"5"}>Product List</Heading>
                             <Button
@@ -506,9 +506,8 @@ function ProductManagement(props) {
 
                                     <ModalFooter>
                                         <Button
-
-                                            bgColor="green.500"
-                                            color="white"
+                                            bgColor="green"
+                                            color="#EEEEEE"
                                             _hover=""
                                             mr={3}
                                             onClick={btnAddProduct}
@@ -516,8 +515,8 @@ function ProductManagement(props) {
                                             Save
                                         </Button>
                                         <Button
-                                            bgColor="green"
-                                            color="white"
+                                            bgColor="#EEEEEE"
+                                            color="green.500"
                                             _hover=""
                                             onClick={modalProduct.onClose}
                                         >

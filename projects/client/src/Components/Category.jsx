@@ -25,9 +25,6 @@ function Category(props) {
     const modalCategory = useDisclosure();
     const [imageCategory, setImageCategory] = useState('');
 
-
-    console.log("ini image category :", imageCategory)
-
     const onChangeFile = (event) => {
         modalCategory.onOpen();
         setFileCategory(event.target.files[0]);
@@ -93,12 +90,8 @@ function Category(props) {
                     Authorization: `Bearer ${token}`
                 }
             });
-
-            console.log(`res delete category`, deleteCategory);
-
             props.getDataCategory();
             modalDelete.onClose();
-            // setId();
             toast({
                 position: 'bottom',
                 title: `Delete Success`,
@@ -120,7 +113,7 @@ function Category(props) {
     };
 
 
-    console.log(props.id)
+
 
     return (
         <Tbody>
@@ -210,7 +203,7 @@ function Category(props) {
                                             }
                                         >
                                             <HiDocumentAdd
-                                                color="black"
+                                                color="white"
                                                 size={"md"}
                                             />
                                             Add a File

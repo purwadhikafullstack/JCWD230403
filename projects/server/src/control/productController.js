@@ -2,6 +2,8 @@ const sequelize = require('sequelize');
 const model = require('../models');
 const fs = require("fs");
 const { v4: uuidv4 } = require('uuid');
+const { join } = require('path');
+
 
 // Fungsi untuk memformat harga menjadi format mata uang Rupiah
 function formatCurrency(price) {

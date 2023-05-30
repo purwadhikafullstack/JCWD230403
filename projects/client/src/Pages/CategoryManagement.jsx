@@ -39,7 +39,6 @@ function CategoryManagement() {
                     Authorization: `Bearer ${token}`
                 }
             });
-            console.log("ini hasil get all category", response.data.data)
             setDataAllCategory(response.data.data)
             setTotalData(response.data.datanum);
         } catch (error) {
@@ -50,11 +49,11 @@ function CategoryManagement() {
     const btnAddCategory = async () => {
         try {
             let token = localStorage.getItem('grocery_login');
-    
+
             const formData = new FormData();
             formData.append('data', JSON.stringify({ category: category }));
             formData.append('images', fileCategory); // Change 'file' to 'images'
-    
+
             let addCategory = await axios.post(
                 `${process.env.REACT_APP_API_BASE_URL}/category/addcategory`,
                 formData,
@@ -65,8 +64,6 @@ function CategoryManagement() {
                     }
                 }
             );
-    
-            console.log(`res add category`, addCategory);
             modalCategory.onClose();
             getDataCategory();
             setFileCategory(null);
@@ -88,8 +85,8 @@ function CategoryManagement() {
                 isClosable: true,
             });
         }
-    };    
-    
+    };
+
 
     const printCategoryData = () => {
         return dataAllCategory.map((val, idx) => {
