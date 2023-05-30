@@ -268,7 +268,6 @@ module.exports = {
                     email: req.body.email
                 }
             });
-            const name = checkUser[0].dataValues.name;
             // console.log(name);
             if(checkUser.length == 0){
                 return res.status(404).send({
@@ -276,6 +275,7 @@ module.exports = {
                     message: "Email not found"
                 })
             }
+            const name = checkUser[0].dataValues.name;
             // Generate token
             let token = createToken({
                 uuid: checkUser[0].dataValues.uuid,
