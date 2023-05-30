@@ -69,7 +69,6 @@ function App() {
             Authorization: `Bearer ${token}`
           }
         });
-        // console.log("response dari localstorage :", response.data);
         localStorage.setItem('grocery_login', response.data.token);
         dispatch(loginActionUser(response.data));
       }

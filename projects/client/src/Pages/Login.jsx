@@ -45,7 +45,6 @@ function Login() {
 
     const onBtnLogin = async () => {
         try {
-            console.log('userLogin called');
             if (email == '' || password == '' ) {
                 return toast({
                     position: 'top',
