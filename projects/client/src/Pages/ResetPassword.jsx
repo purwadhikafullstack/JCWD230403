@@ -91,6 +91,13 @@ function ResetPassword() {
             }
         } catch (error) {
             console.log(error);
+            toast({
+                position: 'bottom',
+                title: error.response.data.message,
+                status: 'error',
+                duration: 2000,
+                isClosable: true
+            })
             // alert(error.response.data.error[1].msg);
             // alert(error.response.data.error[3].msg);
             // alert(error.response.data.error[5].msg);
